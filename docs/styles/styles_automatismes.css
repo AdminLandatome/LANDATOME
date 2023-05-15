@@ -1,0 +1,210 @@
+@font-face {
+	
+	font-family:ecriture-scientifique;
+	src:url('ecriture-scientifique.ttf');
+}
+.calculatrice{
+	font-family:ecriture-scientifique;
+	
+}
+
+
+h1 {
+	text-align:center;
+	font-variant:small-caps;
+	background-color:#AAAAAA;
+	
+}
+
+
+a {
+	text-decoration:none;
+	color:#000000
+}
+
+.grille_diapo {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  grid-auto-rows: minmax(100px, auto);
+}
+
+.cellule_graphique{
+	background-color:#eeeeee;
+	border-radius:5px;
+	padding:2%;
+}
+.cellule_texte{
+	background-color:#AAAAAA;
+	border-radius:5px;
+	font-size : 200%;
+}
+.cellule_consigne{
+	background-color:#eeeeee;
+	border-radius:5px;
+	font-size : 200%;
+	padding:2%;
+	text-align:center;
+}
+.cellule_consigne_zoom1{
+	background-color:#eeeeee;
+	border-radius:5px;
+	font-size : 300%;
+	padding:2%;
+	text-align:center;
+}
+.cellule_consigne_zoom2{
+	background-color:#eeeeee;
+	border-radius:5px;
+	font-size : 400%;
+	padding:2%;
+	text-align:center;
+}
+.cellule_question{
+	background-color:#eeeeee;
+	border-radius:5px;
+	font-size : 200%;
+	text-align:center;
+}
+.cellule_question_zoom1{
+	background-color:#eeeeee;
+	border-radius:5px;
+	font-size : 300%;
+	text-align:center;
+	
+}
+.cellule_question_zoom2{
+	background-color:#eeeeee;
+	border-radius:5px;
+	font-size : 400%;
+	text-align:center;
+	
+}
+.cellule_question_zoom3{
+	background-color:#eeeeee;
+	border-radius:5px;
+	font-size : 500%;
+	text-align:center;
+	
+}
+.cellule_reponse{
+	background-color:#66ffff;
+	border-radius:5px;
+	font-size : 200%;
+	text-align:center;
+	
+}
+.cellule_reponse_zoom1{
+	background-color:#66ffff;
+	border-radius:5px;
+	font-size : 300%;
+	text-align:center;
+	
+}
+.cellule_reponse_zoom2{
+	background-color:#66ffff;
+	border-radius:5px;
+	font-size : 400%;
+	text-align:center;
+	
+}
+.cellule_reponse_zoom3{
+	background-color:#66ffff;
+	border-radius:5px;
+	font-size : 500%;
+	text-align:center;
+	
+}
+
+.cellule_titre{
+	background-color:#AAAAAA;
+	border-radius:5px;
+	font-size : 800%;
+	font-variant:small-caps;
+	font-style:italic;
+	text-align:center;
+	
+}
+.cellule_consigne_principale{
+	background-color:#dddddd;
+	border-radius:5px;
+	font-size : 400%;
+	text-align:center;
+	font-style:italic;
+	font-variant:small-caps;
+}
+
+.haut_gauche{
+	grid-column: 1;
+	grid-row: 1;
+}
+.haut_milieu{
+	grid-column: 2;
+	grid-row: 1;
+}
+.haut_droite{
+	grid-column: 3;
+	grid-row: 1;
+}
+
+.milieu_gauche{
+	grid-column: 1;
+	grid-row: 2;
+}
+.milieu_milieu{
+	grid-column: 2;
+	grid-row: 2;
+}
+.milieu_droite{
+	grid-column: 3;
+	grid-row: 2;
+}
+
+.bas_gauche{
+	grid-column: 1;
+	grid-row: 3;
+}
+.bas_milieu{
+	grid-column: 2;
+	grid-row: 3;
+}
+.bas_droite{
+	grid-column: 3;
+	grid-row: 3;
+}
+.colonne_gauche{
+	grid-column: 1;
+	grid-row: 1/4;
+}
+.colonne_milieu{
+	grid-column: 2;
+	grid-row: 1/4;
+}
+.colonne_droite{
+	grid-column: 3;
+	grid-row: 1/4;
+}
+.ligne_haut{
+	grid-column: 1/4;
+	grid-row: 1;
+}
+.ligne_milieu{
+	grid-column: 1/4;
+	grid-row: 2;
+}
+.ligne_bas{
+	grid-column: 1/4;
+	grid-row: 3;
+}
+.ligne_contre_graphique_haut{
+	grid-column: 2/4;
+	grid-row: 1;
+}
+.ligne_contre_graphique_milieu{
+	grid-column: 2/4;
+	grid-row: 2;
+}
+.ligne_contre_graphique_bas{
+	grid-column: 2/4;
+	grid-row: 3;
+}
