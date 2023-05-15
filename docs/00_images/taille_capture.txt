@@ -1,0 +1,1 @@
+shift+ctrl+m 900x650 (en mode horizontal)
