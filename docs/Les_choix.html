@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title> Landatome </title>
+        <meta name="viewport" content="width=device-width, initial-scale=0.3" />
+		
+		<meta name="robots" content="nofollow,nosnippet" />
+		<link rel="icon" type="image/png" size="16x16" href="https://landatome.pagesperso-orange.fr/00_images/MC-Escher-Impossible-Cube.png" />
+        
+		<link rel="stylesheet" href="https://landatome.pagesperso-orange.fr/styles/styles_pour_Les_choix.css" type="text/css"> 
+		 <!--<link rel="stylesheet" href="../../00_styles/styles_pour_Les_choix.css" type="text/css">-->
+		
+		
+		
+    </head>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+	<script>
+	
+	var compteur = 0;
+	var montest = '';
+	var mon_envoi ='';
+	function test(k){ 
+	    compteur++;
+	    texte = document.getElementById('liste_des_numeros');
+		montest += k.toString();
+		montest += ',';
+		mon_envoi += k.toString();
+		mon_envoi += ',';
+		if (compteur%5==0) {montest += '<br>'};
+		texte.innerHTML = montest;
+		document.getElementById('a_copier').value = montest;
+		}
+	function copy() {
+        let copyText = document.querySelector("#a_copier");
+        copyText.select();
+        document.execCommand("copy");
+		window.close();
+		
+    }
+	function envoi(){
+	    pour_envoi=document.getElementById('envoi_mail');
+		pour_envoi.innerHTML = "<a href='mailto:landatome.gestion@gmail.com?Subject=Demande_d_automatismes&body="+mon_envoi+"'> cliquez ici pour envoyer </a>";
+		
+		
+	}
+	
+	</script>
+	<body >
+            <h1>les numéros disponibles</h1>
+			
+			<p> 
+      			Pour choisir un automatisme, il suffit de cliquer sur l'image correspondante.<br>
+				Les menus se déroulent et se rétractent en cliquant dessus. <br>
+				Vous devez choisir des séries de cinq automatismes.<br>
+				
+				
+			    Pour utiliser les séries, on double-clique sur "diapo-titre".(html) puis sur la ligne grisée horizontale la plus haute pour aller à la diapo suivante.<br>
+				(Un exemple est disponible <a href="pageweb/Exemple/01_diapo_titre.html" target="blank"> ICI </a> 
+				avec le zip <a href="pageweb/exemple.zip" target="blank">là </a>)<br>
+				Attention, si la dernière série ne comporte pas 5 éléments alors elle sera ignorée.
+			</p>
+			<p>
+			    Vous avez choisi les numéros :
+			</p>
+			<p id='liste_des_numeros'>  <br> </p>
+			<p class='bouton'>
+			<button id="copy">Valider votre sélection et fermer la fenêtre</button><br>
+			(Vous devez disposer de l'application sur votre ordinateur) <br>
+			ou<br>
+			<button id="envoi">M'envoyer la liste par mail</button><br>
+			(Vous recevrez vos séries zippées par mail dans un temps qui dépendra de mes disponibilités)
+			
+			</p>
+			<p id='envoi_mail'>
+			    
+			</p>
+			
+			
+		<!-- /////////////////////////////////////DEBUT CALCUL LITTERAL DEVELOPPEMENT/////////////////////////////////////////// -->	
+			
+			<label for="calcul_litteral_dev">
+			    <div class="categorie">
+			    Calcul Littéral : Le développement
+				</div>
+			</label>
+			<input type="checkbox" id="calcul_litteral_dev" role="button">
+			<div class="grille_retractable">
+			    <div class="cellule_image" onclick="test(1);">	
+                    Numéro 1  <br>
+					Simple distributivite<br>
+					<br>			    
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_1.png"/>
+				</div>
+				<div class="cellule_image" onclick="test(2);">
+				    Numéro 2  <br>
+					Simple distributivite  <br>
+					(fractions possibles)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_2.png" />
+				</div>
+				<div class="cellule_image" onclick="test(4);">
+				    Numéro 4  <br>
+					Double distributivite  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_4.png" />
+				</div>
+				<div class="cellule_image" onclick="test(5);">
+				    Numéro 5  <br>
+					Double distributivite  <br>
+					(fractions possibles)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_5.png" />
+				</div>
+				<div class="cellule_image" onclick="test(5);">
+				    Numéro 5  <br>
+					Double distributivite  <br>
+					(fractions possibles)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_5.png" />
+				</div>
+				<div class="cellule_image" onclick="test(7);">
+				    Numéro 7  <br>
+					Première identité remarquable  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_7.png" />
+				</div>
+				<div class="cellule_image" onclick="test(8);">
+				    Numéro 8  <br>
+					Deuxième identité remarquable  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_8.png" />
+				</div>
+				<div class="cellule_image" onclick="test(9);">
+				    Numéro 9  <br>
+					Troisième identité remarquable  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_9.png" />
+				</div>
+				<div class="cellule_image" onclick="test(10);">
+				    Numéro 10  <br>
+					Première identité remarquable  <br>
+					(fractions possibles)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_10.png" />
+				</div>
+				<div class="cellule_image" onclick="test(11);">
+				    Numéro 11  <br>
+					Deuxième identité remarquable  <br>
+					(fractions possibles)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_11.png" />
+				</div>
+				<div class="cellule_image" onclick="test(12);">
+				    Numéro 12  <br>
+					Troisième identité remarquable  <br>
+					(fractions possibles)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_12.png" />
+				</div>
+			</div>
+			
+			<!-- /////////////////////////////////////FIN CALCUL LITTERAL DEVELOPPEMENT/////////////////////////////////////////// -->
+			
+			<!-- /////////////////////////////////////DEBUT CALCUL LITTERAL FACTORISATION/////////////////////////////////////////// -->	
+			
+			<label for="calcul_litteral_fac">
+			    <div class="categorie">
+			    Calcul Littéral : La factorisation
+				</div>
+			</label>
+			<input type="checkbox" id="calcul_litteral_fac" role="button">
+			<div class="grille_retractable">
+			    <div class="cellule_image" onclick="test(50);">
+				    Numéro 50  <br>
+					Factorisation simple  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_50.png" />
+				</div>
+				<div class="cellule_image" onclick="test(51);">
+				    Numéro 51  <br>
+					Factorisation : avec un facteur commun  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_51.png" />
+				</div>
+				<div class="cellule_image" onclick="test(52);">
+				    Numéro 52  <br>
+					Factorisation : avec un facteur commun  <br>
+					(un peu plus difficile)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_52.png" />
+				</div>
+				<div class="cellule_image" onclick="test(53);">
+				    Numéro 53  <br>
+					Factorisation : 3e identité remarquable  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_53.png" />
+				</div>
+				<div class="cellule_image" onclick="test(54);">
+				    Numéro 54  <br>
+					Factorisation : 3e identité remarquable  <br>
+					(un peu plus difficile)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_54.png" />
+				</div>
+			</div>
+			
+			<!-- /////////////////////////////////////FIN CALCUL LITTERAL FACTORISATION/////////////////////////////////////////// -->
+			
+			<!-- /////////////////////////////////////DEBUT EQUATIONS/////////////////////////////////////////// -->	
+			
+			<label for="equations">
+			    <div class="categorie">
+			    Les équations
+				</div>
+			</label>
+			<input type="checkbox" id="equations" role="button">
+			<div class="grille_retractable">
+			    <div class="cellule_image" onclick="test(70);">
+				    Numéro 70  <br>
+					équation du 1er degré  <br>
+					(facile)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_70.png" />
+				</div>
+				<div class="cellule_image" onclick="test(71);">
+				    Numéro 71  <br>
+					équation du 1er degré  <br>
+					(moins facile)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_71.png" />
+				</div>
+				<div class="cellule_image" onclick="test(72);">
+				    Numéro 72  <br>
+					équation produit  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_72.png" />
+				</div>
+				<div class="cellule_image" onclick="test(73);">
+				    Numéro 73  <br>
+					équation du type <i>x</i>² = <i>a</i>  <br>
+					(avec ou sans solution)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_73.png" />
+				</div>
+				<div class="cellule_image" onclick="test(74);">
+				    Numéro 74  <br>
+					équation du type <i>bx</i>² = <i>a</i>  <br>
+					(avec ou sans solution)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_74.png" />
+				</div>
+				<div class="cellule_image" onclick="test(75);">
+				    Numéro 75  <br>
+					équation du type <i>b</i>(<i>x+c</i>)² = <i>a</i>  <br>
+					(avec ou sans solution)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_75.png" />
+				</div>
+				<div class="cellule_image" onclick="test(100);">
+				    Numéro 100  <br>
+					Lecture graphique des solutions d'une équation  <br>
+					(une solution)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_100.png" />
+				</div>
+				<div class="cellule_image" onclick="test(102);">
+				    Numéro 102  <br>
+					Lecture graphique des solutions d'une équation  <br>
+					(deux solutions)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_102.png" />
+				</div>
+			
+		    </div>	
+			
+			<!-- /////////////////////////////////////FIN EQUATIONS/////////////////////////////////////////// -->
+			
+			<!-- /////////////////////////////////////DEBUT INEQUATIONS/////////////////////////////////////////// -->
+			<label for="inequations">
+			    <div class="categorie">
+			    Les inéquations
+				</div>
+			</label>
+			<input type="checkbox" id="inequations" role="button">
+			<div class="grille_retractable">
+			    <div class="cellule_image" onclick="test(80);">
+				    Numéro 80  <br>
+					inéquation du 1er degré  <br>
+					(facile)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_80.png" />
+				</div>
+				<div class="cellule_image" onclick="test(81);">
+				    Numéro 81  <br>
+					inéquation du 1er degré  <br>
+					(moins facile)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_81.png" />
+				</div>
+				<div class="cellule_image" onclick="test(82);">
+				    Numéro 82  <br>
+					inéquation du type <i>x</i>² < <i>a</i>   <br>
+					(un des 4 symboles au hasard)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_82.png" />
+				</div>
+				<div class="cellule_image" onclick="test(83);">
+				    Numéro 83  <br>
+					inéquation du type <i>bx</i>² < <i>a</i>  <br>
+					(un des 4 symboles au hasard)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_83.png" />
+				</div>
+		    </div>
+
+            <!-- /////////////////////////////////////FIN INEQUATIONS/////////////////////////////////////////// -->
+			
+			<!-- /////////////////////////////////////DEBUT PUISSANCES /////////////////////////////////////////// -->
+			<label for="puissances">
+			    <div class="categorie">
+			    Puissances, écriture scientifique
+				</div>
+			</label>
+			<input type="checkbox" id="puissances" role="button">
+			<div class="grille_retractable">
+			    <div class="cellule_image" onclick="test(400);">
+				    Numéro 400  <br>
+					a^n*a^m, a+ 0 n+ m+ <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_400.png" />
+				</div>
+				<div class="cellule_image" onclick="test(401);">
+				    Numéro 401  <br>
+					a^n*a^m, a+ n- m+  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_401.png" />
+				</div>
+				<div class="cellule_image" onclick="test(402);">
+				    Numéro 402  <br>
+					a^n*a^m, a+ n+ m-  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_402.png" />
+				</div>
+				<div class="cellule_image" onclick="test(403);">
+				    Numéro 403  <br>
+					a^n*a^m, a+ n- m-  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_403.png" />
+				</div>
+				<div class="cellule_image" onclick="test(404);">
+				    Numéro 404  <br>
+					a^n/a^m, a+ n+ m+  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_404.png" />
+				</div>
+				<div class="cellule_image" onclick="test(405);">
+				    Numéro 405  <br>
+					a^n/a^m, a+ n- m+  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_405.png" />
+				</div>
+				<div class="cellule_image" onclick="test(406);">
+				    Numéro 406  <br>
+					a^n/a^m, a+ n+ m-  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_406.png" />
+				</div>
+				<div class="cellule_image" onclick="test(407);">
+				    Numéro 407  <br>
+					a^n/a^m, a+ n- m-  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_407.png" />
+				</div>
+				<div class="cellule_image" onclick="test(408);">
+				    Numéro 408  <br>
+					(a^n)^m a+ n+ m+  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_408.png" />
+				</div>
+				<div class="cellule_image" onclick="test(409);">
+				    Numéro 409  <br>
+					(a^n)^m a+ n- m+  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_409.png" />
+				</div>
+				<div class="cellule_image" onclick="test(410);">
+				    Numéro 410  <br>
+					(a^n)^m a+ n+ m-  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_410.png" />
+				</div>
+				<div class="cellule_image" onclick="test(411);">
+				    Numéro 411  <br>
+					(a^n)^m a+ n- m-  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_411.png" />
+				</div>
+				<div class="cellule_image" onclick="test(412);">
+				    Numéro 412  <br>
+					puissance : base négative exposant pair + <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_412.png" />
+				</div>
+				<div class="cellule_image" onclick="test(413);">
+				    Numéro 413  <br>
+					puissance : base négative exposant impair + <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_413.png" />
+				</div>
+				<div class="cellule_image" onclick="test(414);">
+				    Numéro 414  <br>
+					puissance : base négative exposant pair - <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_414.png" />
+				</div>
+				<div class="cellule_image" onclick="test(415);">
+				    Numéro 415  <br>
+					puissance : base négative exposant impair - <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_415.png" />
+				</div>
+				<div class="cellule_image" onclick="test(416);">
+				    Numéro 416  <br>
+					a^n*a^m, a- 0 n+ m+ <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_416.png" />
+				</div>
+				<div class="cellule_image" onclick="test(417);">
+				    Numéro 417  <br>
+					a^n*a^m, a- 0 n- m+ <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_417.png" />
+				</div>
+				<div class="cellule_image" onclick="test(418);">
+				    Numéro 418  <br>
+					a^n*a^m, a- 0 n+ m- <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_418.png" />
+				</div>
+				<div class="cellule_image" onclick="test(419);">
+				    Numéro 419  <br>
+					a^n*a^m, a- 0 n- m- <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_419.png" />
+				</div>
+				<div class="cellule_image" onclick="test(451);">
+				    Numéro 451  <br>
+					décimale vers scientifique <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_451.png" />
+				</div>
+				<div class="cellule_image" onclick="test(452);">
+				    Numéro 452  <br>
+					scientifique vers décimale <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_452.png" />
+				</div>
+				<div class="cellule_image" onclick="test(453);">
+				    Numéro 453  <br>
+					scientifique (calculatrice) vers décimale <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_453.png" />
+				</div>
+				
+				
+			</div>
+			
+			
+			<!-- /////////////////////////////////////FIN PUISSANCES /////////////////////////////////////////// -->
+			
+			<!-- /////////////////////////////////////DEBUT PROPORTIONS, EVOLUTIONS/////////////////////////////////////////// -->
+			<label for="proportions">
+			    <div class="categorie">
+			    Proportions et évolutions
+				</div>
+			</label>
+			<input type="checkbox" id="proportions" role="button">
+			<div class="grille_retractable">
+			    <div class="cellule_image" onclick="test(310);">
+				    Numéro 310  <br>
+					CM d'un taux positif  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_310.png" />
+				</div>
+				<div class="cellule_image" onclick="test(311);">
+				    Numéro 311  <br>
+					CM d'un taux négatif  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_311.png" />
+				</div>
+				<div class="cellule_image" onclick="test(312);">
+				    Numéro 312  <br>
+					CM d'une hausse en pourcentage  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_312.png" />
+				</div>
+				<div class="cellule_image" onclick="test(313);">
+				    Numéro 313  <br>
+					CM d'une baisse en pourcentage  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_313.png" />
+				</div>
+			
+			</div>
+			<!-- /////////////////////////////////////FIN PROPORTIONS, EVOLUTIONS/////////////////////////////////////////// -->
+			
+			<!-- /////////////////////////////////////DEBUT VECTEURS/////////////////////////////////////////// -->
+			<label for="vecteurs">
+			    <div class="categorie">
+			    Les vecteurs
+				</div>
+			</label>
+			<input type="checkbox" id="vecteurs" role="button">
+			<div class="grille_retractable">
+			    <div class="cellule_image" onclick="test(200);">
+				    Numéro 200  <br>
+					Déterminer graphiquement des coordonnées de vecteur  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_200.png" />
+				</div>
+				<div class="cellule_image" onclick="test(201);">
+				    Numéro 201  <br>
+					Déterminer graphiquement des coordonnées de vecteur  <br>
+					(avec relation de Chasles facile)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_201.png" />
+				</div>
+				<div class="cellule_image" onclick="test(202);">
+				    Numéro 202  <br>
+					Déterminer graphiquement des coordonnées de vecteur  <br>
+					(avec relation de Chasles difficile)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_202.png" />
+				</div>
+				<div class="cellule_image" onclick="test(203);">
+				    Numéro 203  <br>
+					Vecteurs égaux ou non  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_203.png" />
+				</div>
+			</div>
+			
+			
+			<!-- /////////////////////////////////////FIN VECTEURS/////////////////////////////////////////// -->
+			
+			<!-- /////////////////////////////////////DEBUT DERIVATION/////////////////////////////////////////// -->
+			
+			<label for="derivation">
+			    <div class="categorie">
+			    La dérivation
+				</div>
+			</label>
+			<input type="checkbox" id="derivation" role="button">
+			<div class="grille_retractable">
+			    <div class="cellule_image" onclick="test(20);">
+				    Numéro 20  <br>
+					Dériver une fonction constante  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_20.png" />
+				</div>				
+				<div class="cellule_image" onclick="test(21);">
+				    Numéro 21  <br>
+					Dériver une fonction affine  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_21.png" />
+				</div>
+				<div class="cellule_image" onclick="test(22);">
+				    Numéro 22  <br>
+					Dériver une fonction polynomiale de degré 2  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_22.png" />
+				</div>
+				<div class="cellule_image" onclick="test(23);">
+				    Numéro 23  <br>
+					Dériver une fonction polynomiale de degré 3  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_23.png" />
+				</div>
+				<div class="cellule_image" onclick="test(25);">
+				    Numéro 25  <br>
+					Dériver une fonction constante  <br>
+					(fractions possibles)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_25.png" />
+				</div>
+				<div class="cellule_image"onclick="test(26);">
+				    Numéro 26  <br>
+					Dériver une fonction affine  <br>
+					(fractions possibles)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_26.png" />
+				</div>
+				<div class="cellule_image" onclick="test(27);">
+				    Numéro 27  <br>
+					Dériver une fonction polynomiale de degré 2  <br>
+					(fractions possibles)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_27.png" />
+				</div>
+				<div class="cellule_image" onclick="test(28);">
+				    Numéro 28  <br>
+					Dériver une fonction polynomiale de degré 3  <br>
+					(fractions possibles)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_28.png" />
+				</div>
+				<div class="cellule_image" onclick="test(30);">
+				    Numéro 30  <br>
+					Dériver une produit  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_30.png" />
+				</div>
+				<div class="cellule_image" onclick="test(31);">
+				    Numéro 31  <br>
+					Dériver une produit  <br>
+					(fractions possibles)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_31.png" />
+				</div>
+				<div class="cellule_image" onclick="test(32);">
+				    Numéro 32  <br>
+					Dériver un quotient  <br>
+					   <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_32.png" />
+				</div>
+				<div class="cellule_image" onclick="test(33);">
+				    Numéro 33  <br>
+					Dériver un quotient  <br>
+					(fractions possibles)  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_33.png" />
+				</div>
+				<div class="cellule_image" onclick="test(34);">
+				    Numéro 34  <br>
+					Dériver une fonction inverse  <br>
+					<br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_34.png" />
+				</div>
+			
+			
+			</div>
+			
+			<!-- /////////////////////////////////////FIN DERIVATION/////////////////////////////////////////// -->
+			
+			
+			<!-- /////////////////////////////////////DEBUT NON CLASSES/////////////////////////////////////////// -->			
+			
+			<label for="non_classe">
+			    <div class="categorie">
+			    Non classés
+				</div>
+			</label>
+			<input type="checkbox" id="non_classe" role="button">
+			<div class="grille_retractable">
+			    <div class="cellule_image" onclick="test(105);">
+				    Numéro 105  <br>
+					Déterminer graphiquement une équation de droite  <br>
+					  <br>
+				    <img src="https://landatome.pagesperso-orange.fr/00_images/exemple_du_105.png" />
+				</div>
+			</div>
+			
+			<!-- /////////////////////////////////////FIN NON CLASSES/////////////////////////////////////////// -->	
+			
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	<input id='a_copier' type='text' />
+	</body>
+	<script> document.querySelector("#copy").addEventListener("click", copy); 
+	document.querySelector("#envoi").addEventListener("click", envoi);
+	</script>
+    </html>

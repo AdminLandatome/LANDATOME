@@ -1,0 +1,122 @@
+
+html, body {
+ background-color: black; 
+ font-family: Times New Roman, sans-serif; 
+ background-image:url("fond_principal_01.jpg");
+ font-size: 100%;
+ color: white;
+ margin: 0;
+ padding: 0;
+ }
+ @media screen and (max-width: 1024px) {
+	 img {
+		 width: 70%;
+		 height: 70%;
+	 }
+ }
+ 
+ p1 {
+	background_color:#555555
+	font-size: 100%;
+    color: white;
+	margin : 5%;
+ } 
+p2 {
+	font-size:110%;
+	font-style:italic;
+	text-decoration:underline;
+	
+}
+h1 {
+ font-size: 300%; 
+ color: white; 
+ font-family: Times New Roman, sans-serif;
+ font-style: italic;
+ text-align: center;
+ }
+ h1 :active{
+    text-shadow: #FFF 0 -1px 4px, #ff0 0 -2px 10px, #ff8000 0 -10px 20px, red 0 -18px 40px;
+	} 
+h2 {
+	font-size: 200%; 
+    color: white; 
+    font-family: Times New Roman, sans-serif;
+    font-style: italic;
+    text-align: center;
+}
+h2 :active{
+    text-shadow: #FFF 0 -1px 4px, #ff0 0 -2px 10px, #ff8000 0 -10px 20px, red 0 -18px 40px;
+	}
+h3 {
+	background-color: #ffffff;
+	font-size: 150%; 
+    color: blue; 
+    font-family: Times New Roman, sans-serif;
+    font-style: italic;
+    text-align: center;
+}
+h3 :active{
+    text-shadow: #FFF 0 -1px 4px, #ff0 0 -2px 10px, #ff8000 0 -10px 20px, red 0 -18px 40px;
+	}
+h4 {
+	font-size: 75%; 
+    color: blue; 
+    font-family: Times New Roman, sans-serif;
+    font-style: italic;
+    text-align: right;
+}
+code {font-size: 110%;
+      color: cyan;
+	  font-family: Arial, sans-serif;
+}
+.liste1 { 
+    font-size :100%;
+	color: white;
+	font-family: Times New Roman, sans-serif;
+	margin-left: 5%;
+    
+}
+.feuille_exo{
+	background-color: black; 
+    font-family: Times New Roman, sans-serif; 
+	padding : 7px;
+	border : 1px solid rgb(255,255,255) ;
+    border-radius : 10px;
+    font-size: 100%;
+    color: #99CC00;
+    
+}
+a:link{
+	color: white;
+	text-decoration :none;
+}
+a:visited{
+	color: white;
+	text-decoration :none;
+}
+.myButton {
+ color: rgb(255, 255, 255);
+ font-size: 100%;
+ line-height: 1%; padding: 1%;
+ border-radius: 10px; 
+ font-family: Times New Roman, serif;
+ font-weight: normal; 
+ text-decoration: none;
+ font-style: normal; 
+ font-variant: normal;
+ text-transform: none;
+ background-image: linear-gradient(to right, rgb(28, 110, 164) 0%, rgb(35, 136, 203) 50%, rgb(20, 78, 117) 100%);
+ box-shadow: rgb(0, 0, 0) 5px 5px 15px 5px;
+ border: 2px solid rgb(28, 110, 164);
+ display: inline-block;
+ }
+.myButton:hover {
+background: #1C6EA4;
+/*-moz-transform: rotate(18deg);*/
+/*-webkit-transform: rotate(18deg);
+-o-transform: rotate(18deg);
+-ms-transform: rotate(18deg);*/
+transform: rotate(18deg); }
+.myButton:active {
+background: #144E75; }
+	
