@@ -1,0 +1,44 @@
+/* Commentaires */
+body /* Paramètres de la page par défaut */
+{
+    background: green; /* Image de fond */
+    /*background-attachment: fixed; /* Le fond restera fixe */
+    /*background-repeat: repeat; /* Le motif se répétera */
+
+}
+p /* Paramètres des paragraphes */
+{
+    color: black; /* Le texte sera noir */	
+    text-align: justify; /* Alignement est le mode justifié*/
+	font-size: 20px; /* Taille du texte de 20 pixels*/
+	font-style: italic; /* En italic */
+}
+h1 /* Paramètres des titres de niveau 1 */
+{
+	color: blue; /* Le texte sera de couleur rouge */
+	text-align: center; /* Alignement est le mode justifié */
+	font-size: 2em; /* 2em = 2 fois la taille normale */
+	font-weight:bold; /* En gras */
+	text-shadow: 2px 2px 4px black; /* Ombre au texte avec px pour pixel */
+	/*border: 3px grey solid; /*Bordure autour du texte de couleur grise */
+	/*border-radius: 10px; /* Arrondi au 4 coins */
+	/*box-shadow: 6px 6px 0px grey inset; /* Ombre en intérieur de la bordure */
+}
+h2 /* Paramètres des titres de niveau 2 */
+{
+	color: rgb(255,255,0); /* Le texte sera de couleur jaune (255 = 100%
+	première valeur pour le Rouge, idem pour le deuxième le vert
+	 et 0 = 0% pour le bleu) */
+	text-align: left; /* Alignement est à gauche */
+	font-size: 1.5em;
+}
+li /* Paramètres des puces */
+{
+	color: rgb(50,150,100); /* Valeur des rouges, des verts et des bleus */
+	text-align: justify;
+	font-size: 100%; /* 100% la taille normale */
+}
+a /* Paramètres des liens */
+{
+  	text-decoration: underline; /* Texte souligné */
+}
