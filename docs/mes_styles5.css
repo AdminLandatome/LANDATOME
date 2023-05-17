@@ -186,9 +186,10 @@ a > div{
 	padding-bottom: 5px;
 	padding-left : 1%;
 	padding-right : 1%;
-	margin:1%;
+	margin:1%;
+}
 	
-}
+
 
 .cellule_cours:hover{
 	
@@ -480,4 +481,34 @@ input[type=checkbox]:checked + .cellule_normale_condition_interro{
 	margin-bottom:10px;
 	
 	
+}
+
+.authentification{
+	text-align:center;
+	font-size : 150%;
+	
+}
+.authentification button{
+	color:#000000;
+	
+	text-align : center;
+	
+	font-size: 120%;
+}
+.authentification label{
+	color:#000000;
+	
+	text-align : center;
+	
+	font-size: 120%;
+}
+.authentification input{
+	color:#000000;
+	
+	text-align : center;
+	
+	font-size: 120%;
+}
+.authentification p{
+	display:none;
 }
