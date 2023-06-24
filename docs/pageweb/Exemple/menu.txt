@@ -1,0 +1,15 @@
+Double distributivite
+
+
+Dériver une fonction polynomiale de degré 3
+
+
+Factorisation : avec un facteur commun
+
+
+Lecture graphique des solutions d'une équation
+(deux solutions)
+
+Déterminer graphiquement des coordonnées de vecteur
+(avec relation de Chasles facile)
+
