@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enregistrer les réponses</title>
+    <link rel="stylesheet" href="styles_snt.css">
+</head>
+<body>
+    <div class='titre_sequence'>
+	La séquence machin
+	</div>
+    <div class="en_tete">
+	     <br>
+	    <form id="entete">
+		Choisissez le nombre de membres du groupe : 
+		    <select id="nbPersons" onchange="showFields()">
+                <option value="0">Aucune personne</option> <!-- Option pour 0 personne -->
+                <option value="1">1 personne</option>
+                <option value="2">2 personnes</option>
+                <option value="3">3 personnes</option>
+            </select>
+			<div id="personFields"></div> 
+		</form>
+	</div>
+    <div class="container">
+        <h1>Formulaire</h1>
+        <form id="myForm">
+            <label for="name">Nom:</label>
+            <input type="text" id="name" name="name"><br><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email"><br><br>
+            
+            <!-- <select id="nbPersons" onchange="showFields()">
+                <option value="0">Aucune personne</option> 
+                <option value="1">1 personne</option>
+                <option value="2">2 personnes</option>
+                <option value="3">3 personnes</option>
+            </select><br><br>
+			-->
+            
+            <button type="button" onclick="saveData(0)">Enregistrer avec 0</button>
+			<button type="button" onclick="saveData(1)">Enregistrer avec 1</button>
+			<button type="button" onclick="saveData(2)">Enregistrer avec 2</button>
+			
+        </form>
+    </div>
+
+    <script src="script_base_snt.js"></script>
+</body>
+</html>
