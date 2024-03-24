@@ -118,8 +118,7 @@ input[type=checkbox]:checked + .texte_affichable {
 	background-color:rgb(255,255,100,0.8);
 	color:#000000;
 	font-style:italic;
-	margin-left:10%;
-	margin-right:10%;
+	
 	margin-bottom : 10px;
 	border-style:ridge;
 	padding:5px;
