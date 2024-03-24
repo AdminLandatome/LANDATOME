@@ -132,7 +132,15 @@ input[type=checkbox]:checked + .texte_affichable {
 .fond_de_texte_normal img{
 	max-width:90%;
 	height:auto;
+	cursor: pointer;
 }
+
+.fond_de_texte_normal_centre img{
+	max-width:90%;
+	height:auto;
+	cursor: pointer;
+}
+
 .container {
     display: flex;
     justify-content: space-between;
