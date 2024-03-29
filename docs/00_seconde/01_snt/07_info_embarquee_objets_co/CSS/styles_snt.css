@@ -3,11 +3,20 @@ body{
     
 	font-size:16pt;
 }
+.credit{
+	font-size:40%;
+}
 h1{
 	font-family:"Times New Roman",Times;
 	font-size : 160%;
 	font-variant: small-caps;
 	margin-left:5%;
+}
+h2{
+	font-family:"Times New Roman",Times;
+	font-size : 140%;
+	font-variant: small-caps;
+	margin-left:10%;
 }
 .container {
     max-width: 400px;
@@ -118,12 +127,14 @@ input[type=checkbox]:checked + .texte_affichable {
 	background-color:rgb(255,255,100,0.8);
 	color:#000000;
 	font-style:italic;
-	
+	margin-left:10%;
+	margin-right:10%;
 	margin-bottom : 10px;
 	border-style:ridge;
 	padding:5px;
 	border-radius:10px;
 }
+/* Gestion des images dans les différentes divisions */
 .pour_image{
 	text-align:center;
 	font-size:60%;
@@ -131,13 +142,22 @@ input[type=checkbox]:checked + .texte_affichable {
 .fond_de_texte_normal img{
 	max-width:90%;
 	height:auto;
-	cursor: pointer;
 }
-
-.fond_de_texte_normal_centre img{
+.connaissance img{
 	max-width:90%;
 	height:auto;
-	cursor: pointer;
+}
+.texte_affichable img{
+	max-width:90%;
+	height:auto;
+}
+.exemple img{
+	max-width:90%;
+	height:auto;
+}
+.question img{
+	max-width:90%;
+	height:auto;
 }
 
 .container {
