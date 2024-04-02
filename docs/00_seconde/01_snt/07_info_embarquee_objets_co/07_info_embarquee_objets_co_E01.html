@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landatome SNT</title>
+    <link rel="stylesheet" href="CSS/styles_snt.css">
+</head>
+<body>
+    <div class='titre_sequence'>
+	07 Informatique embarquée, objects connectés E01
+	    <div class="credit">
+	        (Questions chosies sur les sites lelivrescolaire.fr et eleydet.fr)
+	    </div>
+	</div>
+	
+	
+	
+    <div class="en_tete">
+	      
+	    <form id="entete">
+		Choisissez le nombre de membres du groupe :
+		    <select id="nbPersons" onchange="showFields()">
+                <option value="0">Aucune personne</option> <!-- Option pour 0 personne -->
+                <option value="1">1 personne</option>
+                <option value="2">2 personnes</option>
+                <option value="3">3 personnes</option>
+            </select>
+			<div id="personFields"></div> 
+		</form>
+	</div>
+	<h1>IHM </h1>
+    <div class="fond_de_texte_normal">
+	    1. Parmi les réponses suivantes, laquelle n'est pas une IHM permettant à l'opérateur d'envoyer des instructions ?
+		<br><br>
+		<input type="radio" id="option_qcm01_1" name="option_qcm01" value="Un clavier.">
+        <label for="option_qcm01_1">Un clavier.</label><br>
+        <input type="radio" id="option_qcm01_2" name="option_qcm01" value="Un ecran tactile.">
+        <label for="option_qcm01_2">Un écran tactile.</label><br>
+        <input type="radio" id="option_qcm01_3" name="option_qcm01" value="Un interrupteur.">
+        <label for="option_qcm01_3">Un interrupteur.</label><br>
+		<input type="radio" id="option_qcm01_4" name="option_qcm01" value="Un ecran non tactile.">
+        <label for="option_qcm01_4">Un écran non tactile.</label><br>			
+	</div>
+	
+	<h1> Informatique embarquée </h1>
+    <div class="fond_de_texte_normal">
+	    2. Parmi ces trois affirmations sur l'informatique embarquée, laquelle est fausse ? 
+		<br><br>
+		<input type="radio" id="option_qcm02_1" name="option_qcm02" value="Tous les objets connectes contiennent de l'informatique embarquee.">
+        <label for="option_qcm02_1">Tous les objets connectés contiennent de l'informatique embarquée. </label><br>
+        <input type="radio" id="option_qcm02_2" name="option_qcm02" value="Un objet contenant de l'informatique embarquee est toujours relie à Internet.">
+        <label for="option_qcm02_2">Un objet contenant de l'informatique embarquée est toujours relié à Internet. </label><br>
+        <input type="radio" id="option_qcm02_3" name="option_qcm02" value="L'informatique embarquee permet à un objet d'interagir avec son environnement.">
+        <label for="option_qcm02_3">L'informatique embarquée permet à un objet d'interagir avec son environnement.</label><br>
+	</div>
+	
+	<h1> Sécurité </h1>
+    <div class="fond_de_texte_normal">
+	    3. La sécurité de l'Internet des objets est un enjeu majeur : 
+		<br><br>
+		<input type="radio" id="option_qcm03_1" name="option_qcm03" value="parce qu'ils sont fragiles.">
+        <label for="option_qcm03_1">parce qu'ils sont fragiles. </label><br>
+        <input type="radio" id="option_qcm03_2" name="option_qcm03" value="parce qu'ils ont de la valeur à cause du cout des matériaux utilises.">
+        <label for="option_qcm03_2">parce qu'ils ont de la valeur à cause du coût des matériaux utilisés.</label><br>
+        <input type="radio" id="option_qcm03_3" name="option_qcm03" value="parce que les objets connectes offrent une possibilite d'intrusion par Internet.">
+        <label for="option_qcm03_3">parce que les objets connectés offrent une possibilité d'intrusion par Internet.</label><br>
+		<input type="radio" id="option_qcm03_4" name="option_qcm04" value="parce qu'ils consomment de l'energie.">
+        <label for="option_qcm03_4">parce qu'ils consomment de l'énergie.</label><br>
+	</div>
+	
+	<h1> Fiche technique </h1>
+    <div class="fond_de_texte_normal">
+	    4. Le document ci‑dessous présente la fiche technique d'une montre connectée.  
+		<br><br>
+		<div class="pour_image">
+		<img src="images/07EVAL01Q04.png" alt="image de l'écran d' un montre connectée"><br>
+		Crédits : lelivrescolaire.fr
+		</div>
+		<br>
+		Relever la ligne qui indique que cette montre est bien un objet connecté.
+        <br><br>
+		<input type="radio" id="option_qcm04_1" name="option_qcm04" value="Dimensions">
+        <label for="option_qcm04_1">La ligne Dimensions </label><br>
+        <input type="radio" id="option_qcm04_2" name="option_qcm04" value="Poids">
+        <label for="option_qcm04_2">La ligne Poids </label><br>
+        <input type="radio" id="option_qcm04_3" name="option_qcm04" value="Ecran">
+        <label for="option_qcm04_3">La ligne Ecran</label><br>
+		<input type="radio" id="option_qcm04_4" name="option_qcm04" value="Definition">
+        <label for="option_qcm04_4">La ligne Définition</label><br>
+		<input type="radio" id="option_qcm04_5" name="option_qcm04" value="Connectivite">
+        <label for="option_qcm04_5">La ligne Connectivité</label><br>
+		<input type="radio" id="option_qcm04_6" name="option_qcm04" value="Fonctions">
+        <label for="option_qcm04_6">La ligne Fonctions</label><br>
+		
+	</div>
+	
+	<h1> Internet des objets </h1>
+    <div class="fond_de_texte_normal">
+	    5. L'Internet des objets est le nom donné : 
+		<br><br>
+		<input type="radio" id="option_qcm05_1" name="option_qcm05" value="à l'ensemble des objets connectes.">
+        <label for="option_qcm05_1">à l'ensemble des objets connectés.</label><br>
+        <input type="radio" id="option_qcm05_2" name="option_qcm05" value="à la partie d'Internet qui ne concerne pas la communication.">
+        <label for="option_qcm05_2">à la partie d'Internet qui ne concerne pas la communication. </label><br>
+        <input type="radio" id="option_qcm05_3" name="option_qcm05" value="aux réseaux crees de maniere autonome par les objets à Intelligence Artificielle (IA) . ">
+        <label for="option_qcm05_3">aux réseaux créés de manière autonome par les objets à Intelligence Artificielle (IA) . </label><br>
+	</div>
+	
+	<h1> Vrai/Faux n°1</h1>
+    <div class="fond_de_texte_normal">
+	    6. Seuls les objets connectés ont une IHM. 
+		<br><br>
+		<input type="radio" id="option_qcm06_1" name="option_qcm06" value="Vrai">
+        <label for="option_qcm06_1">Vrai</label><br>
+        <input type="radio" id="option_qcm06_2" name="option_qcm06" value="Faux">
+        <label for="option_qcm06_2">Faux</label><br>
+		<br>
+		7. L'informatique embarquée a pour but de rendre mobiles les équipements informatiques.  
+		<br><br>
+        <input type="radio" id="option_qcm07_1" name="option_qcm07" value="Vrai">
+        <label for="option_qcm07_1">Vrai</label><br>
+		<input type="radio" id="option_qcm07_2" name="option_qcm07" value="Faux">
+        <label for="option_qcm07_2">Faux</label><br>
+	</div>
+	<h1> Frise chronologique </h1>
+    <div class="fond_de_texte_normal">
+	    8. Classer par ordre chronologique les éléments suivants. 
+		<br><br>
+		<label for="option_qcm08_1">Invention du transistor. </label>
+		<input type="number" id="option_qcm08_1" name="option_qcm08_1" min="1" max="4" value="1"><br>
+        <label for="option_qcm08_2">Création du premier microprocesseur. </label>
+        <input type="number" id="option_qcm08_2" name="option_qcm08_2" min="1" max="4" value="1"><br>
+        <label for="option_qcm08_3">Création du premier ordinateur. </label>
+        <input type="number" id="option_qcm08_3" name="option_qcm08_3" min="1" max="4" value="1"><br>
+        <label for="option_qcm08_4">Création du premier smartphone. </label>
+		<input type="number" id="option_qcm08_4" name="option_qcm08_4" min="1" max="4" value="1"><br>
+        
+	</div>
+	
+	<h1> Serrure électronique </h1>
+    <div class="fond_de_texte_normal">
+	    Certaines serrures sont dites électroniques et s'ouvrent en approchant un badge RFID. On peut retrouver l'heure de déclenchement et l'identifiant du badge sur un serveur.  
+		<br><br>
+		9. Cette serrure est‑elle connectée ? 
+		<br><br>
+		<input type="radio" id="option_qcm09_1" name="option_qcm09" value="Vrai">
+        <label for="option_qcm09_1">Vrai</label><br>
+        <input type="radio" id="option_qcm09_2" name="option_qcm09" value="Faux">
+        <label for="option_qcm09_2">Faux</label><br>
+		<br>
+		10. Le RFID est utilisé dans les péages d'autoroutes. Préciser dans quelle situation. 
+		<br><br>
+        <input type="radio" id="option_qcm10_1" name="option_qcm10" value="Pour compter le nombre de vehicules qui passent sans devoir laisser un agent sur place.">
+        <label for="option_qcm10_1">Pour compter le nombre de véhicules qui passent sans devoir laisser un agent sur place.</label><br>
+		<input type="radio" id="option_qcm10_2" name="option_qcm10" value="Pour percevoir l’argent des usagers sans nécessiter de personnel dans les cabines de peage.">
+        <label for="option_qcm10_2">pour percevoir l’argent des usagers sans nécessiter de personnel dans les cabines de péage.</label><br>
+		<input type="radio" id="option_qcm10_3" name="option_qcm10" value="Pour ouvrir la barriere au bon moment quand le vehicule passe.">
+        <label for="option_qcm10_3">Pour ouvrir la barrière au bon moment quand le véhicule passe.</label><br>
+		<input type="radio" id="option_qcm10_4" name="option_qcm10" value="Pour vérifier automatiquement que le vehicule n'est pas un camion.">
+        <label for="option_qcm10_4">Pour vérifier automatiquement que le véhicule n'est pas un camion.</label><br>
+		
+	</div>
+	
+	<h1> Télévision connectée </h1>
+    <div class="fond_de_texte_normal">
+	    11. Pour interagir avec une télévision connectée, l'IHM est généralement :
+		<br><br>
+		<input type="checkbox" id="option_qcm11_1" name="option_qcm11" value="une manette.">
+        <label for="option_qcm11_1">une manette.</label><br>
+        <input type="checkbox" id="option_qcm11_2" name="option_qcm11" value="un capteur de mouvement.">
+        <label for="option_qcm11_2">un capteur de mouvement.</label><br>
+        <input type="checkbox" id="option_qcm11_3" name="option_qcm11" value="un telephone.">
+        <label for="option_qcm11_3">un téléphone.</label><br>
+		<input type="checkbox" id="option_qcm11_4" name="option_qcm11" value="une telecommande.">
+        <label for="option_qcm11_4">une télécommande.</label><br>
+	</div>
+	<h1> Vrai/Faux n°2</h1>
+    <div class="fond_de_texte_normal">
+	    12.  Un écran est toujours une IHM. 
+		<br><br>
+		<input type="radio" id="option_qcm12_1" name="option_qcm12" value="Vrai">
+        <label for="option_qcm12_1">Vrai</label><br>
+        <input type="radio" id="option_qcm12_2" name="option_qcm12" value="Faux">
+        <label for="option_qcm12_2">Faux</label><br>
+		<br>
+		13. Tous les objets contenant de l'informatique embarquée ont une IHM. 
+		<br><br>
+        <input type="radio" id="option_qcm13_1" name="option_qcm13" value="Vrai">
+        <label for="option_qcm13_1">Vrai</label><br>
+		<input type="radio" id="option_qcm13_2" name="option_qcm13" value="Faux">
+        <label for="option_qcm13_2">Faux</label><br>
+		<br>
+		14. Pour un objet connecté, il est possible d'utiliser un navigateur Internet comme une IHM.   
+		<br><br>
+        <input type="radio" id="option_qcm14_1" name="option_qcm14" value="Vrai">
+        <label for="option_qcm14_1">Vrai</label><br>
+		<input type="radio" id="option_qcm14_2" name="option_qcm14" value="Faux">
+        <label for="option_qcm14_2">Faux</label><br>
+		<br>
+	</div>
+	<h1> Capteurs et actionneurs  </h1>
+    <div class="fond_de_texte_normal">
+	    15. En les associant, déterminer si ces parties d'objets sont des actionneurs ou des capteurs. 
+		<br><br>
+		<label for="qcm15_1">Un microphone est un </label>
+        <select id="qcm15_1" name="qcm15_1">
+            <option value="Je ne sais pas"> Je ne sais pas</option>
+            <option value="capteur"> capteur</option>
+            <option value="actionneur"> actionneur</option>
+    
+        </select>.
+		<br>
+        <label for="qcm15_2">Un bras motorisé est un  </label>
+        <select id="qcm15_2" name="qcm15_2">
+            <option value="Je ne sais pas"> Je ne sais pas</option>
+            <option value="capteur"> capteur</option>
+            <option value="actionneur"> actionneur</option>
+    
+        </select>.
+		<br>
+		<label for="qcm15_3">Une caméra est un  </label>
+        <select id="qcm15_3" name="qcm15_3">
+            <option value="Je ne sais pas"> Je ne sais pas</option>
+            <option value="capteur"> capteur</option>
+            <option value="actionneur"> actionneur</option>
+    
+        </select>.
+		<br>
+		<label for="qcm15_4">Un Haut-parleur est un   </label>
+        <select id="qcm15_4" name="qcm15_4">
+            <option value="Je ne sais pas"> Je ne sais pas</option>
+            <option value="capteur"> capteur</option>
+            <option value="actionneur"> actionneur</option>
+    
+        </select>.
+		<br>
+		
+
+	</div>
+	<h1> Robot </h1>
+    <div class="fond_de_texte_normal">
+	    Un robot ménager autonome est muni de capteurs à ultrasons. 
+	    <br><br>
+		16. Cocher la (ou les) grandeur(s) physique(s) mesurées par les capteurs du robot. 
+		<br><br>
+		<input type="checkbox" id="option_qcm16_1" name="option_qcm16" value="Pression.">
+        <label for="option_qcm16_1">Pression.</label><br>
+        <input type="checkbox" id="option_qcm16_2" name="option_qcm16" value="Distance.">
+        <label for="option_qcm16_2">Distance.</label><br>
+        <input type="checkbox" id="option_qcm16_3" name="option_qcm16" value="Temperature.">
+        <label for="option_qcm16_3">Température.</label><br>
+		<input type="checkbox" id="option_qcm16_4" name="option_qcm16" value="Tension electrique.">
+        <label for="option_qcm16_4">Tension électrique.</label><br>
+	</div>
+	
+	<h1> En vrac  </h1>
+	 <div class="fond_de_texte_normal">
+	    
+	    
+		17. Cocher le (ou les) organes d'une automobile moderne qui intègrent de l'informatique embarquée : 
+		<br><br>
+		<input type="checkbox" id="option_qcm17_1" name="option_qcm17" value="Le systeme de freinage">
+        <label for="option_qcm17_1">Le système de freinage</label><br>
+        <input type="checkbox" id="option_qcm17_2" name="option_qcm17" value="Les pare chocs">
+        <label for="option_qcm17_2">Les pare chocs</label><br>
+        <input type="checkbox" id="option_qcm17_3" name="option_qcm17" value="Le moteur">
+        <label for="option_qcm17_3">Le moteur</label><br>
+		<input type="checkbox" id="option_qcm17_4" name="option_qcm17" value="La direction">
+        <label for="option_qcm17_4">La direction</label><br>
+		<input type="checkbox" id="option_qcm17_5" name="option_qcm17" value="Les roues">
+        <label for="option_qcm17_5">Les roues</label><br>
+	</div>
+	
+	<div class="fond_de_texte_normal">
+	    18. Qu'est-ce qui traite les données dans un système embarqué? 
+		<br><br>
+		<input type="checkbox" id="option_qcm18_1" name="option_qcm18" value="Un preactionneur">
+        <label for="option_qcm18_1">Un préactionneur</label><br>
+        <input type="checkbox" id="option_qcm18_2" name="option_qcm18" value="Une interface reseau">
+        <label for="option_qcm18_2">Une interface réseau</label><br>
+        <input type="checkbox" id="option_qcm18_3" name="option_qcm18" value="Un capteur">
+        <label for="option_qcm18_3">Un capteur</label><br>
+		<input type="checkbox" id="option_qcm18_4" name="option_qcm18" value="Une IHM">
+        <label for="option_qcm18_4">Une IHM</label><br>
+		<input type="checkbox" id="option_qcm18_5" name="option_qcm18" value="Un microcontroleur">
+        <label for="option_qcm18_5">Un microcontrôleur</label><br>
+		<input type="checkbox" id="option_qcm18_6" name="option_qcm18" value="Un actionneur">
+        <label for="option_qcm18_6">Un actionneur</label><br>
+		<input type="checkbox" id="option_qcm18_7" name="option_qcm18" value="Un microprocesseur">
+        <label for="option_qcm18_7">Un microprocesseur</label><br>
+	</div>
+	<div class="fond_de_texte_normal">
+	    19. Il délivre un signal de sortie prenant toutes les valeurs comprises entre un maximum et un minimum : 
+		<br><br>
+		<input type="radio" id="option_qcm19_1" name="option_qcm19" value="Le capteur logique ou capteur TOR">
+        <label for="option_qcm19_1">Le capteur logique ou capteur TOR</label><br>
+        <input type="radio" id="option_qcm19_2" name="option_qcm19" value="Le capteur analogique">
+        <label for="option_qcm19_2">Le capteur analogique</label><br>
+        <input type="radio" id="option_qcm19_3" name="option_qcm19" value="Le capteur numerique">
+        <label for="option_qcm19_3">Le capteur numérique</label><br>
+		<input type="radio" id="option_qcm19_4" name="option_qcm19" value="Le capteur logique">
+        <label for="option_qcm19_4">Le capteur logique</label><br>	
+	</div>
+	<div class="fond_de_texte_normal">
+	    20. Ce programme se propage et se duplique, par son propre moyen, sans contaminer un fichier hôte : 
+		<br><br>
+		<input type="radio" id="option_qcm20_1" name="option_qcm20" value="Le rançongiciel">
+        <label for="option_qcm20_1">Le rançongiciel</label><br>
+        <input type="radio" id="option_qcm20_2" name="option_qcm20" value="Le virus">
+        <label for="option_qcm20_2">Le virus</label><br>
+        <input type="radio" id="option_qcm20_3" name="option_qcm20" value="Le cheval de Troie">
+        <label for="option_qcm20_3">Le cheval de Troie</label><br>
+		<input type="radio" id="option_qcm20_4" name="option_qcm20" value="Le bug">
+        <label for="option_qcm20_4">Le bug</label><br>	
+		<input type="radio" id="option_qcm20_5" name="option_qcm20" value="Le mouchard ou logiciel espion">
+        <label for="option_qcm20_5">Le mouchard ou logiciel espion</label><br>
+		<input type="radio" id="option_qcm20_6" name="option_qcm20" value="Le ver">
+        <label for="option_qcm20_6">le ver</label><br>
+		<input type="radio" id="option_qcm20_7" name="option_qcm20" value="La faille de securite">
+        <label for="option_qcm20_7">La faille de sécurité</label><br>
+		<input type="radio" id="option_qcm20_8" name="option_qcm20" value="La porte derobee">
+        <label for="option_qcm20_8">La porte dérobée</label><br>
+		<input type="radio" id="option_qcm20_9" name="option_qcm20" value="Le deni de service">
+        <label for="option_qcm20_9">Le déni de service</label><br>
+		
+	</div>
+	
+	
+	    
+	<button type="button" onclick="saveData()">Enregistrer vos réponses</button>
+	
+	
+
+
+</body>
+<script src="javascript/07_info_embarquee_objets_co_E01.js"></script>
+</html>
+ 
