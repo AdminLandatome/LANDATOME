@@ -1,4 +1,16 @@
-//******************************************************Cette partie est commune à toutes les pages**********************************
+document.addEventListener('DOMContentLoaded', function() {
+    melangerPropositions();
+});
+
+function melangerPropositions() {
+    var container = document.getElementById('container');
+    var propositions = Array.from(container.querySelectorAll('.col input[type="checkbox"]'));
+    propositions.sort(function() { return Math.random() - 0.5; });
+    propositions.forEach(function(proposition) {
+        container.appendChild(proposition.parentNode);
+    });
+}
+
 
 function showFields() {
     var nbPersons = document.getElementById('nbPersons').value; // Obtient le nombre de personnes choisi dans la liste déroulante
@@ -39,24 +51,20 @@ function showFields() {
     }
 }
 
-//**************************************Fin de la parie commune à chaque page******************************************************
-
-
-
-// **************************************Cette partie est propre à chaque page******************************************************
-// il faudra adapter les var à récuperer 
 
 
 
 function saveData(numero) {
-	
-    var name = document.getElementById('name').value.toUpperCase(); // Met le nom en majuscules
-    name = name.replace(/\s/g, "_"); // Remplace les espaces par des underscores
-    name = name.replace(/-/g, "_"); // Remplace les tirets par des underscores
-    var email = document.getElementById('email').value;
+    var question01 = document.getElementById('question01').value.toUpperCase(); // Met le nom en majuscules
+	var question02 = document.getElementById('question02').value.toUpperCase();
+	var question03 = document.getElementById('question03').value.toUpperCase();
+	var question04 = document.getElementById('question04').value.toUpperCase();
+	var question05 = document.getElementById('question05').value.toUpperCase();
+	var question06 = document.getElementById('question06').value.toUpperCase();
+    //name = name.replace(/\s/g, "_"); // Remplace les espaces par des underscores
+    //name = name.replace(/-/g, "_"); // Remplace les tirets par des underscores
+    //var email = document.getElementById('email').value;
     var nbPersons = document.getElementById('nbPersons').value;
-	
-	
 	
     // Début de la partie qui sert à créer les fichiers réponses
     for (var i = 0; i < nbPersons; i++) {
@@ -72,17 +80,24 @@ function saveData(numero) {
         person_classe = person_classe.replace(/\s/g, ""); // efface les espaces 
         person_classe = person_classe.replace(/-/g, ""); // efface les tirets
 
-        // Ici on crée le contenu du fichier de réponses en fonction du numero de l'exercice
-		if (numero === 1){var personData = 'Nom: ';}
-		else if (numero === 0){var personData = 'Nom: ' + personName + '\nEmail: ' + email;}
-		else {var personData = 'Nom: ' + personName +  + email;}
+        // Ici on crée le contenu du fichier de réponses
+		var contenu = 'Nom: ' + personName+'\n'
+		contenu += "Prénom : "+person_preName+'\n'
+		contenu += "Classe : "+person_classe + '\n\n'
+		contenu += "Q01 : " + question01 +'\n'
+		contenu += "Q02 : " + question02 +'\n'
+		contenu += "Q03 : " + question03 +'\n'
+		contenu += "Q04 : " + question04 +'\n'
+		contenu += "Q05 : " + question05 +'\n'
+		contenu += "Q06 : " + question06 +'\n'
+		
 		// fin de la creation du contenu du fichier de reponses
         
-        var blob = new Blob([personData], { type: 'text/plain' });
+        var blob = new Blob([contenu], { type: 'text/plain' });
         var url = window.URL.createObjectURL(blob);
         var a = document.createElement('a');
         a.href = url;
-        a.download ='Ex0'+numero+'_'+ person_classe+'_'+personName + '_'+person_preName+'.txt'; // Nom du fichier par personne
+        a.download = "07TP01_"+person_classe+'_'+personName + '_'+person_preName+'.txt'; // Nom du fichier par personne
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
@@ -90,16 +105,4 @@ function saveData(numero) {
         document.body.removeChild(a);
 	// Fin de la partie créant les fichiers.
     }
-}
-
-
-function copyCode() {
-    var codeSnippet = document.querySelector('.code-snippet pre code');
-    var range = document.createRange();
-    range.selectNode(codeSnippet);
-    window.getSelection().removeAllRanges();
-    window.getSelection().addRange(range);
-    document.execCommand('copy');
-    window.getSelection().removeAllRanges();
-    alert("Code copié !");
 }

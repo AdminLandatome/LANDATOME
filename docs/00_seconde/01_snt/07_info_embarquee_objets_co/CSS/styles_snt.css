@@ -168,3 +168,65 @@ input[type=checkbox]:checked + .texte_affichable {
 .col {
     width: 48%; /* Ajustez la largeur selon vos besoins */
 }
+
+/* Pour morceaux de code à copier */
+
+.code-snippet {
+	font-size:80%;
+    position: relative;
+    display: inline-block;
+	padding-left:5%;
+	padding-right:5%;
+	max-width:95%;
+}
+
+.code-snippet button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #bbbbbb;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+pre {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+
+/* Pour les tableaux */ 
+
+table {
+  border-collapse: collapse;
+  border: 2px solid rgb(140 140 140);
+  font-family:sans-serif;
+  font-size: 80%;
+  font-style:normal;
+  letter-spacing: 1px;
+  margin: 0 auto; /* Ajoutez cette ligne pour centrer horizontalement */
+  max-width:95%;
+}
+caption {
+  caption-side: top;
+  padding: 10px;
+  font-weight: bold;
+}
+
+thead,
+tfoot {
+  background-color: rgb(208,220,225,0.9);
+}
+
+th,
+td {
+  border: 1px solid rgb(160 160 160);
+  padding: 8px 10px;
+  background-color: rgb(248,250,255,0.8);
+}
+td:last-of-type {
+  text-align: center;
+}

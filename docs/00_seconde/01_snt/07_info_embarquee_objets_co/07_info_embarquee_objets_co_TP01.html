@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landatome SNT</title>
+    <link rel="stylesheet" href="CSS/styles_snt.css">
+</head> 
+
+<script>
+    function clignotement() {
+	var text1 = document.getElementById('texte_clignotant_01');
+	var text2 = document.getElementById('texte_clignotant_02');
+	setInterval(function() {
+	    
+	    text1.style.visibility = (text1.style.visibility == 'hidden' ? '' : 'hidden');
+		text2.style.visibility = (text1.style.visibility == 'hidden' ? '' : 'hidden');
+	    },500);
+	}
+	
+	
+	
+</script>
+
+<body onload="clignotement();">
+    <div class='titre_sequence'>
+	    07 Informatique embarquée, objects connectés TP01
+		<div class="credit">
+	         (activité très très inspirée de l'excellent site : <a href="http://eleydet.free.fr" target="_blank"> eleydet.free.fr</a>)
+	    </div>
+	</div>
+	
+    <div class="en_tete">  
+	    <form id="entete">
+		    Choisissez le nombre de membres du groupe :
+		    <select id="nbPersons" onchange="showFields()">
+                <option value="0">Aucune personne</option> <!-- Option pour 0 personne -->
+                <option value="1">1 personne</option>
+                <option value="2">2 personnes</option>
+                <option value="3">3 personnes</option>
+            </select>
+			<div id="personFields"></div> 
+		</form>
+	</div>
+	<h1>Introduction </h1>
+    <div class="fond_de_texte_normal">
+	    Le but est de simuler la mise en oœuvre un microcontrôleur pour de l'informatique embarquée. Il s'agit ici de l'ATMega328, présent sur la carte Arduino UNO R3, programmé dans un dérivé du C++.
+		<br> 
+		<div class="pour_image">
+		    <img src="images/carte_arduino_R3.jpg" alt="Une photo d'une carte Arduino Uno R3"><br>
+			source :<a href="https://pxhere.com/fr/photo/1334965?utm_content=shareClip&utm_medium=referral&utm_source=pxhere" target="_blank">  Photo par formulaire PxHere </a>
+        </div>	
+        <br>
+        Pour cela, sur le site <a href="https://www.tinkercad.com/" target="_blank">tinkercad</a>, nous pourrons utiliser une version simulée :
+		<br><br>
+		<div class="pour_image">
+		    <img src="images/tinkercad_carte_arduino_R3.jpg" alt="Une image d'une carte Arduino Uno R3 prise sur le site tinkercad.com"><br>
+			source : Capture d'écran du site tinkercad.com
+        </div>
+		
+	</div>
+    <h1>Connexion à la salle de classe Tinkercad</h1>
+	<div class="connaissance">
+	    
+		Rejoignez votre classe sur tinkercad. Pour cela, vous pouvez visionner ce tutoriel (sans son):
+	
+		<ul class="lien_video">
+		    <li><a href="https://tube-sciences-technologies.apps.education.fr/w/qHfq1AU4Sp3syBB9kNkGi2" target="_blank"> sur peertube (à priviligier) </a></li>
+		    <li><a href="https://youtu.be/bRXQ8fjTtqs" target="_blank"> sur youtube (si peertube ne fonctionne pas...) </a></li>
+		</ul>
+		<span id ="texte_clignotant_01">&#x26A0;</span>  Le lien de la classe ainsi que votre pseudo vous seront donnés par votre enseignant. 
+	</div>
+	
+	<h1>Exercice n°0 : Prise en main</h1>
+	<div class="connaissance">
+	    <strong>Question n°1 </strong><br><br>
+		Une fois l'<strong>07A02_Exercice_00</strong> édité, vous pouvez copier le code ci-dessous dans l'éditeur de code puis lancer la simulation.<br><br>
+		 
+		<div class="code-snippet">
+            <pre><code>void setup()
+{
+  pinMode(6, OUTPUT);
+}
+
+void loop()
+{
+  digitalWrite(6, HIGH);
+  delay(1000); // Wait for 1000 millisecond(s)
+  digitalWrite(6, LOW);
+  delay(1000); // Wait for 1000 millisecond(s)
+}</code></pre>
+            <button onclick="copyCode()">Copier le code</button>
+        </div>
+		
+		
+		<br>
+	    <label for="question01">1.Que se passe-t-il ?</label>
+		<br>		    
+		<input type="text" id="question01" name="question01" class ="champ_question">
+		<br>
+	<span id ="texte_clignotant_02">&#x26A0; </span>Pour vous aider, un tutoriel (sans son) est disponible : 
+	<ul class="lien_video">
+	    <li><a href="https://tube-sciences-technologies.apps.education.fr/w/mgPZ73Eee4W3Hf7MPJQwuW" target="_blank"> sur peertube (à priviligier) </a></li>
+	    <li><a href="https://youtu.be/bRXQ8fjTtqshttps://youtu.be/nrJnq5MWB1U" target="_blank"> sur youtube (si peertube ne fonctionne pas...) </a></li>
+	</ul>
+	</div>
+	<div class="connaissance">
+	    <strong>Question n°2 </strong><br><br>
+	Remplacer le premier code par le suivant : <br><br>
+	
+	
+	<div class="code-snippet">
+            <pre><code>void setup() 
+{
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+}
+void loop() 
+{
+  digitalWrite(2, HIGH);
+  digitalWrite(3, LOW);
+  delay(1000);
+  digitalWrite(3, HIGH);
+  digitalWrite(2, LOW);
+  delay(1000);  
+}  </code></pre>
+            <button onclick="copyCode()">Copier le code</button>
+        </div>
+		<br>
+	    <label for="question02">2. Que se passe-t-il ?</label>
+		<br>		    
+		<input type="text" id="question02" name="question02" class ="champ_question">
+		<br>
+	    	
+	</div>
+	
+	<h1>Exercice n°1 : Signal de détresse</h1>
+	<div class="exemple">
+	    
+	    SOS est l'interprétation en code Morse du signal de détresse et de demande d'assistance immédiate signé à la convention de Berlin le 3 novembre 1906, • • • — — — • • • ; par extension le signe « SOS » est utilisé comme nom mnémotechnique de ce signal.
+        <br>• • • — — — • • • est un signal d'un navire dans une situation de catastrophe irrécupérable provoquant la mort des personnes non secourues. Il est applicable aussi aux aéronefs en détresse.
+	    <div class="pour_image"><a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr">Contenu soumis à la licence CC-BY-SA 4.0</a>. Source : Article <em><a href="http://fr.wikipedia.org/wiki/SOS">SOS</a></em> de <a href="https://fr.wikipedia.org/">Wikipédia en français</a> (<a href="http://fr.wikipedia.org/w/index.php?title=SOS&action=history">auteurs</a>)</div>
+	</div>
+	
+	<div class="connaissance">
+	    Nous allons émettre un SOS lumineux rouge.  <br>
+		Pour cela, vous allez édité l'<strong>07A02_Exercice_01</strong> et adapter le code en conséquence.<br><br>
+		
+        On convient qu'un • dure 200ms et qu'un — dure 3 fois plus longtemps.
+		<br><br>
+		3. Une fois que la simulation fonctionne, appelez votre enseignant pour lui montrer.<br><br>
+		<table>
+		    <caption> Explications sur le code
+			</caption>
+			<thead>
+                <tr>
+                    <th scope="col">Element de programme</th>
+                    <th scope="col">Description</th>
+				</tr>
+            </thead>
+			<tbody>
+                <tr>
+                    <th scope="row">void</th>
+                    <td>Définit une fonction ne retournant aucune valeur</td> 
+                </tr>
+				<tr>
+                    <th scope="row">setup()</th>
+                    <td>Fonction exécutée une seule fois</td> 
+                </tr>
+				<tr>
+                    <th scope="row">loop()</th>
+                    <td>Fonction exécutée en boucle</td> 
+                </tr>
+				<tr>
+                    <th scope="row">pinMode(13, OUTPUT);</th>
+                    <td>Connecteur 13 défini en sortie</td> 
+                </tr>
+				<tr>
+                    <th scope="row">digitalWrite(13, HIGH);</th>
+                    <td>Connecteur 13 délivrant 5 V, la DEL s'allume</td> 
+                </tr>
+				<tr>
+                    <th scope="row">digitalWrite(13, LOW);</th>
+                    <td>Connecteur 13 délivrant 0 V, la DEL s'éteint</td> 
+                </tr>
+				<tr>
+                    <th scope="row">delay(1000);</th>
+                    <td>Programme mis en pause pendant 1000 ms soit 1 s</td> 
+                </tr>
+				<tr>
+                    <th scope="row">//</th>
+                    <td>Commentaire destiné au programmeur</td> 
+                </tr>
+				
+		    </tbody>
+		</table>
+	    
+    </div>
+	<h1>Exercice n°2 : Le feu tricolore </h1>
+    <div class="connaissance">
+	    Après avoir édité l'<strong>07A02_Exercice_02</strong>.<br>
+	    Simuler le fonctionnement d'un feu tricolore avec trois DEL de couleurs vert, orange et rouge  :
+        <ul>
+		    <li>Le feu vert seul reste allumé durant quelques secondes. </li>
+			<li>Puis le feu orange seul reste allumé pendant un court instant. </li>
+			<li>Puis le feu rouge seul reste allumé durant quelques secondes. </li>
+			<li>Et le cycle recommence...  </li>
+		</ul>
+		4. Une fois que la simulation fonctionne, appelez votre enseignant pour lui montrer.
+	</div>
+	
+	<h1>Exercice n°3 : Le chenillard </h1>
+	<div class="exemple">
+	        
+		    Le chenillard peut désigner un mouvement lumineux qui se produit en allumant et éteignant successivement une série de lampes ou LED. L'effet se traduit par un déplacement de cette lumière dans un sens choisi, par exemple de gauche à droite.<br>
+	        <div class="pour_image">
+		        <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr">Contenu soumis à la licence CC-BY-SA 4.0</a>. Source : Article <em><a href="http://fr.wikipedia.org/wiki/Chenillard">Chenillard</a></em> de <a href="https://fr.wikipedia.org/">Wikipédia en français</a> (<a href="http://fr.wikipedia.org/w/index.php?title=Chenillard&action=history">auteurs</a>)
+		    </div>
+		</div>
+    <div class="connaissance">
+	    Après avoir édité l'<strong>07A02_Exercice_03</strong>.<br>
+	    Réaliser un chenillard avec les cinq DEL alignées, en complétant le code ci-dessous. <br><br>
+		<div class="code-snippet">
+            <pre><code>void setup() {
+  for (int i=2; i&lt7; i++) {
+    pinMode(i, OUTPUT);
+  }
+}
+void loop() {
+  ...
+} </code></pre>
+            <button onclick="copyCode()">Copier le code</button>
+        </div>
+		<br>
+		
+		5. Une fois que la simulation fonctionne, appelez votre enseignant pour lui montrer.
+	</div>
+	<h1>Exercice n°4 : Clignotement aléatoire</h1>
+	<div class="connaissance">
+	    Après avoir édité l'<strong>07A02_Exercice_04</strong>.<br>
+	    A l'aide de la fonction <a href="https://www.arduino.cc/reference/en/language/functions/random-numbers/random/" target="_blank">random()</a>, faire clignoter les cinq DEL de manière aléatoire, toutes les demi-secondes.<br><br>
+	    6. Une fois que la simulation fonctionne, appelez votre enseignant pour lui montrer.
+	</div>
+	<h1>Exercice n°5 : Un détecteur de fumée lumineux</h1>
+	<div class="connaissance">
+	    Votre but est d'avoir un détecteur qui fonctionne comme dans cette vidéo :
+		<ul class="lien_video">
+		    <li><a href="https://tube-sciences-technologies.apps.education.fr/w/rt4wLuQdkfVHyKuRMjweeA" target="_blank"> sur peertube (à priviligier) </a></li>
+		    <li><a href="https://youtu.be/CqC6wTYoHD4" target="_blank"> sur youtube (si peertube ne fonctionne pas...) </a></li>
+		</ul>
+		Après avoir édité l'<strong>07A02_Exercice_05</strong>.<br>
+	    Vous allez réaliser le montage suivant en partant de :<br><br>
+	    <div class="pour_image">
+		     <img src="images/montage_detecteur_de_fumee.png" alt="une copie d'écran du site tinkercad, représentant le montage d'un déctecteur de fumée"><br>
+			 Source : copie d'écran du site tinkercad
+		</div>
+		<br><br>
+		Pour cela, vous aurez besoin d'un "capteur de gaz" et d'une "résistance" que vous réglerez à 120 Ohm.<br>
+		(A vous de les chercher...)
+		<br><br>
+		Puis vous écrirez le code suivant :<br>
+		(Hé non pas de copier coller ici ;) )<br>
+		<div class="pour_image">
+		     <img src="images/montage_detecteur_de_fumee_code.png" alt="une copie d'écran du site tinkercad, représentant le montage d'un déctecteur de fumée"><br>
+			 Source : copie d'écran du site tinkercad
+		</div>
+		<br><br>
+		
+	    7. Une fois que la simulation fonctionne, appelez votre enseignant pour lui montrer.
+	</div>
+	
+	
+
+</body>
+<script src="javascript/07_info_embarquee_objets_co_TP01.js"></script>
+<script src="javascript/script_base_snt.js"></script>
+
+</html>
