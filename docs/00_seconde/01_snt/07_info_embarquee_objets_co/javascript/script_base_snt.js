@@ -103,3 +103,22 @@ function copyCode() {
     window.getSelection().removeAllRanges();
     alert("Code copié !");
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    var copyButtons = document.querySelectorAll('.copy-button');
+
+    copyButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var codeSnippet = this.previousElementSibling.querySelector('code').innerText;
+            copyCodeToClipboard(codeSnippet);
+        });
+    });
+
+    function copyCodeToClipboard(code) {
+        navigator.clipboard.writeText(code).then(function() {
+            alert("Code copié!");
+        }).catch(function(error) {
+            console.error('Failed to copy: ', error);
+        });
+    }
+});
