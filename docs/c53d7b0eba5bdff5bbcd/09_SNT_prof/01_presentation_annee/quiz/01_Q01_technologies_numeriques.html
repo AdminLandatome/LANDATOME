@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Technologies Numériques</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+			background : linear-gradient(to right, #ffffff,#0000ee);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .container {
+            text-align: center;
+            margin: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        .question, {
+		    background-color:rgb(255,255,255,0.4);
+            font-size: 18px;
+            margin: 20px 0;
+        }
+		.answer {
+		    background-color:rgb(50,250,50);
+            font-size: 18px;
+            margin: 20px 0;
+			}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quiz Technologies Numériques</h1>
+        <div class="question" id="question"></div>
+        <div class="answer" id="answer" style="display:none;"></div>
+        <button onclick="showQuestion()">Tirer une question</button>
+        <button onclick="showAnswer()" id="answerButton" style="display:none;">Afficher la réponse</button>
+    </div>
+
+    <script>
+        const questionsAndAnswers = [
+            { question: "Quelles sont les fonctions principales des ordinateurs et des serveurs ?", answer: "Les ordinateurs et les serveurs traitent et stockent des données." },
+            { question: "Qu'est-ce qu'Internet permet ?", answer: "Internet permet l'échange d'informations et la communication à distance." },
+            { question: "Citez trois types de dispositifs électroniques personnels mentionnés dans la présentation.", answer: "Smartphones, tablettes, ordinateurs portables." },
+            { question: "Qu'est-ce qu'un objet connecté (IoT) ? Donnez deux exemples.", answer: "Un objet connecté (IoT) est un dispositif intégré dans des objets de la vie quotidienne pour collecter et transmettre des données. Exemples : montres connectées, appareils domotiques." },
+            { question: "Donnez trois exemples de systèmes d'exploitation.", answer: "Windows, macOS, Linux, Android." },
+            { question: "Qu'est-ce qu'une application et quelle est sa fonction ?", answer: "Une application est un programme spécifique qui effectue des tâches particulières, comme le traitement de texte, les jeux ou les réseaux sociaux." },
+            { question: "Quelles infrastructures permettent la transmission de données ?", answer: "Les réseaux de télécommunications, comme les réseaux mobiles 4G/5G et la fibre optique." },
+            { question: "Citez deux protocoles de communication mentionnés dans la présentation.", answer: "TCP/IP, Bluetooth, Wi-Fi." },
+            { question: "Qu'est-ce qu'une base de données ?", answer: "Une base de données est un système organisé pour stocker et gérer de grandes quantités d'informations." },
+            { question: "Qu'est-ce que le cloud computing et à quoi sert-il ?", answer: "Le cloud computing est un service de stockage et de traitement de données via Internet." },
+            { question: "Définissez ce qu'est un algorithme.", answer: "Un algorithme est un ensemble de règles et d'instructions que les machines suivent pour effectuer des tâches spécifiques." },
+            { question: "Expliquez ce qu'est l'apprentissage automatique.", answer: "L'apprentissage automatique est une technique permettant aux machines d'apprendre à partir de données et d'améliorer leurs performances au fil du temps sans être explicitement programmées pour chaque tâche." },
+            { question: "Quelle est la fonction de la cryptographie ?", answer: "La cryptographie sécurise les communications et protège les données." },
+            { question: "Qu'est-ce que la cybersécurité et pourquoi est-elle importante ?", answer: "La cybersécurité est l'ensemble des mesures prises pour protéger les systèmes informatiques contre les attaques et les accès non autorisés. Elle est importante pour garantir la confidentialité, l'intégrité et la disponibilité des informations." }
+        ];
+
+        let currentQuestionIndex = -1;
+
+        function showQuestion() {
+            currentQuestionIndex = Math.floor(Math.random() * questionsAndAnswers.length);
+            document.getElementById("question").innerText = questionsAndAnswers[currentQuestionIndex].question;
+            document.getElementById("answer").style.display = "none";
+            document.getElementById("answerButton").style.display = "inline";
+        }
+
+        function showAnswer() {
+            if (currentQuestionIndex >= 0) {
+                document.getElementById("answer").innerText = questionsAndAnswers[currentQuestionIndex].answer;
+                document.getElementById("answer").style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>

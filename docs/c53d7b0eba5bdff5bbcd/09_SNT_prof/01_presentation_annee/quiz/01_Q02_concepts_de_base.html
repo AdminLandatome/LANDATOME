@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Concepts de base des technologies numériques</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+			background : linear-gradient(to right, #ffffff,#0000ee);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .container {
+            text-align: center;
+            margin: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        .question, {
+		    background-color:rgb(255,255,255,0.4);
+            font-size: 18px;
+            margin: 20px 0;
+        }
+		.answer {
+		    background-color:rgb(50,250,50);
+            font-size: 18px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quiz Concepts de base des technologies numériques</h1>
+        <div class="question" id="question"></div>
+        <div class="answer" id="answer" style="display:none;"></div>
+        <button onclick="showQuestion()">Tirer une question</button>
+        <button onclick="showAnswer()" id="answerButton" style="display:none;">Afficher la réponse</button>
+    </div>
+
+    <script>
+        const questionsAndAnswers = [
+            { question: "Qu'est-ce que les données ?", answer: "Les données sont des informations qui peuvent être collectées, stockées et traitées par des systèmes informatiques." },
+            { question: "Quelles sont les formes que peuvent prendre les données ?", answer: "Les données peuvent être structurées, non structurées ou semi-structurées." },
+            { question: "Donnez un exemple de données structurées.", answer: "Exemples de données structurées : tableaux Excel, bases de données SQL." },
+            { question: "Donnez un exemple de données non structurées.", answer: "Exemples de données non structurées : textes libres, images, vidéos, emails." },
+            { question: "Donnez un exemple de données semi-structurées.", answer: "Exemples de données semi-structurées : XML, JSON." },
+            { question: "Qu'est-ce qu'un algorithme ?", answer: "Un algorithme est une série d'instructions ou de règles définies pour accomplir une tâche ou résoudre un problème." },
+            { question: "Quels sont les types d'algorithmes mentionnés dans la présentation ?", answer: "Algorithmes de tri, de recherche, d'optimisation, etc." },
+            { question: "Quels sont les aspects de la complexité des algorithmes ?", answer: "Complexité temporelle et complexité spatiale." },
+            { question: "Qu'est-ce que l'apprentissage automatique ?", answer: "L'apprentissage automatique est l'utilisation d'algorithmes pour permettre aux systèmes de 'apprendre' à partir de données." },
+            { question: "Qu'est-ce qu'un réseau informatique ?", answer: "Un réseau informatique est un ensemble de dispositifs connectés entre eux pour partager des ressources et des informations." },
+            { question: "Quels sont les types de réseaux mentionnés ?", answer: "Réseau local (LAN), réseau étendu (WAN), etc." },
+            { question: "Quelles sont les topologies de réseau ?", answer: "Topologie en étoile, en bus, en anneau, etc." },
+            { question: "Citez trois protocoles de communication mentionnés dans la présentation.", answer: "TCP/IP, HTTP/HTTPS, FTP." },
+            { question: "Quels sont les matériels réseau mentionnés ?", answer: "Routeurs, switches, modems." },
+            { question: "Quels sont les aspects de la sécurité des réseaux ?", answer: "Pare-feu, chiffrement." }
+        ];
+
+        let currentQuestionIndex = -1;
+
+        function showQuestion() {
+            currentQuestionIndex = Math.floor(Math.random() * questionsAndAnswers.length);
+            document.getElementById("question").innerText = questionsAndAnswers[currentQuestionIndex].question;
+            document.getElementById("answer").style.display = "none";
+            document.getElementById("answerButton").style.display = "inline";
+        }
+
+        function showAnswer() {
+            if (currentQuestionIndex >= 0) {
+                document.getElementById("answer").innerText = questionsAndAnswers[currentQuestionIndex].answer;
+                document.getElementById("answer").style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>

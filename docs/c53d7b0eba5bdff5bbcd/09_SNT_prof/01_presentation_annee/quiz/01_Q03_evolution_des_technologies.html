@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Évolution des Technologies Numériques</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+			background : linear-gradient(to right, #ffffff,#0000ee);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .container {
+            text-align: center;
+            margin: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        .question,  {
+		    background-color:rgb(255,255,255,0.4);
+            font-size: 18px;
+            margin: 20px 0;
+        }
+		.answer {
+		    background-color:rgb(50,250,50);
+            font-size: 18px;
+            margin: 20px 0;
+			}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quiz Évolution des Technologies Numériques</h1>
+        <div class="question" id="question"></div>
+        <div class="answer" id="answer" style="display:none;"></div>
+        <button onclick="showQuestion()">Tirer une question</button>
+        <button onclick="showAnswer()" id="answerButton" style="display:none;">Afficher la réponse</button>
+    </div>
+
+    <script>
+        const questionsAndAnswers = [
+            { question: "Qui a conçu la machine à différences en 1822 ?", answer: "Charles Babbage a conçu la machine à différences." },
+            { question: "Qui est considérée comme la première programmeuse informatique ?", answer: "Ada Lovelace est considérée comme la première programmeuse informatique." },
+            { question: "Quels sont les premiers ordinateurs électroniques développés entre 1940 et 1960 ?", answer: "Les premiers ordinateurs électroniques développés sont le ENIAC (1943) et l'UNIVAC (1951)." },
+            { question: "Quel composant a remplacé les tubes à vide dans les ordinateurs ?", answer: "Les transistors et les circuits intégrés ont remplacé les tubes à vide." },
+            { question: "Quel est le premier micro-ordinateur créé aux États-Unis en 1965 ?", answer: "Le premier micro-ordinateur créé aux États-Unis en 1965 est l'Altair 8800." },
+            { question: "Quels sont les premiers ordinateurs personnels mentionnés dans la présentation ?", answer: "Les premiers ordinateurs personnels sont l'Apple II (1977) et l'IBM PC (1981)." },
+            { question: "Quel réseau est considéré comme le prédécesseur de l'Internet ?", answer: "ARPANET est considéré comme le prédécesseur de l'Internet." },
+            { question: "Qui a inventé le World Wide Web ?", answer: "Tim Berners-Lee a inventé le World Wide Web." },
+            { question: "Quelle période a vu l'essor des smartphones et des réseaux sociaux ?", answer: "La période 2000-2010 a vu l'essor des smartphones et des réseaux sociaux." },
+            { question: "Qu'est-ce que l'Internet des objets (IoT) ?", answer: "L'Internet des objets (IoT) fait référence aux dispositifs connectés qui collectent et transmettent des données." },
+            { question: "Quelles technologies continuent de transformer nos vies à partir de 2010 ?", answer: "L'Internet des objets (IoT) et les technologies de l'intelligence artificielle continuent de transformer nos vies." }
+        ];
+
+        let currentQuestionIndex = -1;
+
+        function showQuestion() {
+            currentQuestionIndex = Math.floor(Math.random() * questionsAndAnswers.length);
+            document.getElementById("question").innerText = questionsAndAnswers[currentQuestionIndex].question;
+            document.getElementById("answer").style.display = "none";
+            document.getElementById("answerButton").style.display = "inline";
+        }
+
+        function showAnswer() {
+            if (currentQuestionIndex >= 0) {
+                document.getElementById("answer").innerText = questionsAndAnswers[currentQuestionIndex].answer;
+                document.getElementById("answer").style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>

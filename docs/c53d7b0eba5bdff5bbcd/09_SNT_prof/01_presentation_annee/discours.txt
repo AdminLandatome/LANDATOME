@@ -1,0 +1,30 @@
+Bonjour à toutes et à tous,
+
+Bienvenue à notre première séance de Sciences Numériques et Technologie, souvent abrégée en SNT. Aujourd'hui, je vais vous donner un aperçu général du programme que nous allons suivre tout au long de l'année.
+
+Le programme de SNT est structuré autour de plusieurs thématiques qui sont toutes interconnectées par le fil rouge des technologies numériques. Notre objectif principal sera de vous fournir une compréhension solide des concepts clés et des enjeux associés aux technologies que vous utilisez quotidiennement.
+Les thématiques principales que nous allons aborder sont :
+
+    Internet : Nous commencerons par explorer l'histoire et le fonctionnement d'Internet. Vous découvrirez comment ce réseau mondial a évolué depuis ses débuts et comment il fonctionne techniquement.
+
+    Web : Ensuite, nous nous pencherons sur le Web, qui est souvent confondu avec Internet. Vous apprendrez les bases de la création de sites web, y compris les langages HTML, CSS et JavaScript.
+
+    Réseaux sociaux : Nous étudierons également les réseaux sociaux, leurs impacts sur notre société, et les algorithmes qui les sous-tendent.
+
+    Objets connectés : Nous verrons comment les objets du quotidien peuvent être connectés à Internet et les implications de cette connectivité en termes de sécurité et de vie privée.
+
+    Données et bases de données : Vous apprendrez comment les données sont stockées, structurées et manipulées dans les bases de données, ainsi que les langages de requête tels que SQL.
+
+    Photographie numérique : Nous aborderons les techniques de photographie numérique, du traitement à la retouche des images.
+
+    Géolocalisation et cartographie : Vous découvrirez les technologies qui permettent la géolocalisation et les applications pratiques de la cartographie numérique.
+
+    Intelligence artificielle : Nous nous intéresserons aux concepts de base de l'intelligence artificielle, ainsi qu'aux algorithmes et aux applications qui commencent à transformer de nombreux secteurs.
+
+    Sécurité informatique : Enfin, nous discuterons des menaces et des vulnérabilités en matière de sécurité informatique, et des mesures de protection nécessaires pour sécuriser les systèmes et les données.
+
+Chacune de ces thématiques sera abordée de manière progressive et détaillée, avec des séances théoriques et pratiques. Mon objectif est de vous donner les outils nécessaires pour comprendre les technologies numériques et les enjeux qui en découlent.
+
+J'espère que vous trouverez ce programme enrichissant et que cela suscitera votre intérêt pour les sciences numériques et la technologie. Si vous avez des questions ou des préoccupations à tout moment, n'hésitez pas à les exprimer.
+
+Merci de votre attention, et commençons sans plus tarder.
