@@ -1,0 +1,135 @@
+body{
+	background-color: #66ffff ;
+	
+}
+button{
+	
+	text-decoration : underline;
+	
+}
+.affiche{	
+    background-color: #ffff66;
+	font-size: 16px;
+    line-height: 16px;
+    padding: 7px;
+    border-radius: 10px;
+    font-family: times new roman, serif;
+    font-weight: normal;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+	
+}
+.element{
+	color : rgb(0,0,0);
+	font-size:200%;
+	text-align:center;
+	background-color : rgb(150,150,150);
+	
+}
+.numero{
+	display : grid;
+	color : rgb(0,0,0);
+	font-size:110%;
+	grid-template-columns : repeat(3,1fr);
+	grid-gap : 15px;
+	grid-template-rows: auto;
+}
+
+.grille_normale{
+	display:grid;
+	
+	
+	grid-template-columns : repeat(3,1fr);
+	grid-gap : 15px;
+	grid-template-rows: auto;
+	
+
+}
+.grille_image_portable{
+	display:grid;
+	
+	
+	grid-template-columns : repeat(1,1fr);
+	grid-gap : 15px;
+	grid-template-rows: auto;
+	
+
+}
+.grille_image_pc{
+	display:none;
+}
+
+/*-----------------------------------------------------------------------------------*/
+
+/* DEBUT VERSION PC plus de 17 pouces*/
+@media screen and (min-width: 1279px) {
+	.grille_image_portable{
+	display:none;
+	}
+.grille_image_pc{
+	display:grid;
+	
+	
+	grid-template-columns : repeat(2,1fr);
+	grid-gap : 15px;
+	grid-template-rows: auto;
+	
+
+}	
+	
+}
+.cellule_normale{
+	grid-column: 1 / 3;
+	border : solid 2px;
+	border-radius : 10px;
+	background-color:rgb(255,255,255,0.7);
+	text-align :center;
+	font-weight : bold;
+	font-style : italic;
+	padding-top : 30px;
+	padding-bottom : 30px;
+	margin-top: 10px;
+	margin-bottom:10px;
+	
+	
+}
+
+.paragraphe{
+	
+color: rgb(255, 255, 255);
+font-size: 16px;
+line-height: 16px;
+padding: 7px;
+border-radius: 10px;
+font-family: times new roman, serif;
+font-weight: normal;
+text-decoration: none;
+font-style: normal;
+font-variant: normal;
+text-transform: none;
+background-color:red;
+box-shadow: rgb(0, 0, 0) 5px 5px 15px 5px;
+border: 2px solid rgb(28, 110, 164); display: inline-block;}
+.myButton:hover {
+background: #1C6EA4; }
+.myButton:active {
+background: #144E75; 
+}
+.la_question{
+	color: rgb(140, 140, 140);
+font-size: 16px;
+line-height: 16px;
+padding: 7px;
+border-radius: 10px;
+font-family: times new roman, serif;
+font-weight: normal;
+text-decoration: none;
+font-style: normal;
+font-variant: normal;
+text-transform: none;
+background-color:red;
+box-shadow: rgb(0, 0, 0) 5px 5px 15px 5px;
+border: 2px solid rgb(28, 110, 164); display: inline-block;}
+}
