@@ -43,6 +43,7 @@ function bravo(){
 
 function lire_reponse(){
 	reponse = document.getElementById("name").value.toUpperCase();
+	reponse = reponse.replace(/\s/g, "");
 	if (reponse == liste_anglais[x]) {bravo();
 	++ point;} else{alert(`Non, La bonne réponse était  ${liste_anglais[x]}`);};
 	jeu();
