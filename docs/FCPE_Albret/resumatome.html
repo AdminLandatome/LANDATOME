@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FCPE Albret Conseil de classe</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+    table, th, td {
+      border: 1px solid black;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    .summary {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      background: #f9f9f9;
+    }
+    .summary h2 {
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Préparation du conseil de classe</h1>
+  <button id="downloadButton">Télécharger le fichier</button><br><br>
+  Charger le fichier que vous venez de télécharger.<br>
+  
+  <input type="file" id="csv-file" accept=".csv" />
+  <select id="class-filter" disabled>
+    <option value="">Choisir la classe</option><br><br>
+  </select>
+  <button id="generate-summary" disabled>Générer le résumé</button><br><br>
+  <div class="summary" id="summary" style="display: none;">
+    <h2>Le résumé</h2>
+    <div id="summary-content"></div>
+  </div>
+
+
+  <table id="data-table">
+    <thead></thead>
+    <tbody></tbody>
+  </table>
+
+  
+
+  <script>
+    const fileURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTITRoNVZrA9XrZn2fvBFPB5QdNPivnpu6gaFmw4eOSVxZ20BLNvM7X_vZDhWVLado-iKNCmOPMKR0r/pub?output=csv";  // Remplacez par l'URL de votre fichier
+
+    // Ajoutez un événement au bouton pour lancer le téléchargement
+    document.getElementById("downloadButton").addEventListener("click", function() {
+      // Créer un lien temporaire
+      const a = document.createElement("a");
+      a.href = fileURL;
+      a.download = "fichier.pdf";  // Le nom du fichier qui sera téléchargé
+
+      // Simuler un clic sur le lien pour déclencher le téléchargement
+      document.body.appendChild(a);  // Ajout temporaire au DOM
+      a.click();
+      document.body.removeChild(a);  // Suppression du lien après le clic
+    });
+  
+  
+  
+    let parsedData = [];
+    let headers = [];
+
+    document.getElementById("csv-file").addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      if (!file) {
+        alert("Il faut obligatoirement un fichier de type .csv");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const csvText = e.target.result;
+
+        // Parse CSV
+        const rows = parseCSV(csvText);
+
+        // Identify the column index for sorting
+        headers = rows[0];
+        parsedData = rows.slice(1);
+
+        const sortColumnIndex = headers.findIndex(header =>
+          header.trim() === "Quelle est la classe de votre (vos) enfant(s) ?"
+        );
+
+        if (sortColumnIndex === -1) {
+          alert("Column 'Quelle est la classe de votre (vos) enfant(s) ?' not found!");
+          return;
+        }
+
+        // Sort the data by the specified column
+        parsedData.sort((a, b) => {
+          const valueA = a[sortColumnIndex]?.trim().toLowerCase() || "";
+          const valueB = b[sortColumnIndex]?.trim().toLowerCase() || "";
+          return valueA.localeCompare(valueB);
+        });
+
+        // Populate the table
+        populateTable(headers, parsedData);
+
+        // Enable class filter dropdown
+        populateClassFilter(parsedData, headers);
+      };
+
+      reader.onerror = () => {
+        alert("Failed to read file!");
+      };
+
+      reader.readAsText(file);
+    });
+
+    document.getElementById("generate-summary").addEventListener("click", () => {
+      const selectedClass = document.getElementById("class-filter").value;
+      if (!selectedClass) {
+        alert("Please select a class.");
+        return;
+      }
+      generateSummary(selectedClass);
+    });
+
+    // Function to parse CSV
+    function parseCSV(csvText) {
+      const rows = [];
+      let currentRow = [];
+      let currentCell = '';
+      let insideQuotes = false;
+
+      for (let i = 0; i < csvText.length; i++) {
+        const char = csvText[i];
+        const nextChar = csvText[i + 1];
+
+        if (insideQuotes) {
+          if (char === '"' && nextChar === '"') {
+            currentCell += '"';
+            i++;
+          } else if (char === '"') {
+            insideQuotes = false;
+          } else {
+            currentCell += char;
+          }
+        } else {
+          if (char === '"') {
+            insideQuotes = true;
+          } else if (char === ',') {
+            currentRow.push(currentCell.trim());
+            currentCell = '';
+          } else if (char === '\n') {
+            currentRow.push(currentCell.trim());
+            rows.push(currentRow);
+            currentRow = [];
+            currentCell = '';
+          } else {
+            currentCell += char;
+          }
+        }
+      }
+
+      if (currentCell || currentRow.length) {
+        currentRow.push(currentCell.trim());
+        rows.push(currentRow);
+      }
+
+      return rows;
+    }
+
+    // Function to populate the table
+    function populateTable(headers, data) {
+      const thead = document.querySelector("#data-table thead");
+      const tbody = document.querySelector("#data-table tbody");
+
+      thead.innerHTML = "";
+      tbody.innerHTML = "";
+
+      const headerRow = document.createElement("tr");
+      headers.forEach(header => {
+        const th = document.createElement("th");
+        th.textContent = header;
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+
+      data.forEach(row => {
+        const tr = document.createElement("tr");
+        row.forEach(cell => {
+          const td = document.createElement("td");
+          td.textContent = cell;
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Populate class filter dropdown
+    function populateClassFilter(data, headers) {
+      const classColumnIndex = headers.findIndex(header =>
+        header.trim() === "Quelle est la classe de votre (vos) enfant(s) ?"
+      );
+
+      if (classColumnIndex === -1) return;
+
+      const classFilter = document.getElementById("class-filter");
+      classFilter.disabled = false;
+
+      const uniqueClasses = [...new Set(data.map(row => row[classColumnIndex]))];
+      uniqueClasses.sort().forEach(cls => {
+        const option = document.createElement("option");
+        option.value = cls;
+        option.textContent = cls;
+        classFilter.appendChild(option);
+      });
+
+      document.getElementById("generate-summary").disabled = false;
+    }
+
+    // Generate summary for the selected class
+    function generateSummary(selectedClass) {
+      const classColumnIndex = headers.findIndex(header =>
+        header.trim() === "Quelle est la classe de votre (vos) enfant(s) ?"
+      );
+
+      const filteredData = parsedData.filter(row => row[classColumnIndex] === selectedClass);
+
+      const summaryContent = document.getElementById("summary-content");
+      summaryContent.innerHTML = `<p>Résumé de la classe : <strong>${selectedClass}</strong></p>`;
+
+      const questions = [
+        "Question 1",
+        "Question 2",
+        "Question 3",
+        "Question 4",
+        "Question 5",
+        "Question 6",
+        "Question 7",
+        "Question 8"
+      ];
+
+      const results = questions.map((question, i) => {
+	    let reponse_positive = "satisfait"
+		let reponse_negative = "pas satisfait"
+		if (i > 4) {
+           reponse_positive = "oui";}
+		if (i > 4) {
+           reponse_negative = "non";}
+        let intitule = "QUE PENSEZ VOUS DE L'EMPLOI DU TEMPS DE VOTRE ENFANT?"		
+		if (i === 1) {
+           intitule = "QUE PENSEZ VOUS DE L'AMBIANCE DE LA CLASSE ?";}
+		if (i === 2) {
+           intitule = "QUE PENSEZ VOUS DE LA VIE AU COLLÈGE EN DEHORS DE LA CLASSE ?";}
+		if (i === 3) {
+           intitule = "QUE PENSEZ VOUS DE LA RESTAURATION AU COLLÈGE ?";} 
+		if (i === 4) {
+           intitule = "VOTRE ENFANT RENCONTRE-T-IL DES DIFFICULTÉS PARTICULIÈRES (violence,harcèlement...)";}  
+		if (i === 5) {
+           intitule = "ESTIMEZ VOUS ÊTRE SUFFISAMMENT INFORMÉS DE LA VIE DE LA CLASSE ET DU COLLÈGE ?";} 
+		if (i === 6) {
+           intitule = "DE(S) POINT(S) POSITIF(S) OU NEGATIF(S) À SIGNALER AU CONSEIL DE CLASSE ?";}
+		if (i === 7) {
+           intitule = "AVEZ VOUS DES SUGGESTIONS POUR AMÉLIORER : • LE CHOIX DES LANGUES<br> • LES ACTIVITES SPORTIVES ET EDUCATIVES<br> • LE CDI<br> • LE FOYER<br> • LA PERMANENCE EN ETUDE<br> • AUTRES";}   
+		if (i === 8) {
+           intitule = " UNE REMARQUE,UNE RÉFLEXION,UNE ATTENTE,UN SUJET AUQUEL NOUS N'AVONS PAS PENSÉ ?";}
+        const questionIndex = headers.findIndex(header => header.includes(question));
+        const satisfiedCount = filteredData.filter(row => row[questionIndex]?.toLowerCase() === reponse_positive).length;
+        const notSatisfiedCount = filteredData.filter(row => row[questionIndex]?.toLowerCase() === reponse_negative).length;
+		const type_reponse_positive = reponse_positive;
+		const type_reponse_negative = reponse_negative;
+		const intitule_question = intitule;
+        const comments = filteredData.map(row => row[questionIndex + 1]).filter(comment => comment);
+
+        return { question, satisfiedCount, notSatisfiedCount, comments,type_reponse_positive,type_reponse_negative,intitule_question };
+      });
+
+      results.forEach(result => {
+        const section = document.createElement("div");
+        section.innerHTML = `
+          <h3>${result.question} : ${result.intitule_question}</h3>
+          <p>${result.type_reponse_positive.toUpperCase()}: ${result.satisfiedCount}</p>
+          <p>${result.type_reponse_negative.toUpperCase()}: ${result.notSatisfiedCount}</p>
+          <p>Commentaires :</p>
+          <ul>${result.comments.map(comment => `<li>${comment}</li>`).join("")}</ul>
+        `;
+        summaryContent.appendChild(section);
+      });
+
+      document.getElementById("summary").style.display = "block";
+    }
+  </script>
+</body>
+</html>
