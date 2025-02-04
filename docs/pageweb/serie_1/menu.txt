@@ -1,0 +1,19 @@
+inéquation du 1er degré
+(moins facile)
+
+Lecture graphique des solutions d'une équation
+(deux solutions)
+
+Déterminer graphiquement une équation de droite
+
+
+Dériver une fonction inverse
+(+ au moins un terme en x^
+
+Dériver une produit
+
+
+Pour reproduire une série du même type, copiez la liste
+et cliquez sur "générer les séries" dans Automatome.
+
+81,102,105,41,30,
