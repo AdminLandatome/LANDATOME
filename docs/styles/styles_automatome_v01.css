@@ -7,6 +7,14 @@
 	font-style:italic;
 	text-align:center;
 }
+.consigne{
+	background-color:#AAAAAA;
+	border-radius:5px;
+	font-size : 500%;
+	font-variant:small-caps;
+	font-style:italic;
+	text-align:center;
+}
 
 .titre_page a {
     color: black;
