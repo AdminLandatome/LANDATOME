@@ -1,0 +1,778 @@
+/* +++++++++++++++++++++++++les styles pour la barre horizontale la plus haute +++++++++++++++++++++++++++++  */
+.titre_annonce{
+	background-color:#AAAAAA;
+	border-radius:5px;
+	font-size : 800%;
+	font-variant:small-caps;
+	font-style:italic;
+	text-align:center;
+}
+
+.titre_page a {
+    color: black;
+	text-decoration:none;
+	}
+.titre_page{
+	display:grid;
+	grid-template-columns: 25% 50% 25%;
+	grid-template-rows: minmax(80px, auto);
+	gap:5px;
+	/*font-size:200%;*/
+	background-color:#BBBBBB;
+	align-items:center;
+	font-weight:bold;
+	font-variant:small-caps;
+	font-size:300%;	
+}
+.titre_page_cellule_gauche{
+	grid-column-start: 1;
+    grid-column-end: 2;
+	padding-left:10px;
+	padding-right:10px;	
+}
+.titre_page_cellule_centre{
+	grid-column-start: 2;
+    grid-column-end: 3;
+	padding-left:10px;
+	padding-right:10px;
+	text-align:center;
+}
+
+.titre_page_cellule_droite{
+	grid-column-start: 3;
+    grid-column-end: 3;
+	padding-left:10px;
+	padding-right:20px;
+	text-align:right;
+}
+
+.espace_vide{
+	height:30px;
+}
+
+/* Chaque format permet une ligne d'explications à la fin de la grille*/
+
+/*++++++++++++++++++++++++++ FORMATS 01 et 06  +++++++++++++++++++++++++++++++*/
+/*
+format01
+-------------------------
+Question                |
+-------------------------
+| Q1  | Q2  | Q3  | Q4  |
+-------------------------
+
+format06
+-------------------------
+Question                |
+-------------------------
+| Q1  | Q2  | Q3  | Q4  |
+-------------------------
+|img1 |img2 |img3 |img4 |
+-------------------------
+
+
+*/
+.format01_grille{
+	/*background-color:red;*/
+	display:grid;
+	grid-template-columns: 25% 25% 25% 25%;
+	grid-template-rows: minmax(100px, auto);
+	gap:5px;
+	font-size:200%;	
+}
+.format01_cellule_question{
+	padding-left:5px;
+	padding-top:10px;
+	padding-bottom:10px;
+	border-radius:5px;
+	background-color:#EEEEEE;
+	grid-column-start: 1;
+    grid-column-end: 5;	
+}
+.format01_cellule_explication_avec{
+	padding-left:5px;
+	padding-top:10px;
+	padding-bottom:10px;
+	border-radius:5px;
+	background-color:#66ffff;
+	grid-column-start: 1;
+    grid-column-end: 5;	
+}
+
+.format01_cellule_explication_sans{
+	padding-left:5px;
+	padding-top:10px;
+	padding-bottom:10px;
+	border-radius:5px;
+	/*background-color:#66ffff;*/
+	grid-column-start: 1;
+    grid-column-end: 5;	
+}
+
+.format01_cellule_reponse1_faux{
+	padding-left:5px;
+	border-radius:5px;
+	
+	grid-column-start: 1;
+    grid-column-end: 2;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format01_cellule_reponse1_vrai{
+	padding-left:5px;
+	border-radius:5px;
+	background-color:yellow;
+	grid-column-start: 1;
+    grid-column-end: 2;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format01_cellule_reponse2_faux{
+	padding-left:5px;
+	border-radius:5px;
+	
+	grid-column-start: 2;
+    grid-column-end: 3;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format01_cellule_reponse2_vrai{
+	padding-left:5px;
+	border-radius:5px;
+	background-color:yellow;
+	grid-column-start: 2;
+    grid-column-end: 3;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format01_cellule_reponse3_faux{
+	padding-left:5px;
+	border-radius:5px;
+	
+	grid-column-start: 3;
+    grid-column-end: 4;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format01_cellule_reponse3_vrai{
+	padding-left:5px;
+	border-radius:5px;
+	background-color:yellow;
+	grid-column-start: 3;
+    grid-column-end: 4;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format01_cellule_reponse4_faux{
+	padding-left:5px;
+	border-radius:5px;
+	
+	grid-column-start: 4;
+    grid-column-end: 5;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format01_cellule_reponse4_vrai{
+	padding-left:5px;
+	border-radius:5px;
+	background-color:yellow;
+	grid-column-start: 4;
+    grid-column-end: 5;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format01_cellule_reponse1_image_faux{
+	padding-left:5px;
+	border-radius:5px;
+	
+	grid-column-start: 1;
+    grid-column-end: 2;
+	word-break: break-all;
+    overflow-wrap: break-word;
+	font-size:100%;
+}
+.format01_cellule_reponse1_image_vrai{
+	padding-left:5px;
+	border-radius:5px;
+	background-color:yellow;
+	grid-column-start: 1;
+    grid-column-end: 2;
+	word-break: break-all;
+    overflow-wrap: break-word;
+	font-size:100%;
+}
+.format01_cellule_reponse2_image_faux{
+	padding-left:5px;
+	border-radius:5px;
+	
+	grid-column-start: 2;
+    grid-column-end: 3;
+	word-break: break-all;
+    overflow-wrap: break-word;
+	font-size:100%;
+}
+.format01_cellule_reponse2_image_vrai{
+	padding-left:5px;
+	border-radius:5px;
+	background-color:yellow;
+	grid-column-start: 2;
+    grid-column-end: 3;
+	word-break: break-all;
+    overflow-wrap: break-word;
+	font-size:100%;
+}
+.format01_cellule_reponse3_image_faux{
+	padding-left:5px;
+	border-radius:5px;
+	
+	grid-column-start: 3;
+    grid-column-end: 4;
+	word-break: break-all;
+    overflow-wrap: break-word;
+	font-size:100%;
+}
+.format01_cellule_reponse3_image_vrai{
+	padding-left:5px;
+	border-radius:5px;
+	background-color:yellow;
+	grid-column-start: 3;
+    grid-column-end: 4;
+	word-break: break-all;
+    overflow-wrap: break-word;
+	font-size:100%;
+}
+.format01_cellule_reponse4_image_faux{
+	padding-left:5px;
+	border-radius:5px;
+	
+	grid-column-start: 4;
+    grid-column-end: 5;
+	word-break: break-all;
+    overflow-wrap: break-word;
+	font-size:100%;
+}
+.format01_cellule_reponse4_image_vrai{
+	padding-left:5px;
+	border-radius:5px;
+	background-color:yellow;
+	grid-column-start: 4;
+    grid-column-end: 5;
+	word-break: break-all;
+    overflow-wrap: break-word;
+	font-size:100%;
+}
+
+/*++++++++++++++++++++++++++ FORMAT 02  +++++++++++++++++++++++++++++++*/
+/*
+-------------------------
+Question                |
+-------------------------
+| Q1   | Q2  |   graphe |
+| Q3   | Q4  |   graphe |
+-------------------------
+
+*/
+
+
+.format02_grille{
+	/*background-color:red;*/
+	display:grid;
+	grid-template-columns: 35% 35% 30%;
+	grid-template-rows: minmax(100px, auto);
+	gap:5px;
+	font-size:200%;	
+}
+.format02_cellule_question{
+	padding-left:5px;
+	padding-top:10px;
+	padding-bottom:10px;
+	border-radius:5px;
+	background-color:#EEEEEE;
+	grid-column-start: 1;
+    grid-column-end: 4;	
+}
+.format02_cellule_explication_avec{
+	padding-left:5px;
+	padding-top:10px;
+	padding-bottom:10px;
+	border-radius:5px;
+	background-color:#66ffff;
+	grid-column-start: 1;
+    grid-column-end: 4;	
+}
+
+.format02_cellule_explication_sans{
+	padding-left:5px;
+	padding-top:10px;
+	padding-bottom:10px;
+	border-radius:5px;
+	/*background-color:#66ffff;*/
+	grid-column-start: 1;
+    grid-column-end: 4;	
+}
+
+.format02_cellule_reponse1_faux{
+	padding-left:5px;
+	border-radius:5px;
+	
+	grid-column-start: 1;
+    grid-column-end: 2;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format02_cellule_reponse1_vrai{
+	padding-left:5px;
+	border-radius:5px;
+	background-color:yellow;
+	grid-column-start: 1;
+    grid-column-end: 2;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format02_cellule_reponse2_faux{
+	padding-left:5px;
+	border-radius:5px;
+	
+	grid-column-start: 2;
+    grid-column-end: 3;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format02_cellule_reponse2_vrai{
+	padding-left:5px;
+	border-radius:5px;
+	background-color:yellow;
+	grid-column-start: 2;
+    grid-column-end: 3;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format02_cellule_reponse3_faux{
+	padding-left:5px;
+	border-radius:5px;
+	
+	grid-column-start: 1;
+    grid-column-end: 2;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format02_cellule_reponse3_vrai{
+	padding-left:5px;
+	border-radius:5px;
+	background-color:yellow;
+	grid-column-start: 1;
+    grid-column-end: 2;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format02_cellule_reponse4_faux{
+	padding-left:5px;
+	border-radius:5px;
+	
+	grid-column-start: 2;
+    grid-column-end: 3;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format02_cellule_reponse4_vrai{
+	padding-left:5px;
+	border-radius:5px;
+	background-color:yellow;
+	grid-column-start: 2;
+    grid-column-end: 3;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+
+.format02_cellule_graphique{
+	font-size:100%;
+	padding:2%;
+	background-color:red;
+	grid-column-start: 3;
+    grid-column-end: 4;
+	grid-row-start:2;
+	grid-row-end:4;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+/*++++++++++++++++++++++++++ FORMAT 03  +++++++++++++++++++++++++++++++*/
+/*
+-------------------------
+Question                |
+-------------------------
+| Q1        | Q2        | 
+| Q3        | Q4        |   
+-------------------------
+
+*/
+
+
+.format03_grille{
+	/*background-color:red;*/
+	display:grid;
+	grid-template-columns: 50% 50%;
+	grid-template-rows: minmax(100px, auto);
+	gap:5px;
+	font-size:200%;	
+}
+.format03_cellule_question{
+	padding-left:5px;
+	padding-top:10px;
+	padding-bottom:10px;
+	border-radius:5px;
+	background-color:#EEEEEE;
+	grid-column-start: 1;
+    grid-column-end: 3;	
+}
+.format03_cellule_explication_avec{
+	padding-left:5px;
+	padding-top:10px;
+	padding-bottom:10px;
+	border-radius:5px;
+	background-color:#66ffff;
+	grid-column-start: 1;
+    grid-column-end: 3;	
+}
+
+.format03_cellule_explication_sans{
+	padding-left:5px;
+	padding-top:10px;
+	padding-bottom:10px;
+	border-radius:5px;
+	/*background-color:#66ffff;*/
+	grid-column-start: 1;
+    grid-column-end: 3;	
+}
+
+.format03_cellule_reponse1_faux{
+	padding-left:5px;
+	border-radius:5px;
+	
+	grid-column-start: 1;
+    grid-column-end: 2;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format03_cellule_reponse1_vrai{
+	padding-left:5px;
+	border-radius:5px;
+	background-color:yellow;
+	grid-column-start: 1;
+    grid-column-end: 2;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format03_cellule_reponse2_faux{
+	padding-left:5px;
+	border-radius:5px;
+	
+	grid-column-start: 2;
+    grid-column-end: 3;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format03_cellule_reponse2_vrai{
+	padding-left:5px;
+	border-radius:5px;
+	background-color:yellow;
+	grid-column-start: 2;
+    grid-column-end: 3;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format03_cellule_reponse3_faux{
+	padding-left:5px;
+	border-radius:5px;
+	
+	grid-column-start: 1;
+    grid-column-end: 2;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format03_cellule_reponse3_vrai{
+	padding-left:5px;
+	border-radius:5px;
+	background-color:yellow;
+	grid-column-start: 1;
+    grid-column-end: 2;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format03_cellule_reponse4_faux{
+	padding-left:5px;
+	border-radius:5px;
+	
+	grid-column-start: 2;
+    grid-column-end: 3;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format03_cellule_reponse4_vrai{
+	padding-left:5px;
+	border-radius:5px;
+	background-color:yellow;
+	grid-column-start: 2;
+    grid-column-end: 3;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+/*++++++++++++++++++++++++++ FORMAT 04  +++++++++++++++++++++++++++++++*/
+
+/*
+-------------------------
+Question                |
+-------------------------
+| Q1                    | 
+| Q2                    |
+| Q3                    | 
+| Q4                    |
+-------------------------
+
+*/
+
+
+.format04_grille{
+	/*background-color:red;*/
+	display:grid;
+	grid-template-columns: 100%;
+	grid-template-rows: minmax(100px, auto);
+	gap:5px;
+	font-size:200%;	
+}
+.format04_cellule_question{
+	padding-left:5px;
+	padding-top:10px;
+	padding-bottom:10px;
+	border-radius:5px;
+	background-color:#EEEEEE;
+	grid-column-start: 1;
+    grid-column-end: 2;	
+}
+.format04_cellule_explication_avec{
+	padding-left:5px;
+	padding-top:10px;
+	padding-bottom:10px;
+	border-radius:5px;
+	background-color:#66ffff;
+	grid-column-start: 1;
+    grid-column-end: 2;	
+}
+
+.format04_cellule_explication_sans{
+	padding-left:5px;
+	padding-top:10px;
+	padding-bottom:10px;
+	border-radius:5px;
+	/*background-color:#66ffff;*/
+	grid-column-start: 1;
+    grid-column-end: 2;		
+}
+
+.format04_cellule_reponse1_faux{
+	padding-left:5px;
+	border-radius:5px;
+	
+	grid-column-start: 1;
+    grid-column-end: 2;	
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format04_cellule_reponse1_vrai{
+	padding-left:5px;
+	border-radius:5px;
+	background-color:yellow;
+	grid-column-start: 1;
+    grid-column-end: 2;		
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format04_cellule_reponse2_faux{
+	padding-left:5px;
+	border-radius:5px;
+	
+	grid-column-start: 1;
+    grid-column-end: 2;	
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format04_cellule_reponse2_vrai{
+	padding-left:5px;
+	border-radius:5px;
+	background-color:yellow;
+	grid-column-start: 1;
+    grid-column-end: 2;		
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format04_cellule_reponse3_faux{
+	padding-left:5px;
+	border-radius:5px;
+	
+	grid-column-start: 1;
+    grid-column-end: 2;		
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format04_cellule_reponse3_vrai{
+	padding-left:5px;
+	border-radius:5px;
+	background-color:yellow;
+	grid-column-start: 1;
+    grid-column-end: 2;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format04_cellule_reponse4_faux{
+	padding-left:5px;
+	border-radius:5px;
+	
+	grid-column-start: 1;
+    grid-column-end: 2;	
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format04_cellule_reponse4_vrai{
+	padding-left:5px;
+	border-radius:5px;
+	background-color:yellow;
+	grid-column-start: 1;
+    grid-column-end: 2;	
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+
+/*++++++++++++++++++++++++++ FORMAT 05  +++++++++++++++++++++++++++++++*/
+
+/*
+-------------------------
+Question                |
+-------------------------
+| Q1         | graphe   | 
+| Q2         | graphe   | 
+| Q3         | graphe   | 
+| Q4         | graphe   | 
+-------------------------
+
+*/
+
+
+.format05_grille{
+	/*background-color:red;*/
+	display:grid;
+	grid-template-columns: 70% 30%;
+	grid-template-rows: minmax(100px, auto);
+	gap:5px;
+	font-size:200%;	
+}
+.format05_cellule_question{
+	padding-left:5px;
+	padding-top:10px;
+	padding-bottom:10px;
+	border-radius:5px;
+	background-color:#EEEEEE;
+	grid-column-start: 1;
+    grid-column-end: 3;	
+}
+.format05_cellule_explication_avec{
+	padding-left:5px;
+	padding-top:10px;
+	padding-bottom:10px;
+	border-radius:5px;
+	background-color:#66ffff;
+	grid-column-start: 1;
+    grid-column-end: 3;	
+}
+
+.format05_cellule_explication_sans{
+	padding-left:5px;
+	padding-top:10px;
+	padding-bottom:10px;
+	border-radius:5px;
+	/*background-color:#66ffff;*/
+	grid-column-start: 1;
+    grid-column-end: 3;		
+}
+
+.format05_cellule_reponse1_faux{
+	padding-left:5px;
+	border-radius:5px;
+	
+	grid-column-start: 1;
+    grid-column-end: 2;	
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format05_cellule_reponse1_vrai{
+	padding-left:5px;
+	border-radius:5px;
+	background-color:yellow;
+	grid-column-start: 1;
+    grid-column-end: 2;		
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format05_cellule_reponse2_faux{
+	padding-left:5px;
+	border-radius:5px;
+	
+	grid-column-start: 1;
+    grid-column-end: 2;	
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format05_cellule_reponse2_vrai{
+	padding-left:5px;
+	border-radius:5px;
+	background-color:yellow;
+	grid-column-start: 1;
+    grid-column-end: 2;		
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format05_cellule_reponse3_faux{
+	padding-left:5px;
+	border-radius:5px;
+	
+	grid-column-start: 1;
+    grid-column-end: 2;		
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format05_cellule_reponse3_vrai{
+	padding-left:5px;
+	border-radius:5px;
+	background-color:yellow;
+	grid-column-start: 1;
+    grid-column-end: 2;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format05_cellule_reponse4_faux{
+	padding-left:5px;
+	border-radius:5px;
+	
+	grid-column-start: 1;
+    grid-column-end: 2;	
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format05_cellule_reponse4_vrai{
+	padding-left:5px;
+	border-radius:5px;
+	background-color:yellow;
+	grid-column-start: 1;
+    grid-column-end: 2;	
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
+.format05_cellule_graphique{
+	font-size:100%;
+	padding:2%;
+	background-color:red;
+	grid-column-start: 2;
+    grid-column-end: 3;
+	grid-row-start:2;
+	grid-row-end:6;
+	word-break: break-all;
+    overflow-wrap: break-word;
+}
