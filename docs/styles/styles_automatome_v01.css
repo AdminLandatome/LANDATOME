@@ -440,7 +440,7 @@ Question                |
 .format02_cellule_graphique{
 	font-size:100%;
 	padding:2%;
-	background-color:red;
+	/*background-color:red;*/
 	grid-column-start: 3;
     grid-column-end: 4;
 	grid-row-start:2;
@@ -854,7 +854,7 @@ Question                |
 .format05_cellule_graphique{
 	font-size:100%;
 	padding:2%;
-	background-color:red;
+	/*background-color:red;*/
 	grid-column-start: 2;
     grid-column-end: 3;
 	grid-row-start:2;
