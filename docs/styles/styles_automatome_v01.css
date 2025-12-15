@@ -14,6 +14,7 @@
 	font-variant:small-caps;
 	font-style:italic;
 	text-align:center;
+	
 }
 
 .titre_page a {
@@ -95,7 +96,8 @@ Question                |
 	grid-template-rows: minmax(100px, auto);
 	gap:5px;
 	font-size:200%;	
-
+    margin-left:5%;
+	margin-right:5%;
 }
 .format01_cellule_question{
 	padding-left:5px;
@@ -323,6 +325,8 @@ Question                |
 	grid-template-rows: minmax(100px, auto);
 	gap:5px;
 	font-size:200%;	
+	margin-left:5%;
+	margin-right:5%;
 }
 .format02_cellule_question{
 	padding-left:5px;
@@ -467,6 +471,8 @@ Question                |
 	grid-template-rows: minmax(100px, auto);
 	gap:5px;
 	font-size:200%;	
+	margin-left:5%;
+	margin-right:5%;
 }
 .format03_cellule_question{
 	padding-left:5px;
@@ -601,7 +607,9 @@ Question                |
 	grid-template-columns: 100%;
 	grid-template-rows: minmax(100px, auto);
 	gap:5px;
-	font-size:200%;	
+	font-size:200%;
+    margin-left:5%;
+	margin-right:5%;	
 }
 .format04_cellule_question{
 	padding-left:5px;
@@ -737,7 +745,9 @@ Question                |
 	grid-template-columns: 70% 30%;
 	grid-template-rows: minmax(100px, auto);
 	gap:5px;
-	font-size:200%;	
+	font-size:200%;
+    margin-left:5%;
+	margin-right:5%;	
 }
 .format05_cellule_question{
 	padding-left:5px;
