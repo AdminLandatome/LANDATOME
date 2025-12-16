@@ -6,6 +6,8 @@
 	font-variant:small-caps;
 	font-style:italic;
 	text-align:center;
+	margin-left:5%;
+	margin-right:5%;	
 }
 .consigne{
 	background-color:#AAAAAA;
@@ -14,7 +16,8 @@
 	font-variant:small-caps;
 	font-style:italic;
 	text-align:center;
-	
+	margin-left:5%;
+	margin-right:5%;	
 }
 
 .titre_page a {
@@ -34,6 +37,8 @@
 	font-size:200%;	
     word-break: break-all;
     overflow-wrap: break-word;
+	margin-left:5%;
+	margin-right:5%;
 }
 .titre_page_cellule_gauche{
 	grid-column-start: 1;
