@@ -2,10 +2,11 @@
 .titre_annonce{
 	background-color:#AAAAAA;
 	border-radius:5px;
-	font-size : 800%;
+	font-size : 600%;
 	font-variant:small-caps;
 	font-style:italic;
 	text-align:center;
+	margin-top:1%;
 	margin-left:5%;
 	margin-right:5%;	
 }
@@ -16,6 +17,7 @@
 	font-variant:small-caps;
 	font-style:italic;
 	text-align:center;
+	margin-top:1%;
 	margin-left:5%;
 	margin-right:5%;	
 }
@@ -37,6 +39,7 @@
 	font-size:200%;	
     word-break: break-all;
     overflow-wrap: break-word;
+	margin-top:1%;
 	margin-left:5%;
 	margin-right:5%;
 }
@@ -102,7 +105,8 @@ Question                |
 	gap:5px;
 	font-size:200%;	
     margin-left:5%;
-	margin-right:5%;
+	margin-right:5;
+	margin-bottom:1%;
 }
 .format01_cellule_question{
 	padding-left:5px;
@@ -332,6 +336,7 @@ Question                |
 	font-size:200%;	
 	margin-left:5%;
 	margin-right:5%;
+	margin-bottom:1%;
 }
 .format02_cellule_question{
 	padding-left:5px;
@@ -355,6 +360,7 @@ Question                |
 }
 
 .format02_cellule_explication_sans{
+	display:none;
 	padding-left:5px;
 	padding-right:5px;
 	padding-top:10px;
@@ -478,6 +484,7 @@ Question                |
 	font-size:200%;	
 	margin-left:5%;
 	margin-right:5%;
+	margin-bottom:1%;
 }
 .format03_cellule_question{
 	padding-left:5px;
@@ -501,6 +508,7 @@ Question                |
 }
 
 .format03_cellule_explication_sans{
+	display:none;
 	padding-left:5px;
 	padding-right:5px;
 	padding-top:10px;
@@ -614,7 +622,8 @@ Question                |
 	gap:5px;
 	font-size:200%;
     margin-left:5%;
-	margin-right:5%;	
+	margin-right:5%;
+margin-bottom:1%;	
 }
 .format04_cellule_question{
 	padding-left:5px;
@@ -638,6 +647,7 @@ Question                |
 }
 
 .format04_cellule_explication_sans{
+	display:none;
 	padding-left:5px;
 	padding-right:5px;
 	padding-top:10px;
@@ -752,7 +762,8 @@ Question                |
 	gap:5px;
 	font-size:200%;
     margin-left:5%;
-	margin-right:5%;	
+	margin-right:5%;
+    margin-bottom:1%;	
 }
 .format05_cellule_question{
 	padding-left:5px;
@@ -776,6 +787,7 @@ Question                |
 }
 
 .format05_cellule_explication_sans{
+	display:none;
 	padding-left:5px;
 	padding-right:5px;
 	padding-top:10px;
