@@ -1,66 +1,105 @@
 const questionsData = [
     {
         q: "Quelle est la propriété fondamentale définissant la fonction exponentielle ?",
-        options: ["f'(x) = f(x) et f(0) = 1", "f'(x) = f(x) et f(0) = 0", "Elle est toujours négative", "Elle est décroissante"],
-        correct: "f'(x) = f(x) et f(0) = 1", // On stocke le texte pour vérifier après mélange
-        expl: "D'après l'introduction du cours, l'existence de l'exponentielle repose sur cette équation différentielle précise."
+        options: [
+            "\\( f'(x) = f(x) \\) et \\( f(0) = 1 \\)", 
+            "\\( f'(x) = f(x) \\) et \\( f(0) = 0 \\)", 
+            "Elle est toujours négative", 
+            "Elle est décroissante sur \\( \\mathbb{R} \\)"
+        ],
+        correct: "\\( f'(x) = f(x) \\) et \\( f(0) = 1 \\)",
+        expl: "C'est la définition même du cours : l'exponentielle est l'unique fonction égale à sa dérivée qui vaut 1 en 0."
     },
     {
-        q: "Pour tous réels a et b, exp(a + b) est égal à :",
-        options: ["exp(a) + exp(b)", "exp(a) * exp(b)", "exp(a * b)", "exp(a) - exp(b)"],
-        correct: "exp(a) * exp(b)",
-        expl: "C'est la 'Relation Fonctionnelle'. L'exponentielle transforme une somme en produit."
+        q: "Pour tous réels \\( a \\) et \\( b \\), \\( \\exp(a + b) \\) est égal à :",
+        options: [
+            "\\( \\exp(a) \\times \\exp(b) \\)", 
+            "\\( \\exp(a) + \\exp(b) \\)", 
+            "\\( \\exp(a \\times b) \\)", 
+            "\\( \\exp(a) - \\exp(b) \\)"
+        ],
+        correct: "\\( \\exp(a) \\times \\exp(b) \\)",
+        expl: "C'est la relation fonctionnelle de base : l'exponentielle transforme une somme en produit."
     },
     {
-        q: "Quel est le signe de exp(x) sur R ?",
-        options: ["Toujours négatif", "Nul en 0", "Strictement positif", "Dépend de x"],
-        correct: "Strictement positif",
-        expl: "Le cours démontre (Propriété n°6) que pour tout x, exp(x) > 0."
+        q: "Que peut-on dire du signe de \\( e^x \\) pour tout réel \\( x \\) ?",
+        options: [
+            "\\( e^x > 0 \\)", 
+            "\\( e^x \\ge 0 \\)", 
+            "\\( e^x < 0 \\) si \\( x < 0 \\)", 
+            "Le signe dépend de \\( x \\)"
+        ],
+        correct: "\\( e^x > 0 \\)",
+        expl: "La fonction exponentielle est strictement positive sur tout \\( \\mathbb{R} \\) (Propriété n°6 du cours)."
     },
     {
-        q: "Simplifiez (e^x)^3 * e^(-2x) :",
-        options: ["e^x", "e^5x", "e^(-6x)", "e^(x^3)"],
-        correct: "e^x",
-        expl: "(e^x)^3 = e^(3x). Ensuite, e^(3x) * e^(-2x) = e^(3x-2x) = e^x."
+        q: "Simplifiez l'expression : \\( (e^x)^3 \\times e^{-2x} \\)",
+        options: [
+            "\\( e^x \\)", 
+            "\\( e^{5x} \\)", 
+            "\\( e^{-6x} \\)", 
+            "\\( e^{x^3} \\)"
+        ],
+        correct: "\\( e^x \\)",
+        expl: "\\( (e^x)^3 = e^{3x} \\). Ensuite, \\( e^{3x} \\times e^{-2x} = e^{3x-2x} = e^x \\)."
     },
     {
-        q: "Valeur approchée de e (exp(1)) :",
-        options: ["3,14", "1,41", "2,72", "0,54"],
+        q: "Quelle est la valeur approchée du nombre \\( e \\) (ou \\( \\exp(1) \\)) ?",
+        options: ["2,72", "3,14", "1,41", "0,54"],
         correct: "2,72",
-        expl: "e est la base de l'exponentielle, environ 2,718."
+        expl: "\\( e \\) est la constante d'Euler, environ égale à 2,718."
     },
     {
-        q: "Résolution de e^(2x - 4) = 1 :",
-        options: ["x = 0", "x = 4", "x = 2", "Pas de solution"],
-        correct: "x = 2",
-        expl: "e^A = 1 signifie A = 0. Donc 2x - 4 = 0 => x = 2."
+        q: "Résolvez l'équation \\( e^{2x - 4} = 1 \\) :",
+        options: [
+            "\\( x = 2 \\)", 
+            "\\( x = 4 \\)", 
+            "\\( x = 0 \\)", 
+            "Pas de solution"
+        ],
+        correct: "\\( x = 2 \\)",
+        expl: "\\( e^A = 1 \\) signifie que \\( A = 0 \\). Donc \\( 2x - 4 = 0 \\) donne \\( x = 2 \\)."
     },
     {
-        q: "Dérivée de f(x) = e^x - x :",
-        options: ["e^x - 1", "e^x", "xe^(x-1)", "e^x + 1"],
-        correct: "e^x - 1",
-        expl: "La dérivée de e^x est e^x, et la dérivée de -x est -1."
+        q: "Quelle est la dérivée de la fonction \\( f \\) définie par \\( f(x) = e^x - x \\) ?",
+        options: [
+            "\\( f'(x) = e^x - 1 \\)", 
+            "\\( f'(x) = e^x \\)", 
+            "\\( f'(x) = xe^{x-1} - 1 \\)", 
+            "\\( f'(x) = e^x + 1 \\)"
+        ],
+        correct: "\\( f'(x) = e^x - 1 \\)",
+        expl: "La dérivée de \\( e^x \\) est \\( e^x \\) et celle de \\( -x \\) est \\( -1 \\)."
     },
     {
-        q: "Nombre de solutions de e^x < 0 :",
-        options: ["Une seule", "Aucune", "Infinité", "Toutes"],
+        q: "L'inéquation \\( e^x < 0 \\) possède combien de solutions ?",
+        options: ["Aucune", "Une seule", "Une infinité", "Toutes"],
         correct: "Aucune",
-        expl: "L'exponentielle étant strictement positive, elle ne peut jamais être inférieure à 0."
+        expl: "Comme \\( e^x \\) est toujours strictement positif, il ne peut jamais être inférieur à 0."
     },
     {
-        q: "e^(a-b) est égal à :",
-        options: ["e^a - e^b", "e^a / e^b", "1 / e^(a+b)", "e^a * e^(-b)"],
-        correct: "e^a / e^b",
-        expl: "La soustraction à l'exposant correspond à la division des puissances."
+        q: "L'expression \\( e^{a-b} \\) est égale à :",
+        options: [
+            "\\( \\frac{e^a}{e^b} \\)", 
+            "\\( e^a - e^b \\)", 
+            "\\( \\frac{1}{e^{a+b}} \\)", 
+            "\\( e^a \\times e^b \\)"
+        ],
+        correct: "\\( \\frac{e^a}{e^b} \\)",
+        expl: "La différence à l'exposant correspond au quotient des exponentielles."
     },
     {
-        q: "Si a < b, alors :",
-        options: ["e^a < e^b", "e^a > e^b", "e^a = e^b", "On ne sait pas"],
-        correct: "e^a < e^b",
-        expl: "La fonction exponentielle est strictement croissante sur R, elle conserve donc l'ordre."
+        q: "Si \\( a < b \\), que peut-on dire de \\( e^a \\) et \\( e^b \\) ?",
+        options: [
+            "\\( e^a < e^b \\)", 
+            "\\( e^a > e^b \\)", 
+            "\\( e^a = e^b \\)", 
+            "On ne peut pas conclure"
+        ],
+        correct: "\\( e^a < e^b \\)",
+        expl: "La fonction exponentielle est strictement croissante sur \\( \\mathbb{R} \\), elle conserve donc l'ordre."
     }
 ];
-
 // Fonction pour mélanger un tableau (Algorithme de Fisher-Yates)
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -95,6 +134,9 @@ questionsData.forEach((item, index) => {
         </ul>`;
     quizContainer.appendChild(qDiv);
 });
+if (window.MathJax) {
+    MathJax.typesetPromise();
+}
 
 function calculateScore() {
     let score = 0;
@@ -121,4 +163,7 @@ function calculateScore() {
     document.getElementById('results').classList.remove('hidden');
     document.getElementById('submit-btn').classList.add('hidden');
     window.scrollTo(0, document.body.scrollHeight);
+	if (window.MathJax) {
+    MathJax.typesetPromise();
+}
 }
