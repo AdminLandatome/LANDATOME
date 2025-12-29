@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TABLEAUX CROISÉS, FRÉQUENCES M02</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        /* RESET & BASE RESPONSIVE */
+        body {
+            margin: 0;
+            padding: 10px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            border-radius: 4px;
+        }
+
+        /* TITRE DE PAGE */
+        .titre_de_page {
+            background-color: #DDDDDD;
+            text-align: center;
+            font-weight: bold;
+            font-variant: small-caps;
+            font-size: 1.6rem;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 2px;
+        }
+
+        /* EN-TÊTE D'EXERCICE (GRILLE) */
+        .grille_entete_exo {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            margin-top: 40px;
+            background-color: #DDDDDD;
+            border-radius: 2px;
+        }
+
+        .numero_exo {
+            padding: 8px 15px;
+            font-variant: small-caps;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-right: 1px solid #ccc;
+        }
+
+        .titre_exo {
+            padding: 8px 15px;
+            font-style: italic;
+            font-size: 1.2rem;
+        }
+
+        /* CORPS DE L'EXERCICE */
+        .consigne {
+            background-color: #FFFFFF; /* Fond blanc demandé */
+            padding: 15px 5px;
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+
+        .grille_question_une_colonne {
+            display: grid;
+            grid-template-columns: 35px auto;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .cellule_question {
+            font-size: 1.05rem;
+        }
+
+        /* TABLEAUX RESPONSIVE */
+        .table-responsive {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            min-width: 450px;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f9f9f9;
+            font-weight: bold;
+        }
+
+        /* CORRIGÉS INTERACTIFS */
+        .style_reponse {
+            background-color: #ffff00; /* Jaune selon style fourni */
+            display: none;
+            padding: 12px;
+            margin-top: 10px;
+            border: 1px dashed #333;
+            font-style: italic;
+        }
+
+        .btn-corrige {
+            font-size: 0.85rem;
+            color: #0066cc;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-left: 10px;
+            display: inline-block;
+        }
+
+        /* ADAPTATION MOBILE */
+        @media (max-width: 600px) {
+            .grille_entete_exo {
+                grid-template-columns: 1fr;
+            }
+            .numero_exo {
+                border-right: none;
+                border-bottom: 1px solid #ccc;
+            }
+            .titre_de_page {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* STYLE IMPRESSION */
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; max-width: 100%; }
+            .btn-corrige { display: none; }
+            .style_reponse { display: block !important; border: 1px solid #ccc; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="titre_de_page">Tableaux croisés, fréquences M02</div>
+
+    <div class="grille_entete_exo">
+        <div class="numero_exo">Exercice n°1</div>
+        <div class="titre_exo">Lycée "Belle-Vue"</div>
+    </div>
+    
+    <div class="consigne">
+        Le tableau suivant présente les effectifs des élèves de Terminale dans un lycée.
+    </div>
+    
+    <div class="table-responsive">
+        <table>
+            <tr>
+                <th>Filières / Sexe</th>
+                <th>Filles (\(y_1\))</th>
+                <th>Garçons (\(y_2\))</th>
+                <th>Total</th>
+            </tr>
+            <tr>
+                <td>T. Générale (\(x_1\))</td>
+                <td>120</td>
+                <td>80</td>
+                <td>200</td>
+            </tr>
+            <tr>
+                <td>T. STMG (\(x_2\))</td>
+                <td>45</td>
+                <td>55</td>
+                <td>100</td>
+            </tr>
+            <tr>
+                <td>T. STI2D (\(x_3\))</td>
+                <td>12</td>
+                <td>48</td>
+                <td>60</td>
+            </tr>
+            <tr>
+                <td><strong>Total</strong></td>
+                <td><strong>177</strong></td>
+                <td><strong>183</strong></td>
+                <td><strong>360</strong></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="grille_question_une_colonne">
+        <div class="cellule_question">1)</div>
+        <div class="cellule_question">
+            Établir le tableau des fréquences par rapport à l'effectif global (arrondir à 0,01).
+            <span class="btn-corrige" onclick="toggle('r1_1')">Voir le corrigé</span>
+            <div id="r1_1" class="style_reponse">
+                Fréquences globales (Effectif / 360) : <br>
+                - Générale : Filles 0,33 | Garçons 0,22 | Total 0,55 <br>
+                - STMG : Filles 0,13 | Garçons 0,15 | Total 0,28 <br>
+                - STI2D : Filles 0,03 | Garçons 0,13 | Total 0,16
+            </div>
+        </div>
+    </div>
+
+    <div class="grille_question_une_colonne">
+        <div class="cellule_question">2)</div>
+        <div class="cellule_question">
+            Donner \(Card(x_2 \cap y_1)\). Interpréter ce résultat.
+            <span class="btn-corrige" onclick="toggle('r1_2')">Voir le corrigé</span>
+            <div id="r1_2" class="style_reponse">
+                \(Card(x_2 \cap y_1) = 45\). Cela signifie qu'il y a 45 filles dans la filière Terminale STMG.
+            </div>
+        </div>
+    </div>
+
+    <div class="grille_entete_exo">
+        <div class="numero_exo">Exercice n°2</div>
+        <div class="titre_exo">Sommeil et Irritabilité</div>
+    </div>
+    
+    <div class="consigne">
+        Une étude est menée sur 500 individus pour observer l'impact du temps de sommeil sur l'irritabilité.
+    </div>
+    
+    <div class="table-responsive">
+        <table>
+            <tr>
+                <th></th>
+                <th>Moins de 6h</th>
+                <th>Plus de 6h</th>
+                <th>TOTAL</th>
+            </tr>
+            <tr>
+                <td>Sujets irritables</td>
+                <td>180</td>
+                <td>70</td>
+                <td>250</td>
+            </tr>
+            <tr>
+                <td>Sujets non irritables</td>
+                <td>50</td>
+                <td>200</td>
+                <td>250</td>
+            </tr>
+            <tr>
+                <td>TOTAL</td>
+                <td>230</td>
+                <td>270</td>
+                <td>500</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="grille_question_une_colonne">
+        <div class="cellule_question">1)</div>
+        <div class="cellule_question">
+            Quel est le pourcentage de sujets irritables dormant moins de 6h par rapport au total ?
+            <span class="btn-corrige" onclick="toggle('r2_1')">Voir le corrigé</span>
+            <div id="r2_1" class="style_reponse">
+                Calcul : \(\frac{180}{500} = 0,36\), soit \(36\%\).
+            </div>
+        </div>
+    </div>
+
+    <div class="grille_question_une_colonne">
+        <div class="cellule_question">2)</div>
+        <div class="cellule_question">
+            Donner une interprétation du nombre "200" dans le contexte de l'exercice.
+            <span class="btn-corrige" onclick="toggle('r2_2')">Voir le corrigé</span>
+            <div id="r2_2" class="style_reponse">
+                Le nombre 200 représente les individus qui dorment plus de 6 heures par nuit et qui ne présentent pas de signes d'irritabilité.
+            </div>
+        </div>
+    </div>
+
+    <div class="grille_entete_exo">
+        <div class="numero_exo">Exercice n°3</div>
+        <div class="titre_exo">Musée du Louvre</div>
+    </div>
+
+    <div class="consigne">
+        En 2019, le Louvre a accueilli 26 300 visiteurs par jour. 70% sont étrangers. 
+        Parmi les étrangers, 80% visitent la collection "Peintures", contre 40% chez les Français.
+    </div>
+
+    <div class="grille_question_une_colonne">
+        <div class="cellule_question">1)</div>
+        <div class="cellule_question">
+            Calculer le nombre quotidien de visiteurs étrangers et de visiteurs français.
+            <span class="btn-corrige" onclick="toggle('r3_1')">Voir le corrigé</span>
+            <div id="r3_1" class="style_reponse">
+                - Étrangers : \(26\,300 \times 0,70 = 18\,410\) visiteurs. <br>
+                - Français : \(26\,300 - 18\,410 = 7\,890\) visiteurs.
+            </div>
+        </div>
+    </div>
+
+    <div class="grille_question_une_colonne">
+        <div class="cellule_question">2)</div>
+        <div class="cellule_question">
+            Quelle est la fréquence globale de Français visitant d'autres collections que les "Peintures" ?
+            <span class="btn-corrige" onclick="toggle('r3_2')">Voir le corrigé</span>
+            <div id="r3_2" class="style_reponse">
+                Nombre de Français (autres) : \(7\,890 \times 0,60 = 4\,734\). <br>
+                Fréquence : \(\frac{4\,734}{26\,300} \approx 0,18\).
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggle(id) {
+        var e = document.getElementById(id);
+        if(e.style.display === 'block') {
+            e.style.display = 'none';
+        } else {
+            e.style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>

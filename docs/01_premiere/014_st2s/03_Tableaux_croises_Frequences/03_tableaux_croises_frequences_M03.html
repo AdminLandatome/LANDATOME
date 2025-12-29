@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TABLEAUX CROISÉS, FRÉQUENCES M03</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 10px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        .titre_de_page {
+            background-color: #DDDDDD;
+            text-align: center;
+            font-weight: bold;
+            font-variant: small-caps;
+            font-size: 1.6rem;
+            padding: 15px;
+            margin-bottom: 30px;
+        }
+
+        .grille_entete_exo {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            margin-top: 40px;
+            background-color: #DDDDDD;
+        }
+
+        .numero_exo {
+            padding: 8px 15px;
+            font-variant: small-caps;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-right: 1px solid #ccc;
+        }
+
+        .titre_exo {
+            padding: 8px 15px;
+            font-style: italic;
+            font-size: 1.2rem;
+        }
+
+        .consigne {
+            background-color: #FFFFFF;
+            padding: 15px 5px;
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+
+        .grille_question_une_colonne {
+            display: grid;
+            grid-template-columns: 35px auto;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            min-width: 450px;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th { background-color: #f9f9f9; }
+
+        .style_reponse {
+            background-color: #ffff00;
+            display: none;
+            padding: 12px;
+            margin-top: 10px;
+            border: 1px dashed #333;
+            font-style: italic;
+        }
+
+        .btn-corrige {
+            font-size: 0.85rem;
+            color: #0066cc;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-left: 10px;
+            display: inline-block;
+        }
+
+        @media (max-width: 600px) {
+            .grille_entete_exo { grid-template-columns: 1fr; }
+            .numero_exo { border-right: none; border-bottom: 1px solid #ccc; }
+        }
+
+        @media print {
+            .btn-corrige { display: none; }
+            .style_reponse { display: block !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="titre_de_page">Tableaux croisés, fréquences M03</div>
+
+    <div class="grille_entete_exo">
+        <div class="numero_exo">Exercice n°1</div>
+        <div class="titre_exo">Compétition de Natation</div>
+    </div>
+    
+    <div class="consigne">
+        Lors d'une compétition régionale, on compte 150 nageurs. 60 sont des femmes. 
+        Parmi ces femmes, 45 sont inscrites en club. Chez les hommes, 65 sont inscrits en club.
+    </div>
+
+    <div class="grille_question_une_colonne">
+        <div class="cellule_question">1)</div>
+        <div class="cellule_question">
+            Construire un tableau croisé d'effectifs complet.
+            <span class="btn-corrige" onclick="toggle('r1_1')">Voir le corrigé</span>
+            <div id="r1_1" class="style_reponse">
+                <table>
+                    <tr><th></th><th>En club</th><th>Hors club</th><th>Total</th></tr>
+                    <tr><td>Femmes</td><td>45</td><td>15</td><td>60</td></tr>
+                    <tr><td>Hommes</td><td>65</td><td>25</td><td>90</td></tr>
+                    <tr><td>Total</td><td>110</td><td>40</td><td>150</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="grille_entete_exo">
+        <div class="numero_exo">Exercice n°2</div>
+        <div class="titre_exo">Enquête de satisfaction</div>
+    </div>
+    
+    <div class="consigne">
+        Un centre de vacances interroge 200 clients. 80 logent en Bungalow, 70 en Emplacement tente, les autres en Studio. 
+        On relève 140 avis "Satisfaits". 
+        - En Studio, 45 sont satisfaits et 2 sont indifférents. 
+        - En Tente, 15 sont mécontents. Il y a 2 fois plus de satisfaits que de mécontents dans ce groupe. 
+        - Tous les clients en Bungalow sont satisfaits.
+    </div>
+
+    <div class="grille_question_une_colonne">
+        <div class="cellule_question">1)</div>
+        <div class="cellule_question">
+            Construire le tableau croisé d'effectifs contenant les effectifs marginaux.
+            <span class="btn-corrige" onclick="toggle('r2_1')">Voir le corrigé</span>
+            <div id="r2_1" class="style_reponse">
+                <p>Analyse : Studios = 200 - 80 - 70 = 50. Tentes : 15 mécontents donc 30 satisfaits. Bungalows : 80 satisfaits.</p>
+                <div class="table-responsive">
+                    <table>
+                        <tr>
+                            <th>Lieu / Avis</th>
+                            <th>Satisfait</th>
+                            <th>Mécontent</th>
+                            <th>Indifférent</th>
+                            <th>Total</th>
+                        </tr>
+                        <tr>
+                            <td>Bungalow</td>
+                            <td>80</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>80</td>
+                        </tr>
+                        <tr>
+                            <td>Tente</td>
+                            <td>30</td>
+                            <td>15</td>
+                            <td>25</td>
+                            <td>70</td>
+                        </tr>
+                        <tr>
+                            <td>Studio</td>
+                            <td>45</td>
+                            <td>3</td>
+                            <td>2</td>
+                            <td>50</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total</strong></td>
+                            <td><strong>155</strong></td>
+                            <td><strong>18</strong></td>
+                            <td><strong>27</strong></td>
+                            <td><strong>200</strong></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grille_question_une_colonne">
+        <div class="cellule_question">2)</div>
+        <div class="cellule_question">
+            Donner le tableau des fréquences conditionnelles de l'avis par rapport au lieu de logement.
+            <span class="btn-corrige" onclick="toggle('r2_2')">Voir le corrigé</span>
+            <div id="r2_2" class="style_reponse">
+                <table>
+                    <tr><th>Lieu</th><th>Satisfait</th><th>Mécontent</th><th>Indifférent</th><th>Total</th></tr>
+                    <tr><td>Bungalow</td><td>1,00</td><td>0,00</td><td>0,00</td><td>1,00</td></tr>
+                    <tr><td>Tente</td><td>0,43</td><td>0,21</td><td>0,36</td><td>1,00</td></tr>
+                    <tr><td>Studio</td><td>0,90</td><td>0,06</td><td>0,04</td><td>1,00</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="grille_entete_exo">
+        <div class="numero_exo">Exercice n°3</div>
+        <div class="titre_exo">Salon de Thé</div>
+    </div>
+
+    <div class="consigne">
+        40 clients sont présents. Ils peuvent commander un Thé (T) et/ou une Pâtisserie (P).
+        1/4 des clients ne prennent pas de pâtisserie. 
+        75% des clients prennent un thé. 
+        2 clients prennent une pâtisserie mais pas de thé.
+    </div>
+
+    <div class="grille_question_une_colonne">
+        <div class="cellule_question">1)</div>
+        <div class="cellule_question">
+            Reproduire et compléter le tableau croisé d'effectifs suivant.
+            <span class="btn-corrige" onclick="toggle('r3_1')">Voir le corrigé</span>
+            <div id="r3_1" class="style_reponse">
+                <table>
+                    <tr><th></th><th>\(T\)</th><th>\(\bar{T}\)</th><th>Total</th></tr>
+                    <tr><th>\(P\)</th><td>28</td><td>2</td><td>30</td></tr>
+                    <tr><th>\(\bar{P}\)</th><td>2</td><td>8</td><td>10</td></tr>
+                    <tr><th>Total</th><td>30</td><td>10</td><td>40</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggle(id) {
+        var e = document.getElementById(id);
+        e.style.display = (e.style.display === 'block') ? 'none' : 'block';
+    }
+</script>
+
+</body>
+</html>

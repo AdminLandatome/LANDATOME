@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TABLEAUX CROISÉS, FRÉQUENCES M04</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 10px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        .titre_de_page {
+            background-color: #DDDDDD;
+            text-align: center;
+            font-weight: bold;
+            font-variant: small-caps;
+            font-size: 1.6rem;
+            padding: 15px;
+            margin-bottom: 30px;
+        }
+
+        .grille_entete_exo {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            margin-top: 40px;
+            background-color: #DDDDDD;
+        }
+
+        .numero_exo {
+            padding: 8px 15px;
+            font-variant: small-caps;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-right: 1px solid #ccc;
+        }
+
+        .titre_exo {
+            padding: 8px 15px;
+            font-style: italic;
+            font-size: 1.2rem;
+        }
+
+        .consigne {
+            background-color: #FFFFFF;
+            padding: 15px 5px;
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+
+        .grille_question_une_colonne {
+            display: grid;
+            grid-template-columns: 35px auto;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            min-width: 500px;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .style_reponse {
+            background-color: #ffff00;
+            display: none;
+            padding: 12px;
+            margin-top: 10px;
+            border: 1px dashed #333;
+            font-style: italic;
+        }
+
+        .btn-corrige {
+            font-size: 0.85rem;
+            color: #0066cc;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-left: 10px;
+            display: inline-block;
+        }
+
+        .tableur-label {
+            background-color: #eee;
+            font-weight: bold;
+        }
+
+        @media print {
+            .btn-corrige { display: none; }
+            .style_reponse { display: block !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="titre_de_page">Tableaux croisés, fréquences M04</div>
+
+    <div class="grille_entete_exo">
+        <div class="numero_exo">Exercice n°1</div>
+        <div class="titre_exo">Emploi par secteur (Données fictives Insee)</div>
+    </div>
+    
+    <div class="consigne">
+        On considère le tableau suivant concernant la répartition des contrats de travail en 2022.
+    </div>
+    
+    <div class="table-responsive">
+        <table>
+            <tr>
+                <th>Secteur d'activité</th>
+                <th>Part de CDD (en %)</th>
+                <th>Part de CDI (en %)</th>
+                <th>Ensemble (en milliers)</th>
+            </tr>
+            <tr>
+                <td>Agriculture</td>
+                <td>12,5</td>
+                <td>87,5</td>
+                <td>720</td>
+            </tr>
+            <tr>
+                <td>Industrie</td>
+                <td>5,8</td>
+                <td>94,2</td>
+                <td>3100</td>
+            </tr>
+            <tr>
+                <td>Tertiaire</td>
+                <td>14,2</td>
+                <td>85,8</td>
+                <td>18500</td>
+            </tr>
+            <tr>
+                <td><strong>Ensemble</strong></td>
+                <td><strong>12,7</strong></td>
+                <td><strong>87,3</strong></td>
+                <td><strong>22320</strong></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="grille_question_une_colonne">
+        <div class="cellule_question">1)</div>
+        <div class="cellule_question">
+            Calculer l'effectif des salariés en CDD dans le secteur de l'Agriculture.
+            <span class="btn-corrige" onclick="toggle('r1_1')">Voir le corrigé</span>
+            <div id="r1_1" class="style_reponse">
+                \(720 \times \frac{12,5}{100} = 90\). Il y a 90 000 salariés en CDD dans l'agriculture.
+            </div>
+        </div>
+    </div>
+
+    <div class="grille_question_une_colonne">
+        <div class="cellule_question">2)</div>
+        <div class="cellule_question">
+            Interpréter les nombres "14,2" et "3100" de ce tableau.
+            <span class="btn-corrige" onclick="toggle('r1_2')">Voir le corrigé</span>
+            <div id="r1_2" class="style_reponse">
+                14,2 : Dans le tertiaire, 14,2% des salariés sont en CDD. <br>
+                3100 : Il y a 3 100 000 salariés au total dans le secteur de l'industrie.
+            </div>
+        </div>
+    </div>
+
+    <div class="grille_entete_exo">
+        <div class="numero_exo">Exercice n°2</div>
+        <div class="titre_exo">Tableur - École de Musique</div>
+    </div>
+    
+    <div class="consigne">
+        Dans une école de musique, on gère les effectifs par instrument et par âge.
+    </div>
+
+    <div class="table-responsive">
+        <table>
+            <tr class="tableur-label"><td></td><td>A</td><td>B</td><td>C</td><td>D</td><td>E</td></tr>
+            <tr><td class="tableur-label">1</td><td>Instrument</td><td>7-12 ans</td><td>13-18 ans</td><td>+18 ans</td><td>Total</td></tr>
+            <tr><td class="tableur-label">2</td><td>Piano</td><td>24</td><td>18</td><td>12</td><td></td></tr>
+            <tr><td class="tableur-label">3</td><td>Guitare</td><td>15</td><td>22</td><td>25</td><td></td></tr>
+            <tr><td class="tableur-label">4</td><td>Batterie</td><td>8</td><td>12</td><td>10</td><td></td></tr>
+            <tr><td class="tableur-label">5</td><td>Total</td><td></td><td></td><td></td><td></td></tr>
+        </table>
+    </div>
+
+    <div class="grille_question_une_colonne">
+        <div class="cellule_question">1)</div>
+        <div class="cellule_question">
+            Quelle formule faut-il saisir dans la cellule **E2** pour obtenir le total des pianistes ?
+            <span class="btn-corrige" onclick="toggle('r2_1')">Voir le corrigé</span>
+            <div id="r2_1" class="style_reponse">=SOMME(B2:D2) ou =B2+C2+D2</div>
+        </div>
+    </div>
+
+    <div class="grille_question_une_colonne">
+        <div class="cellule_question">2)</div>
+        <div class="cellule_question">
+            Quelle formule faut-il saisir dans la cellule **B5** pour obtenir le total des enfants de 7-12 ans ?
+            <span class="btn-corrige" onclick="toggle('r2_2')">Voir le corrigé</span>
+            <div id="r2_2" class="style_reponse">=SOMME(B2:B4)</div>
+        </div>
+    </div>
+
+    <div class="grille_entete_exo">
+        <div class="numero_exo">Exercice n°3</div>
+        <div class="titre_exo">Tableur - Musées Nationaux</div>
+    </div>
+
+    <div class="consigne">
+        Le tableau suivant présente la fréquentation (en milliers) de quatre musées en 2021.
+    </div>
+
+    <div class="table-responsive">
+        <table>
+            <tr class="tableur-label"><td></td><td>A</td><td>B</td><td>C</td><td>D</td><td>E</td></tr>
+            <tr><td class="tableur-label">1</td><td>Type / Musée</td><td>Louvre</td><td>Orsay</td><td>Versailles</td><td>Mucem</td></tr>
+            <tr><td class="tableur-label">2</td><td>Gratuit</td><td>1200</td><td>450</td><td>800</td><td>150</td></tr>
+            <tr><td class="tableur-label">3</td><td>Payant</td><td>1600</td><td>550</td><td>1200</td><td>200</td></tr>
+            <tr><td class="tableur-label">4</td><td>Ensemble</td><td>2800</td><td>1000</td><td>2000</td><td>350</td></tr>
+        </table>
+    </div>
+
+    <div class="grille_question_une_colonne">
+        <div class="cellule_question">1)</div>
+        <div class="cellule_question">
+            Déterminer la proportion de billets gratuits au Musée d'Orsay.
+            <span class="btn-corrige" onclick="toggle('r3_1')">Voir le corrigé</span>
+            <div id="r3_1" class="style_reponse">
+                \(\frac{450}{1000} = 0,45\), soit 45%.
+            </div>
+        </div>
+    </div>
+
+    <div class="grille_question_une_colonne">
+        <div class="cellule_question">2)</div>
+        <div class="cellule_question">
+            Quelle est la fréquentation totale payante pour ces quatre musées réunis ?
+            <span class="btn-corrige" onclick="toggle('r3_2')">Voir le corrigé</span>
+            <div id="r3_2" class="style_reponse">
+                1600 + 550 + 1200 + 200 = 3 550 (en milliers), soit 3 550 000 billets.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggle(id) {
+        var e = document.getElementById(id);
+        e.style.display = (e.style.display === 'block') ? 'none' : 'block';
+    }
+</script>
+
+</body>
+</html>
