@@ -1,33 +1,63 @@
 const questionsData = [
     {
-        q: "Quelle est la formule correcte de la probabilité conditionnelle P_B(A) ?",
-        options: ["P(A ∩ B) / P(B)", "P(A ∩ B) / P(A)", "P(A) * P(B)", "P(A ∪ B) / P(B)"],
-        correct: "P(A ∩ B) / P(B)",
-        expl: "La probabilité de A sachant B est le rapport de l'intersection sur la probabilité de la condition (B)."
+        q: "Quelle est la formule correcte de la probabilité conditionnelle \\( P_B(A) \\) ?",
+        options: ["\\( \\frac{P(A \\cap B)}{P(B)} \\)", "\\( \\frac{P(A \\cap B)}{P(A)} \\)", "\\( P(A) \\times P(B) \\)", "\\( P(A \\cup B) \\)"],
+        correct: "\\( \\frac{P(A \\cap B)}{P(B)} \\)",
+        expl: "La probabilité de \\( A \\) sachant \\( B \\) est le rapport de l'intersection sur la probabilité de la condition \\( B \\)."
     },
     {
-        q: "Si deux événements A et B sont indépendants, alors P(A ∩ B) est égal à :",
-        options: ["P(A) * P(B)", "P(A) + P(B)", "0", "P_B(A)"],
-        correct: "P(A) * P(B)",
-        expl: "C'est la définition mathématique de l'indépendance."
+        q: "Si deux événements \\( A \\) et \\( B \\) sont indépendants, alors \\( P(A \\cap B) = \\) :",
+        options: ["\\( P(A) \\times P(B) \\)", "\\( P(A) + P(B) \\)", "\\( 0 \\)", "\\( P_B(A) \\)"],
+        correct: "\\( P(A) \\times P(B) \\)",
+        expl: "C'est la définition mathématique de l'indépendance de deux événements."
     },
     {
         q: "Dans un arbre pondéré, la somme des probabilités des branches issues d'un même nœud est égale à :",
-        options: ["1", "0,5", "P(Ω)", "La probabilité du nœud précédent"],
+        options: ["1", "0,5", "\\( P(\\Omega) \\)", "La probabilité du nœud précédent"],
         correct: "1",
         expl: "C'est la loi des nœuds : les événements issus d'un nœud forment une partition de l'événement précédent."
     },
     {
-        q: "Que signifie la formule des probabilités totales ?",
-        options: ["P(B) = P(A ∩ B) + P(Ā ∩ B)", "P(A ∪ B) = P(A) + P(B)", "P(A) = 1 - P(Ā)", "P(A ∩ B) = P(A) * P(B)"],
-        correct: "P(B) = P(A ∩ B) + P(Ā ∩ B)",
-        expl: "Elle permet de calculer la probabilité d'un événement en sommant ses intersections avec une partition de l'univers."
+        q: "Quelle formule correspond aux probabilités totales pour une partition \\( \\{A, \\overline{A}\\} \\) ?",
+        options: ["\\( P(B) = P(A \\cap B) + P(\\overline{A} \\cap B) \\)", "\\( P(A \\cup B) = P(A) + P(B) \\)", "\\( P(A) = 1 - P(\\overline{A}) \\)", "\\( P(A \\cap B) = P(A) \\times P_A(B) \\)"],
+        correct: "\\( P(B) = P(A \\cap B) + P(\\overline{A} \\cap B) \\)",
+        expl: "On calcule la probabilité globale de \\( B \\) en sommant ses intersections avec chaque élément de la partition."
     },
     {
-        q: "Deux événements incompatibles (disjoints) sont-ils forcément indépendants ?",
-        options: ["Non, c'est souvent le contraire", "Oui, toujours", "Seulement si l'un est impossible", "Seulement si P(A) = 0,5"],
-        correct: "Non, c'est souvent le contraire",
-        expl: "S'ils sont incompatibles, savoir que l'un se produit donne une information majeure (l'autre ne peut pas se produire), donc ils ne sont pas indépendants."
+        q: "Comment calcule-t-on la probabilité d'un chemin complet dans un arbre pondéré ?",
+        options: ["En multipliant les probabilités des branches", "En additionnant les probabilités des branches", "En prenant la probabilité de la dernière branche", "En divisant les probabilités"],
+        correct: "En multipliant les probabilités des branches",
+        expl: "La probabilité de l'intersection correspond au produit des probabilités rencontrées le long du chemin."
+    },
+    {
+        q: "Si \\( P(A) = 0,4 \\) et \\( P_A(B) = 0,5 \\), alors \\( P(A \\cap B) = \\) :",
+        options: ["0,2", "0,9", "0,1", "1,25"],
+        correct: "0,2",
+        expl: "\\( P(A \\cap B) = P(A) \\times P_A(B) = 0,4 \\times 0,5 = 0,2 \\)."
+    },
+    {
+        q: "Deux événements incompatibles (disjoints) sont-ils indépendants ?",
+        options: ["Généralement non", "Oui, toujours", "Seulement si \\( P(A) = 0 \\)", "Toujours si \\( P(B) = 1 \\)"],
+        correct: "Généralement non",
+        expl: "S'ils sont incompatibles, savoir que l'un se produit nous informe que l'autre est impossible : ils sont donc très dépendants."
+    },
+    {
+        q: "Sur la deuxième branche d'un arbre, après l'événement \\( A \\), on lit la probabilité :",
+        options: ["\\( P_A(B) \\)", "\\( P(A \\cap B) \\)", "\\( P(B) \\)", "\\( P_B(A) \\)"],
+        correct: "\\( P_A(B) \\)",
+        expl: "Les branches de second niveau portent toujours des probabilités conditionnelles."
+    },
+    {
+        q: "Si \\( A \\) et \\( B \\) sont indépendants, alors \\( P_B(A) \\) est égal à :",
+        options: ["\\( P(A) \\)", "\\( P(B) \\)", "\\( P(A \\cap B) \\)", "1"],
+        correct: "\\( P(A) \\)",
+        expl: "Par définition de l'indépendance, la réalisation de \\( B \\) ne modifie pas la probabilité de \\( A \\)."
+    },
+    {
+        q: "Une partition de l'univers \\( \\Omega \\) est un ensemble d'événements :",
+        options: ["Disjoints dont la réunion est \\( \\Omega \\)", "Indépendants", "Quelconques", "Ayant tous la même probabilité"],
+        correct: "Disjoints dont la réunion est \\( \\Omega \\)",
+        expl: "Une partition 'découpe' l'univers en morceaux qui ne se chevauchent pas et qui forment le tout."
     }
 ];
 
@@ -66,7 +96,9 @@ questionsData.forEach((item, index) => {
         </ul>`;
     quizContainer.appendChild(qDiv);
 });
-
+if (window.MathJax) {
+    MathJax.typesetPromise();
+}
 function calculateScore() {
     let score = 0;
     let correctionHtml = "<h3>Détails de la correction :</h3>";
@@ -92,4 +124,7 @@ function calculateScore() {
     document.getElementById('results').classList.remove('hidden');
     document.getElementById('submit-btn').classList.add('hidden');
     window.scrollTo(0, document.body.scrollHeight);
+	if (window.MathJax) {
+    MathJax.typesetPromise();
+}
 }

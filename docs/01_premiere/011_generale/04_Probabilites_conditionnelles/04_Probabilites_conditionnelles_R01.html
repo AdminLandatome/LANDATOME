@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landatome Fonction Exponentielle</title>
+    <title>Landatome quiz</title>
     <link rel="stylesheet" href="https://adminlandatome.github.io/LANDATOME/styles/styles_revisions.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>	
 </head>
 <body>
     <div class="container">
@@ -17,7 +19,7 @@
         <button id="submit-btn" onclick="calculateScore()">Valider mes réponses</button>
         
         <div id="results" class="hidden">
-    <h2>Votre Score : <span id="score-display"></span> / 5</h2>
+    <h2>Votre Score : <span id="score-display"></span> / 10</h2>
     <div id="detailed-correction"></div>
     <button onclick="location.reload()" style="margin-top:20px;">Recommencer le test</button>
 </div>
