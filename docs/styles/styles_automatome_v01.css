@@ -891,6 +891,43 @@ Question                |
 	word-break: break-all;
     overflow-wrap: break-word;
 }
+/* Conteneur principal de l'éditeur */
+.thonny-editor {
+    background-color: #ffffff;
+    color: #000000;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+    border: 1px solid #d3d3d3;
+    line-height: 1.5;
+    display: flex;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* Colonne des numéros de ligne */
+.line-numbers {
+    background-color: #f0f0f0;
+    color: #a0a0a0;
+    padding: 10px 8px;
+    text-align: right;
+    border-right: 1px solid #e0e0e0;
+    user-select: none; /* Empêche la sélection des numéros */
+}
+
+/* Zone de code */
+.code-area {
+    padding: 10px;
+    white-space: pre;
+    flex-grow: 1;
+}
+
+/* Coloration Syntaxique (Inspiré du thème par défaut) */
+.keyword { color: #7f0055; font-weight: bold; } /* if, for, def, return */
+.string { color: #2a00ff; } /* "hello" */
+.comment { color: #3f7f5f; font-style: italic; } /* # commentaire */
+.number { color: #000000; } /* 123 */
+.builtin { color: #7f0055; } /* print, len */
+.function { color: #000000; } /* nom de la fonction */
 
 
 
