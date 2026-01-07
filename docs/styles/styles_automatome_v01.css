@@ -332,7 +332,7 @@ Question                |
 .format02_grille{
 	/*background-color:red;*/
 	display:grid;
-	grid-template-columns: 30% 30% 40%;
+	grid-template-columns: 25% 25% 50%;
 	grid-template-rows: minmax(100px, auto);
 	gap:5px;
 	font-size:200%;	
@@ -891,4 +891,5 @@ Question                |
 	word-break: break-all;
     overflow-wrap: break-word;
 }
+
 
