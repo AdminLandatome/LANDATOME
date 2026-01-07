@@ -44,6 +44,7 @@
 	margin-right:5%;
 }
 .titre_page_cellule_gauche{
+	font-size:100%;	
 	grid-column-start: 1;
     grid-column-end: 2;
 	padding-left:10px;
@@ -52,6 +53,7 @@
     overflow-wrap: break-word;	
 }
 .titre_page_cellule_centre{
+	font-size:100%;	
 	grid-column-start: 2;
     grid-column-end: 3;
 	padding-left:10px;
