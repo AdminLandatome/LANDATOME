@@ -120,7 +120,8 @@ Question                |
 	grid-column-start: 1;
     grid-column-end: 5;
     word-break: break-all;
-    overflow-wrap: break-word;	
+    overflow-wrap: break-word;
+	margin-left:5%;
 }
 .format01_cellule_explication_avec{
 	padding-left:5px;
@@ -1096,6 +1097,7 @@ Question                |
             text-align: center;    /* Horizontal */
             vertical-align: middle; /* Vertical */
         }
+
 
 
 
