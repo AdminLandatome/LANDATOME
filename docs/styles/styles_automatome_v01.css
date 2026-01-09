@@ -1084,7 +1084,7 @@ Question                |
 /*Pour ls tableaux de loi de probabilites*/
 .loi_proba {
     /* 1) Prend la moitié de la largeur du parent */
-    width: 50%;
+    /*width: 50%;*/
     
     /* 3) Supprime les doubles lignes */
     border-collapse: collapse;
@@ -1102,7 +1102,7 @@ Question                |
     vertical-align: middle;
     
     /* 2) Pour que la hauteur égale la largeur (cellules carrées) */
-    aspect-ratio: 1 / 1; 
+    /*aspect-ratio: 1 / 1; */
     padding: 5px;
 }
 
@@ -1111,6 +1111,7 @@ Question                |
     background-color: #f9f9f9;
     font-weight: bold;
 }
+
 
 
 
