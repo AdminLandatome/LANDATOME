@@ -100,13 +100,12 @@ Question                |
 
 */
 .format01_grille{
-	/*background-color:red;*/
 	display:grid;
 	grid-template-columns: 25% 25% 25% 25%;
 	grid-template-rows: minmax(100px, auto);
 	gap:5px;
 	font-size:200%;	
-    margin-left:5%;
+	margin-left:5%;
 	margin-right:5%;
 	margin-bottom:1%;
 }
@@ -1108,6 +1107,7 @@ Question                |
     background-color: #f9f9f9;
     font-weight: bold;
 }
+
 
 
 
