@@ -1083,26 +1083,34 @@ Question                |
 
 /*Pour ls tableaux de loi de probabilites*/
 .loi_proba {
-	        
-            
-            border-collapse: collapse; /* Supprime les doubles bordures */
-            
-        }
+    /* 1) Prend la moitié de la largeur du parent */
+    width: 50%;
+    
+    /* 3) Supprime les doubles lignes */
+    border-collapse: collapse;
+    
+    /* 2) Force les colonnes à avoir exactement la même largeur */
+    table-layout: fixed;
+    
+    margin: 10px 0;
+}
 
-.loi_proba td {
-            border: 2px solid #000;
-            height: 80px;         /* Hauteur définie pour voir l'alignement vertical */
-            table-layout: fixed;   /* Force les colonnes à avoir la même taille */
-	        width: 100%; 
-	
-            /* Centrage */
-            text-align: center;    /* Horizontal */
-            vertical-align: middle; /* Vertical */
-        }
+.loi_proba td, 
+.loi_proba th {
+    border: 1px solid #000;
+    text-align: center;
+    vertical-align: middle;
+    
+    /* 2) Pour que la hauteur égale la largeur (cellules carrées) */
+    aspect-ratio: 1 / 1; 
+    padding: 5px;
+}
 
-
-
-
+/* Optionnel : Un petit style pour l'en-tête si vous en avez un */
+.loi_proba th {
+    background-color: #f9f9f9;
+    font-weight: bold;
+}
 
 
 
