@@ -1089,7 +1089,7 @@ Question                |
             table-layout: fixed;   /* Force les colonnes à avoir la même taille */
         }
 
-        td {
+.loi_proba td {
             border: 1px solid #000;
             height: 40px;         /* Hauteur définie pour voir l'alignement vertical */
             
@@ -1097,6 +1097,7 @@ Question                |
             text-align: center;    /* Horizontal */
             vertical-align: middle; /* Vertical */
         }
+
 
 
 
