@@ -1084,7 +1084,7 @@ Question                |
 /*Pour ls tableaux de loi de probabilites*/
 .loi_proba {
 	        
-            width: 80%;           /* Le tableau prend toute la largeur */
+            width: 100%;           /* Le tableau prend toute la largeur */
             border-collapse: collapse; /* Supprime les doubles bordures */
             table-layout: fixed;   /* Force les colonnes à avoir la même taille */
         }
@@ -1092,11 +1092,14 @@ Question                |
 .loi_proba td {
             border: 2px solid #000;
             height: 80px;         /* Hauteur définie pour voir l'alignement vertical */
-            
+            table-layout: fixed;   /* Force les colonnes à avoir la même taille */
+	        width: 100%; 
+	
             /* Centrage */
             text-align: center;    /* Horizontal */
             vertical-align: middle; /* Vertical */
         }
+
 
 
 
