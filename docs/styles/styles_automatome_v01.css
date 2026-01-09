@@ -118,7 +118,7 @@ Question                |
 	border-radius:5px;
 	background-color:#EEEEEE;
 	grid-column-start: 1;
-    grid-column-end: 4;
+    grid-column-end: 5;
     word-break: break-all;
     overflow-wrap: break-word;
 	/*margin-left:5%;*/
@@ -1111,6 +1111,7 @@ Question                |
     background-color: #f9f9f9;
     font-weight: bold;
 }
+
 
 
 
