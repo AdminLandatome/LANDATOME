@@ -105,7 +105,7 @@ Question                |
 	grid-template-columns: 25% 25% 25% 25%;
 	grid-template-rows: minmax(100px, auto);
 	gap:5px;
-	font-size:100%;	
+	font-size:60%;	
     margin-left:5%;
 	margin-right:5;
 	margin-bottom:1%;
@@ -336,7 +336,7 @@ Question                |
 	grid-template-columns: 35% 35% 30%;
 	grid-template-rows: minmax(100px, auto);
 	gap:5px;
-	font-size:100%;	
+	font-size:60%;	
 	margin-left:5%;
 	margin-right:5%;
 	margin-bottom:1%;
@@ -484,7 +484,7 @@ Question                |
 	grid-template-columns: 50% 50%;
 	grid-template-rows: minmax(100px, auto);
 	gap:5px;
-	font-size:100%;	
+	font-size:60%;	
 	margin-left:5%;
 	margin-right:5%;
 	margin-bottom:1%;
@@ -623,7 +623,7 @@ Question                |
 	grid-template-columns: 100%;
 	grid-template-rows: minmax(100px, auto);
 	gap:5px;
-	font-size:100%;
+	font-size:60%;
     margin-left:5%;
 	margin-right:5%;
 margin-bottom:1%;	
