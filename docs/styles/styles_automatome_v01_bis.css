@@ -31,12 +31,12 @@
 	grid-template-columns: 25% 50% 25%;
 	grid-template-rows: minmax(auto, auto);
 	gap:5px;
-	/*font-size:100%;*/
+	/*font-size:60%;*/
 	background-color:#BBBBBB;
 	align-items:center;
 	font-weight:bold;
 	font-variant:small-caps;
-	font-size:100%;	
+	font-size:60%;	
     word-break: break-all;
     overflow-wrap: break-word;
 	margin-top:1%;
@@ -44,7 +44,7 @@
 	margin-right:5%;
 }
 .titre_page_cellule_gauche{
-	font-size:100%;	
+	font-size:60%;	
 	grid-column-start: 1;
     grid-column-end: 2;
 	padding-left:10px;
@@ -53,7 +53,7 @@
     overflow-wrap: break-word;	
 }
 .titre_page_cellule_centre{
-	font-size:100%;	
+	font-size:60%;	
 	grid-column-start: 2;
     grid-column-end: 3;
 	padding-left:10px;
@@ -238,7 +238,7 @@ Question                |
     grid-column-end: 2;
 	word-break: break-all;
     overflow-wrap: break-word;
-	font-size:100%;
+	font-size:60%;
 }
 .format01_cellule_reponse1_image_vrai{
 	padding-left:5px;
@@ -249,7 +249,7 @@ Question                |
     grid-column-end: 2;
 	word-break: break-all;
     overflow-wrap: break-word;
-	font-size:100%;
+	font-size:60%;
 }
 .format01_cellule_reponse2_image_faux{
 	padding-left:5px;
@@ -260,7 +260,7 @@ Question                |
     grid-column-end: 3;
 	word-break: break-all;
     overflow-wrap: break-word;
-	font-size:100%;
+	font-size:60%;
 }
 .format01_cellule_reponse2_image_vrai{
 	padding-left:5px;
@@ -271,7 +271,7 @@ Question                |
     grid-column-end: 3;
 	word-break: break-all;
     overflow-wrap: break-word;
-	font-size:100%;
+	font-size:60%;
 }
 .format01_cellule_reponse3_image_faux{
 	padding-left:5px;
@@ -282,7 +282,7 @@ Question                |
     grid-column-end: 4;
 	word-break: break-all;
     overflow-wrap: break-word;
-	font-size:100%;
+	font-size:60%;
 }
 .format01_cellule_reponse3_image_vrai{
 	padding-left:5px;
@@ -293,7 +293,7 @@ Question                |
     grid-column-end: 4;
 	word-break: break-all;
     overflow-wrap: break-word;
-	font-size:100%;
+	font-size:60%;
 }
 .format01_cellule_reponse4_image_faux{
 	padding-left:5px;
@@ -304,7 +304,7 @@ Question                |
     grid-column-end: 5;
 	word-break: break-all;
     overflow-wrap: break-word;
-	font-size:100%;
+	font-size:60%;
 }
 .format01_cellule_reponse4_image_vrai{
 	padding-left:5px;
@@ -315,7 +315,7 @@ Question                |
     grid-column-end: 5;
 	word-break: break-all;
     overflow-wrap: break-word;
-	font-size:100%;
+	font-size:60%;
 }
 
 /*++++++++++++++++++++++++++ FORMAT 02  +++++++++++++++++++++++++++++++*/
@@ -456,7 +456,7 @@ Question                |
 }
 
 .format02_cellule_graphique{
-	font-size:100%;
+	font-size:60%;
 	padding:2%;
 	/*background-color:red;*/
 	grid-column-start: 3;
@@ -882,7 +882,7 @@ Question                |
     overflow-wrap: break-word;
 }
 .format05_cellule_graphique{
-	font-size:100%;
+	font-size:60%;
 	padding:2%;
 	/*background-color:red;*/
 	grid-column-start: 2;
@@ -923,7 +923,7 @@ Question                |
 	grid-template-columns: 28% 28% 44%;
 	grid-template-rows: minmax(100px, auto);
 	gap:5px;
-	font-size:100%;	
+	font-size:60%;	
 	margin-left:5%;
 	margin-right:5%;
 	margin-bottom:1%;
@@ -1043,7 +1043,7 @@ Question                |
 }
 
 .format08_cellule_graphique{
-	font-size:100%;
+	font-size:60%;
 	padding:2%;
 	/*background-color:red;*/
 	grid-column-start: 3;
