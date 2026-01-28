@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>FONCTIONS PART2 M04</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; max-width: 900px; margin: auto; padding: 20px; color: #000000; }
+        .exercice { margin-bottom: 40px; border-bottom: 2px solid #000000; padding-bottom: 20px; }
+        .corrige { background-color: yellow; padding: 20px; border-left: 5px solid #27ae60; margin-top: 20px; }
+        .navigation { font-weight: bold; color: #000000; text-decoration: none; font-size: 0.9em; display: inline-block; margin-top: 10px; border: 1px solid #2980b9; padding: 5px 10px; border-radius: 5px; }
+        .navigation:hover { background: #2980b9; color: white; }
+        h1 { color: #000000; text-align: center; border: 4px double #2c3e50; padding: 15px; background: #fdfdfd; }
+        h2 { color: #000000; border-bottom: 1px solid #e67e22; padding-bottom: 5px; }
+        .image-placeholder { border: 2px dashed #bdc3c7; padding: 20px; text-align: center; margin: 15px 0; background: #f9f9f9; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <h1>FONCTIONS PART2 M04</h1>
+
+    <div class="exercice">
+        <h2>EXERCICE N°1</h2>
+        <p>Soit la fonction \(f\) définie et dérivable sur \(\mathbb{R}\) par \(f(x) = \frac{1}{3}x^3 - x^2\).</p>
+        <ol>
+            <li>La courbe \(C_f\) admet-elle des tangentes parallèles à la droite \((d)\) d'équation \(y = 3x + 2\) ?</li>
+            <li>Si oui, déterminer les coordonnées des points en lesquels \(C_f\) admet ces tangentes.</li>
+        </ol>
+        <a href="#corrige1" class="navigation">VOIR LE CORRIGÉ</a>
+    </div>
+
+    <div class="exercice">
+        <h2>EXERCICE N°2</h2>
+        <p>On considère la fonction \(f\) définie par : \(f(x) = -2x^2 + 8x - 5\). On note \(C_f\) sa courbe représentative.</p>
+        <ol>
+            <li>Existe-t-il des tangentes à \(C_f\) de coefficient directeur 4 ? Si oui, déterminer les coordonnées du point de contact.</li>
+            <li>Existe-t-il des tangentes à \(C_f\) de coefficient directeur -2 ? Si oui, déterminer les coordonnées du point de contact.</li>
+            <li>Tracer la courbe représentative de \(f\) ainsi que les tangentes trouvées.</li>
+        </ol>
+        <div class="image-placeholder">
+            <img src="04_fonction_part2_M04_ex2.png" alt="le graphique">
+        </div>
+        <a href="#corrige2" class="navigation">VOIR LE CORRIGÉ</a>
+    </div>
+
+    <div class="exercice">
+        <h2>EXERCICE N°3 (Application ST2S)</h2>
+        <p>Lors d'une épidémie, on modélise le nombre de malades par la fonction \(f\) définie sur \([0 ; 12]\) par :</p>
+        <p style="text-align: center;">\(f(x) = -20x^2 + 240x + 100\)</p>
+        <p>où \(x\) est le nombre de semaines écoulées et \(f(x)\) le nombre de malades pour 100 000 habitants.</p>
+        <ol>
+            <li>Calculer la fonction dérivée \(f'(x)\).</li>
+            <li>À quel moment (en semaines) le pic de l'épidémie est-il atteint ? </li>
+			<li>Pendant combien de semaines y-a-t-il eu au moins 500 malades ?.</li>
+            <li>Quel est le nombre maximal de malades atteint selon ce modèle ?</li>
+        </ol>
+		<div class="image-placeholder">
+            <img src="04_fonction_part2_M04_ex3.png" alt="le graphique">
+        </div>
+        <a href="#corrige3" class="navigation">VOIR LE CORRIGÉ</a>
+    </div>
+
+    <hr style="margin: 50px 0;">
+
+    <h1>FONCTIONS PART2 M04C (Corrigé)</h1>
+
+    <div id="corrige1" class="corrige">
+        <h2>Correction Exercice 1</h2>
+        <p>1) La droite \((d)\) a pour coefficient directeur 3. On cherche donc si \(f'(x) = 3\).<br>
+        \(f'(x) = x^2 - 2x\). On résout \(x^2 - 2x = 3 \Leftrightarrow x^2 - 2x - 3 = 0\).<br>
+        Les solutions sont \(x = -1\) et \(x = 3\). Oui, il existe deux tangentes parallèles à \((d)\).</p>
+        <p>2) Coordonnées :<br>
+        Pour \(x = -1\), \(f(-1) = -4/3\). Point \(A(-1 ; -4/3)\).<br>
+        Pour \(x = 3\), \(f(3) = 0\). Point \(B(3 ; 0)\).</p>
+        <a href="#" class="navigation">RETOUR À L'EXERCICE 1</a>
+    </div>
+
+    <div id="corrige2" class="corrige">
+        <h2>Correction Exercice 2</h2>
+        <p>On a \(f'(x) = -4x + 8\).</p>
+        <ol>
+            <li>\(-4x + 8 = 4 \Rightarrow -4x = -4 \Rightarrow x = 1\). Point \((1 ; f(1)) = (1 ; 1)\).</li>
+            <li>\(-4x + 8 = -2 \Rightarrow -4x = -10 \Rightarrow x = 2,5\). Point \((2,5 ; f(2,5)) = (2,5 ; 2,5)\).</li>
+        </ol>
+		<div class="image-placeholder">
+            <img src="04_fonction_part2_M04_ex2c.png" alt="le graphique">
+        </div>
+        <a href="#" class="navigation">RETOUR À L'EXERCICE 2</a>
+    </div>
+
+    <div id="corrige3" class="corrige">
+        <h2>Correction Exercice 3</h2>
+        <ol>
+            <li>\(f'(x) = -40x + 240\).</li>
+            <li>Le pic est atteint quand \(f'(x) = 0\) : \(-40x + 240 = 0 \Rightarrow 40x = 240 \Rightarrow x = 6\). Le pic est atteint au bout de 6 semaines.</li>
+			<li>Graphiquement \(f(x)\geq 500\) admet comme ensemble des solutions \([2\;;\;10]\).<br>On en déduit qu'il y a eu au moins 500 malades pendant 8 semaines. </li>
+            <li>Le nombre maximal de malades est \(f(6) = -20(6^2) + 240(6) + 100 = -720 + 1440 + 100 = 820\).</li>
+        </ol>
+		<div class="image-placeholder">
+            <img src="04_fonction_part2_M04_ex3c.png" alt="le graphique">
+        </div>
+        <a href="#" class="navigation">RETOUR À L'EXERCICE 3</a>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>FONCTIONS PART2 M03</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; max-width: 900px; margin: auto; padding: 20px; color: #000000; }
+        .exercice { margin-bottom: 40px; border-bottom: 2px solid #000000; padding-bottom: 20px; }
+        .corrige { background-color: yellow; padding: 20px; border-left: 5px solid #27ae60; margin-top: 20px; }
+        .navigation { font-weight: bold; color: #000000; text-decoration: none; font-size: 0.9em; display: inline-block; margin-top: 10px; border: 1px solid #2980b9; padding: 5px 10px; border-radius: 5px; }
+        .navigation:hover { background: #2980b9; color: white; }
+        h1 { color: #000000; text-align: center; border: 4px double #2c3e50; padding: 15px; background: #fdfdfd; }
+        h2 { color: #000000; border-bottom: 1px solid #e67e22; padding-bottom: 5px; }
+        .math-block { margin: 15px 0; line-height: 2; }
+    </style>
+</head>
+<body>
+
+    <h1>FONCTIONS PART2 M03</h1>
+
+    <div class="exercice">
+        <h2>EXERCICE N°1</h2>
+        <p>Les fonctions suivantes sont <strong>définies</strong> et dérivables sur \(\mathbb{R}\). Calculer leur fonction dérivée.</p>
+        <div class="math-block">
+            1) \(f_1(x) = 14\) ; \(f_2(x) = \frac{17}{3}\) ; \(f_3(x) = \sqrt{11}\) ; \(f_4(x) = 5\pi\)<br>
+            2) \(g_1(x) = x - 9\) ; \(g_2(x) = x + 4\pi\sqrt{2}\)<br>
+            3) \(g_3(x) = 6x + 7\) ; \(g_4(x) = \sqrt{3}x + 2,5\) ; \(g_5(x) = \frac{5}{4}x - 2\sqrt{5}\) ; \(g_6(x) = \frac{9}{4} - 7x\)<br>
+            4) \(h_1(x) = 4x^2 - 5\) ; \(h_2(x) = 3x^2 + 2x - 8\) ; \(h_3(x) = -3,5x^2 + 5x + \sqrt{2}\)<br>
+            5) \(h_4(x) = \frac{7}{2}x^3 - 3x^2 + 2x - 5\sqrt{3}\) ; \(h_5(x) = -\pi x^3 + \sqrt{7}x^2 - \frac{11}{3}x + 42\)
+        </div>
+        <a href="#corrige1" class="navigation">VOIR LE CORRIGÉ</a>
+    </div>
+
+    <div class="exercice">
+        <h2>EXERCICE N°2</h2>
+        <p>Soit \(f\) la fonction définie sur \(\mathbb{R}\) par \(f(x) = -3x^2 + 6x - 4\). On note \(C_f\) sa courbe représentative.</p>
+        <ol>
+            <li>Calculer \(f'(1)\)</li>
+            <li>Déterminer le nombre dérivé de \(f\) en \(a = 4\)</li>
+            <li>Déterminer le coefficient directeur de la tangente à la courbe \(C_f\) au point d'abscisse 0.</li>
+        </ol>
+        <a href="#corrige2" class="navigation">VOIR LE CORRIGÉ</a>
+    </div>
+
+    <div class="exercice">
+        <h2>EXERCICE N°3</h2>
+        <p>Pour chacune des fonctions suivantes, déterminer une équation de la tangente \((d_i)\) au point d'abscisse \(a\) :</p>
+        <ol>
+            <li>Soit \(f_1\) définie sur \(\mathbb{R}\) par \(f_1(x) = -x^2 + 4x - 3\) et \(a = -2\)</li>
+            <li>Soit \(f_2\) définie sur \(\mathbb{R}\) par \(f_2(x) = x^3 - 5x + 1\) et \(a = 2\)</li>
+        </ol>
+        <a href="#corrige3" class="navigation">VOIR LE CORRIGÉ</a>
+    </div>
+
+    <hr style="margin: 50px 0;">
+
+    <h1 id="corrige-titre">FONCTIONS PART2 M03C (Corrigé)</h1>
+
+    <div id="corrige1" class="corrige">
+        <h2>Correction Exercice 1</h2>
+        <p>
+           1) \(f_1'(x)=0\) ; \(f_2'(x)=0\) ; \(f_3'(x)=0\) ; \(f_4'(x)=0\)<br>
+           2) \(g_1'(x)=1\) ; \(g_2'(x)=1\)<br>
+           3) \(g_3'(x)=6\) ; \(g_4'(x)=\sqrt{3}\) ; \(g_5'(x)=\frac{5}{4}\) ; \(g_6'(x)=-7\)<br>
+           4) \(h_1'(x)=8x\) ; \(h_2'(x)=6x+2\) ; \(h_3'(x)=-7x+5\)<br>
+           5) \(h_4'(x)=\frac{21}{2}x^2-6x+2\) ; \(h_5'(x)=-3\pi x^2+2\sqrt{7}x-\frac{11}{3}\)
+        </p>
+        <a href="#" class="navigation">RETOUR À L'EXERCICE 1</a>
+    </div>
+
+    <div id="corrige2" class="corrige">
+        <h2>Correction Exercice 2</h2>
+        <p>La dérivée est \(f'(x) = -6x + 6\).</p>
+        <ol>
+            <li>\(f'(1) = -6(1) + 6 = 0\).</li>
+            <li>\(f'(4) = -6(4) + 6 = -24 + 6 = -18\).</li>
+            <li>Le coefficient directeur est \(f'(0) = -6(0) + 6 = 6\).</li>
+        </ol>
+        <a href="#" class="navigation">RETOUR À L'EXERCICE 2</a>
+    </div>
+
+    <div id="corrige3" class="corrige">
+        <h2>Correction Exercice 3</h2>
+        <ol>
+            <li>\(f_1(-2) = -15\) et \(f_1'(x) = -2x+4 \Rightarrow f_1'(-2) = 8\).<br>
+                Équation : \(y = 8(x - (-2)) + (-15) \Rightarrow y = 8x + 16 - 15 \Rightarrow y = 8x + 1\).</li>
+            <li>\(f_2(2) = -1\) et \(f_2'(x) = 3x^2-5 \Rightarrow f_2'(2) = 7\).<br>
+                Équation : \(y = 7(x - 2) + (-1) \Rightarrow y = 7x - 14 - 1 \Rightarrow y = 7x - 15\).</li>
+        </ol>
+        <a href="#" class="navigation">RETOUR À L'EXERCICE 3</a>
+    </div>
+
+</body>
+</html>
