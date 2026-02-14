@@ -5,15 +5,12 @@ def simulation_gain():
     
     if de == 1:
         return -5 # Perte de 5 euros
-    
     elif de % 2 == 0:  #Si le résultat est pair
-        return ...... # Gain de 2 euros
-    
+        return 2 # Gain de 2 euros
     elif de == 3 or de == 5:
-        return ...... # Gain de 1 euro
-    
+        return 1 # Gain de 1 euro
     else:
-        return ...... # Pas de gain ni de perte
+        return 0 # Pas de gain ni de perte
 
 # Calcul de la moyenne sur 10 000 parties
 nb_parties = 10000
