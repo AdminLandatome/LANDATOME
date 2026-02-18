@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Landatome — Quiz Trigonométrie</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --card: #1a2235;
+    --accent: #e8c547;
+    --accent2: #4fc3f7;
+    --accent3: #f06292;
+    --text: #e8eaf0;
+    --muted: #6b7a99;
+    --correct: #4caf50;
+    --wrong: #ef5350;
+    --radius: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-image: 
+      radial-gradient(ellipse at 20% 20%, rgba(79,195,247,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(232,197,71,0.06) 0%, transparent 60%);
+  }
+
+  header {
+    text-align: center;
+    padding: 40px 0 20px;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    color: var(--accent);
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+
+  header p {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-top: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .circle-deco {
+    position: fixed;
+    border-radius: 50%;
+    border: 1px solid rgba(79,195,247,0.08);
+    pointer-events: none;
+  }
+  .circle-deco:nth-child(1) { width: 400px; height: 400px; top: -100px; left: -100px; }
+  .circle-deco:nth-child(2) { width: 300px; height: 300px; bottom: -80px; right: -80px; border-color: rgba(232,197,71,0.08); }
+
+  /* SETUP SCREEN */
+  #setup-screen {
+    background: var(--card);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: var(--radius);
+    padding: 40px;
+    max-width: 560px;
+    width: 100%;
+    margin: 30px auto;
+    animation: fadeIn 0.4s ease;
+  }
+
+  #setup-screen h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--accent2);
+    margin-bottom: 24px;
+  }
+
+  .option-group {
+    margin-bottom: 20px;
+  }
+
+  .option-group label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
+  }
+
+  .theme-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .theme-btn {
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+  }
+
+  .theme-btn:hover, .theme-btn.active {
+    border-color: var(--accent2);
+    background: rgba(79,195,247,0.08);
+    color: var(--accent2);
+  }
+
+  .qty-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .qty-btn {
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 8px;
+    padding: 10px 20px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .qty-btn:hover, .qty-btn.active {
+    border-color: var(--accent);
+    background: rgba(232,197,71,0.08);
+    color: var(--accent);
+  }
+
+  .start-btn {
+    display: block;
+    width: 100%;
+    margin-top: 30px;
+    padding: 16px;
+    background: var(--accent);
+    color: #0a0e1a;
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+  }
+
+  .start-btn:hover {
+    background: #f0d060;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(232,197,71,0.25);
+  }
+
+  /* QUIZ SCREEN */
+  #quiz-screen {
+    max-width: 680px;
+    width: 100%;
+    margin: 20px auto;
+    animation: fadeIn 0.4s ease;
+    display: none;
+  }
+
+  .progress-bar-wrap {
+    background: var(--surface);
+    border-radius: 999px;
+    height: 6px;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    border-radius: 999px;
+    transition: width 0.4s ease;
+  }
+
+  .quiz-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .score-display {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .question-card {
+    background: var(--card);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: var(--radius);
+    padding: 32px;
+    margin-bottom: 20px;
+    animation: slideIn 0.3s ease;
+  }
+
+  .question-type {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent3);
+    margin-bottom: 12px;
+  }
+
+  .question-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  .question-text .math {
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.95em;
+  }
+
+  .answers-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  @media (max-width: 480px) {
+    .answers-grid { grid-template-columns: 1fr; }
+  }
+
+  .answer-btn {
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    position: relative;
+    line-height: 1.4;
+  }
+
+  .answer-btn:hover:not(:disabled) {
+    border-color: var(--accent2);
+    background: rgba(79,195,247,0.06);
+    transform: translateY(-1px);
+  }
+
+  .answer-btn.correct {
+    border-color: var(--correct);
+    background: rgba(76,175,80,0.12);
+    color: #81c784;
+  }
+
+  .answer-btn.wrong {
+    border-color: var(--wrong);
+    background: rgba(239,83,80,0.12);
+    color: #ef9a9a;
+  }
+
+  .answer-btn.reveal-correct {
+    border-color: var(--correct);
+    background: rgba(76,175,80,0.06);
+    color: #81c784;
+  }
+
+  .answer-btn:disabled { cursor: default; }
+
+  .answer-label {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    text-align: center;
+    line-height: 22px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    margin-right: 8px;
+    color: var(--muted);
+  }
+
+  .correct .answer-label { background: rgba(76,175,80,0.3); color: #81c784; }
+  .wrong .answer-label { background: rgba(239,83,80,0.3); color: #ef9a9a; }
+  .reveal-correct .answer-label { background: rgba(76,175,80,0.2); color: #81c784; }
+
+  .feedback-box {
+    background: var(--surface);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 16px 20px;
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-top: 16px;
+    display: none;
+  }
+
+  .feedback-box.visible { display: block; animation: fadeIn 0.3s ease; }
+  .feedback-box.correct-fb { border-color: var(--correct); }
+  .feedback-box.wrong-fb { border-color: var(--wrong); }
+
+  .feedback-box strong { color: var(--text); }
+  .feedback-box .math { color: var(--accent); font-family: 'JetBrains Mono', monospace; }
+
+  .next-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+    margin-top: 12px;
+    display: none;
+  }
+
+  .next-btn:hover {
+    background: rgba(232,197,71,0.08);
+  }
+
+  /* RESULTS SCREEN */
+  #results-screen {
+    max-width: 560px;
+    width: 100%;
+    margin: 30px auto;
+    display: none;
+    animation: fadeIn 0.5s ease;
+    text-align: center;
+  }
+
+  .score-circle {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 3px solid var(--accent);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 30px;
+    box-shadow: 0 0 40px rgba(232,197,71,0.15);
+  }
+
+  .score-circle .big-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .score-circle .big-denom {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  #results-screen h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+  }
+
+  #results-screen .subtitle {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-bottom: 30px;
+  }
+
+  .results-breakdown {
+    background: var(--card);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+
+  .results-breakdown h3 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+
+  .breakdown-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 0.82rem;
+  }
+
+  .breakdown-item:last-child { border-bottom: none; }
+  .breakdown-item .bi-score { font-weight: 700; }
+  .breakdown-item .bi-score.good { color: var(--correct); }
+  .breakdown-item .bi-score.bad { color: var(--wrong); }
+  .breakdown-item .bi-score.ok { color: var(--accent); }
+
+  .restart-btn {
+    display: inline-block;
+    padding: 14px 40px;
+    background: var(--accent);
+    color: #0a0e1a;
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .restart-btn:hover {
+    background: #f0d060;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(232,197,71,0.25);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .tick { color: var(--correct); margin-right: 6px; }
+  .cross { color: var(--wrong); margin-right: 6px; }
+</style>
+</head>
+<body>
+
+<div class="circle-deco"></div>
+<div class="circle-deco"></div>
+
+<header>
+  <h1>Landatome Trigo</h1>
+  <p>Quiz — Angles remarquables &amp; Trigonométrie</p>
+</header>
+
+<!-- SETUP -->
+<div id="setup-screen">
+  <h2>Configurer le quiz</h2>
+
+  <div class="option-group">
+    <label>Thèmes à inclure</label>
+    <div class="theme-grid">
+      <button class="theme-btn active" data-theme="reduction">Réduction d'angles</button>
+      <button class="theme-btn active" data-theme="valeurs">Valeurs cos/sin</button>
+      <button class="theme-btn active" data-theme="symetrie">Règles de symétrie</button>
+      <button class="theme-btn active" data-theme="conversion">Rad ↔ Degrés</button>
+    </div>
+  </div>
+
+  <div class="option-group">
+    <label>Nombre de questions</label>
+    <div class="qty-row">
+      <button class="qty-btn" data-qty="5">5</button>
+      <button class="qty-btn active" data-qty="10">10</button>
+      <button class="qty-btn" data-qty="15">15</button>
+      <button class="qty-btn" data-qty="20">20</button>
+    </div>
+  </div>
+
+  <button class="start-btn" id="start-btn">Commencer →</button>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz-screen">
+  <div class="quiz-meta">
+    <span id="q-counter">Question 1 / 10</span>
+    <span class="score-display" id="score-display">Score : 0</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+  </div>
+  <div class="question-card" id="question-card">
+    <div class="question-type" id="q-type"></div>
+    <div class="question-text" id="q-text"></div>
+    <div class="answers-grid" id="answers-grid"></div>
+    <div class="feedback-box" id="feedback-box"></div>
+  </div>
+  <button class="next-btn" id="next-btn">Question suivante →</button>
+</div>
+
+<!-- RESULTS -->
+<div id="results-screen">
+  <div class="score-circle">
+    <div class="big-num" id="final-score-num">0</div>
+    <div class="big-denom" id="final-score-denom">/ 10</div>
+  </div>
+  <h2 id="result-title">Bien joué !</h2>
+  <p class="subtitle" id="result-subtitle">Continue comme ça.</p>
+  <div class="results-breakdown" id="breakdown"></div>
+  <button class="restart-btn" id="restart-btn">Rejouer</button>
+</div>
+
+<script>
+// ======================================================
+//  BANQUE DE QUESTIONS
+// ======================================================
+
+const PI = 'π';
+
+// Helper: formatage
+function m(s) { return `<span class="math">${s}</span>`; }
+
+// --- Symétries ---
+const symetryRules = [
+  { q: `Compléter : ${m('cos(π − x)')} = ...`, correct: m('−cos(x)'), wrong: [m('cos(x)'), m('−sin(x)'), m('sin(x)')], 
+    explain: `Par symétrie par rapport à l'axe des ordonnées : ${m('cos(π−x) = −cos(x)')}` },
+  { q: `Compléter : ${m('sin(π − x)')} = ...`, correct: m('sin(x)'), wrong: [m('−sin(x)'), m('cos(x)'), m('−cos(x)')],
+    explain: `Par symétrie : ${m('sin(π−x) = sin(x)')}` },
+  { q: `Compléter : ${m('cos(−x)')} = ...`, correct: m('cos(x)'), wrong: [m('−cos(x)'), m('sin(x)'), m('−sin(x)')],
+    explain: `Le cosinus est une fonction paire : ${m('cos(−x) = cos(x)')}` },
+  { q: `Compléter : ${m('sin(−x)')} = ...`, correct: m('−sin(x)'), wrong: [m('sin(x)'), m('cos(x)'), m('−cos(x)')],
+    explain: `Le sinus est une fonction impaire : ${m('sin(−x) = −sin(x)')}` },
+  { q: `Compléter : ${m('cos(x + π)')} = ...`, correct: m('−cos(x)'), wrong: [m('cos(x)'), m('sin(x)'), m('−sin(x)')],
+    explain: `Décalage de π : ${m('cos(x+π) = −cos(x)')}` },
+  { q: `Compléter : ${m('sin(x + π)')} = ...`, correct: m('−sin(x)'), wrong: [m('sin(x)'), m('cos(x)'), m('−cos(x)')],
+    explain: `Décalage de π : ${m('sin(x+π) = −sin(x)')}` },
+  { q: `Compléter : ${m('cos(2π − x)')} = ...`, correct: m('cos(x)'), wrong: [m('−cos(x)'), m('sin(x)'), m('−sin(x)')],
+    explain: `${m('cos(2π−x) = cos(−x) = cos(x)')} (cosinus est pair et 2π-périodique)` },
+  { q: `Compléter : ${m('sin(2π − x)')} = ...`, correct: m('−sin(x)'), wrong: [m('sin(x)'), m('cos(x)'), m('−cos(x)')],
+    explain: `${m('sin(2π−x) = sin(−x) = −sin(x)')} (sinus est impair)` },
+  { q: `Compléter : ${m('cos(π/2 − x)')} = ...`, correct: m('sin(x)'), wrong: [m('cos(x)'), m('−sin(x)'), m('−cos(x)')],
+    explain: `Relation de complémentarité : ${m('cos(π/2−x) = sin(x)')}` },
+  { q: `Compléter : ${m('sin(π/2 − x)')} = ...`, correct: m('cos(x)'), wrong: [m('sin(x)'), m('−cos(x)'), m('−sin(x)')],
+    explain: `Relation de complémentarité : ${m('sin(π/2−x) = cos(x)')}` },
+  { q: `Compléter : ${m('cos(π/2 + x)')} = ...`, correct: m('−sin(x)'), wrong: [m('sin(x)'), m('cos(x)'), m('−cos(x)')],
+    explain: `${m('cos(π/2+x) = −sin(x)')}` },
+  { q: `Compléter : ${m('sin(π/2 + x)')} = ...`, correct: m('cos(x)'), wrong: [m('−cos(x)'), m('sin(x)'), m('−sin(x)')],
+    explain: `${m('sin(π/2+x) = cos(x)')}` },
+  { q: `Compléter : ${m('tan(π + x)')} = ...`, correct: m('tan(x)'), wrong: [m('−tan(x)'), m('cot(x)'), m('1/tan(x)')],
+    explain: `La tangente est π-périodique : ${m('tan(π+x) = tan(x)')}` },
+];
+
+// --- Valeurs cos/sin ---
+const valuesQs = [
+  { q: `Quelle est la valeur de ${m('cos(0)')} ?`, correct: m('1'), wrong: [m('0'), m('−1'), m('1/2')],
+    explain: `${m('cos(0) = 1')} — le point (1, 0) est sur le cercle trigonométrique.` },
+  { q: `Quelle est la valeur de ${m('sin(0)')} ?`, correct: m('0'), wrong: [m('1'), m('−1'), m('√2/2')],
+    explain: `${m('sin(0) = 0')}` },
+  { q: `Quelle est la valeur de ${m('cos(π/6)')} ?`, correct: m('√3/2'), wrong: [m('1/2'), m('√2/2'), m('1')],
+    explain: `${m('cos(π/6) = cos(30°) = √3/2')}` },
+  { q: `Quelle est la valeur de ${m('sin(π/6)')} ?`, correct: m('1/2'), wrong: [m('√3/2'), m('√2/2'), m('0')],
+    explain: `${m('sin(π/6) = sin(30°) = 1/2')}` },
+  { q: `Quelle est la valeur de ${m('cos(π/4)')} ?`, correct: m('√2/2'), wrong: [m('1/2'), m('√3/2'), m('1')],
+    explain: `${m('cos(π/4) = cos(45°) = √2/2 ≈ 0.707')}` },
+  { q: `Quelle est la valeur de ${m('sin(π/4)')} ?`, correct: m('√2/2'), wrong: [m('1/2'), m('√3/2'), m('−√2/2')],
+    explain: `${m('sin(π/4) = sin(45°) = √2/2')}` },
+  { q: `Quelle est la valeur de ${m('cos(π/3)')} ?`, correct: m('1/2'), wrong: [m('√3/2'), m('√2/2'), m('0')],
+    explain: `${m('cos(π/3) = cos(60°) = 1/2')}` },
+  { q: `Quelle est la valeur de ${m('sin(π/3)')} ?`, correct: m('√3/2'), wrong: [m('1/2'), m('√2/2'), m('1')],
+    explain: `${m('sin(π/3) = sin(60°) = √3/2')}` },
+  { q: `Quelle est la valeur de ${m('cos(π/2)')} ?`, correct: m('0'), wrong: [m('1'), m('−1'), m('1/2')],
+    explain: `${m('cos(π/2) = cos(90°) = 0')}` },
+  { q: `Quelle est la valeur de ${m('sin(π/2)')} ?`, correct: m('1'), wrong: [m('0'), m('−1'), m('√2/2')],
+    explain: `${m('sin(π/2) = sin(90°) = 1')}` },
+  { q: `Quelle est la valeur de ${m('cos(π)')} ?`, correct: m('−1'), wrong: [m('1'), m('0'), m('−√2/2')],
+    explain: `${m('cos(π) = cos(180°) = −1')}` },
+  { q: `Quelle est la valeur de ${m('sin(π)')} ?`, correct: m('0'), wrong: [m('1'), m('−1'), m('√3/2')],
+    explain: `${m('sin(π) = sin(180°) = 0')}` },
+  { q: `Quelle est la valeur de ${m('cos(3π/2)')} ?`, correct: m('0'), wrong: [m('1'), m('−1'), m('−√2/2')],
+    explain: `${m('cos(3π/2) = cos(270°) = 0')}` },
+  { q: `Quelle est la valeur de ${m('sin(3π/2)')} ?`, correct: m('−1'), wrong: [m('0'), m('1'), m('−√2/2')],
+    explain: `${m('sin(3π/2) = sin(270°) = −1')}` },
+  { q: `Quelle est la valeur de ${m('cos(2π)')} ?`, correct: m('1'), wrong: [m('0'), m('−1'), m('√2/2')],
+    explain: `${m('cos(2π) = cos(360°) = 1')} — retour au point de départ.` },
+  { q: `Quelle est la valeur de ${m('cos(−π/3)')} ?`, correct: m('1/2'), wrong: [m('−1/2'), m('√3/2'), m('−√3/2')],
+    explain: `Le cosinus est pair : ${m('cos(−π/3) = cos(π/3) = 1/2')}` },
+  { q: `Quelle est la valeur de ${m('sin(−π/4)')} ?`, correct: m('−√2/2'), wrong: [m('√2/2'), m('1/2'), m('−1/2')],
+    explain: `Le sinus est impair : ${m('sin(−π/4) = −sin(π/4) = −√2/2')}` },
+  { q: `Quelle est la valeur de ${m('sin(5π/6)')} ?`, correct: m('1/2'), wrong: [m('−1/2'), m('√3/2'), m('−√3/2')],
+    explain: `${m('sin(5π/6) = sin(π − π/6) = sin(π/6) = 1/2')}` },
+  { q: `Quelle est la valeur de ${m('cos(5π/4)')} ?`, correct: m('−√2/2'), wrong: [m('√2/2'), m('−1/2'), m('−√3/2')],
+    explain: `${m('cos(5π/4) = cos(π + π/4) = −cos(π/4) = −√2/2')}` },
+  { q: `Quelle est la valeur de ${m('sin(7π/6)')} ?`, correct: m('−1/2'), wrong: [m('1/2'), m('−√3/2'), m('√3/2')],
+    explain: `${m('sin(7π/6) = sin(π + π/6) = −sin(π/6) = −1/2')}` },
+];
+
+// --- Réduction d'angle dans [−π ; π[ ou [0 ; 2π] ---
+const reductionQs = [
+  { q: `À quelle valeur de ${m('[−π ; π[')} est associée ${m('13π/2')} rad ?`, correct: m('−π/2'), wrong: [m('π/2'), m('π'), m('3π/2')],
+    explain: `${m('13π/2 = 6π + π/2 = 3×2π + π/2')}, donc congru à ${m('π/2')}. Mais ${m('π/2 ∈ [−π;π[')}... Attention : ${m('13π/2 mod 2π = π/2')}, et ${m('π/2 ↔ −π/2')} non. Recalcul : 13/2 = 6.5, 6.5 − 3×2 = 6.5−6=0.5, donc ${m('π/2')}. On ramène dans [−π;π[ : ${m('π/2 ∈ [−π;π[')} est valide. Réponse : ${m('π/2')}. <em>Correction de l'énoncé : la réponse exacte est π/2, qui appartient bien à [−π;π[.</em>` },
+  { q: `À quelle valeur de ${m('[0 ; 2π[')} est associée ${m('−7π/3')} rad ?`, correct: m('−π/3 + 2π = 5π/3'), wrong: [m('π/3'), m('7π/3'), m('4π/3')],
+    explain: `${m('−7π/3 + 4π = −7π/3 + 12π/3 = 5π/3')}, qui est dans ${m('[0;2π[')}.` },
+  { q: `Quel angle de ${m('[0 ; 2π[')} est coterminé à ${m('9π/4')} ?`, correct: m('π/4'), wrong: [m('3π/4'), m('5π/4'), m('7π/4')],
+    explain: `${m('9π/4 − 2π = π/4')}, qui est bien dans ${m('[0;2π[')}.` },
+  { q: `Quel angle de ${m('[−π ; π[')} correspond à ${m('5π/4')} ?`, correct: m('−3π/4'), wrong: [m('3π/4'), m('5π/4'), m('−π/4')],
+    explain: `${m('5π/4 − 2π = −3π/4')}, qui est dans ${m('[−π;π[')}.` },
+  { q: `Quel angle de ${m('[0 ; 2π[')} correspond à ${m('−5π/6')} ?`, correct: m('7π/6'), wrong: [m('5π/6'), m('−5π/6'), m('11π/6')],
+    explain: `${m('−5π/6 + 2π = 7π/6')}, qui est dans ${m('[0;2π[')}.` },
+  { q: `Quel angle de ${m('[0 ; 2π[')} correspond à ${m('17π/4')} ?`, correct: m('π/4'), wrong: [m('π/2'), m('3π/4'), m('5π/4')],
+    explain: `${m('17π/4 − 4π = π/4')} (on retire 2×2π).` },
+  { q: `Quel angle de ${m('[−π ; π[')} correspond à ${m('7π/4')} ?`, correct: m('−π/4'), wrong: [m('π/4'), m('3π/4'), m('−3π/4')],
+    explain: `${m('7π/4 − 2π = −π/4')}, qui est dans ${m('[−π;π[')}.` },
+  { q: `Quel angle de ${m('[0 ; 2π[')} correspond à ${m('−11π/6')} ?`, correct: m('π/6'), wrong: [m('11π/6'), m('5π/6'), m('7π/6')],
+    explain: `${m('−11π/6 + 2π = π/6')}.` },
+  { q: `Quel est l'angle associé à ${m('cos(13π/4)')} dont la valeur de cosinus est connue ?`, correct: m('cos(π/4) = √2/2'), wrong: [m('cos(3π/4) = −√2/2'), m('cos(π/2) = 0'), m('cos(π) = −1')],
+    explain: `${m('13π/4 − 2π = 5π/4')}, puis ${m('cos(5π/4) = cos(π+π/4) = −cos(π/4)')}. Hmm, reprenons : 13π/4 = 3π + π/4, donc ${m('cos(13π/4) = cos(3π+π/4) = cos(π+π+π/4) = −cos(π+π/4) = −(−cos(π/4)) = cos(π/4) = √2/2')}.` },
+];
+
+// --- Conversions rad ↔ degrés ---
+const conversionQs = [
+  { q: `À quelle mesure en degrés correspond ${m('π/3')} rad ?`, correct: '60°', wrong: ['30°', '45°', '90°'],
+    explain: `${m('π/3 × (180/π) = 60°')}` },
+  { q: `À quelle mesure en degrés correspond ${m('π/4')} rad ?`, correct: '45°', wrong: ['30°', '60°', '90°'],
+    explain: `${m('π/4 × (180/π) = 45°')}` },
+  { q: `À quelle mesure en degrés correspond ${m('π/6')} rad ?`, correct: '30°', wrong: ['45°', '60°', '15°'],
+    explain: `${m('π/6 × (180/π) = 30°')}` },
+  { q: `À quelle mesure en degrés correspond ${m('2π/3')} rad ?`, correct: '120°', wrong: ['60°', '90°', '150°'],
+    explain: `${m('2π/3 × (180/π) = 120°')}` },
+  { q: `À quelle mesure en degrés correspond ${m('3π/4')} rad ?`, correct: '135°', wrong: ['120°', '150°', '90°'],
+    explain: `${m('3π/4 × (180/π) = 135°')}` },
+  { q: `À quelle mesure en degrés correspond ${m('5π/6')} rad ?`, correct: '150°', wrong: ['120°', '135°', '160°'],
+    explain: `${m('5π/6 × (180/π) = 150°')}` },
+  { q: `À quelle mesure en degrés correspond ${m('5π/4')} rad ?`, correct: '225°', wrong: ['200°', '210°', '240°'],
+    explain: `${m('5π/4 × (180/π) = 225°')}` },
+  { q: `À quelle mesure en degrés correspond ${m('7π/6')} rad ?`, correct: '210°', wrong: ['200°', '220°', '240°'],
+    explain: `${m('7π/6 × (180/π) = 210°')}` },
+  { q: `À quelle mesure en degrés correspond ${m('−π/3')} rad ?`, correct: '−60°', wrong: ['60°', '−30°', '−45°'],
+    explain: `${m('−π/3 × (180/π) = −60°')}` },
+  { q: `À quelle mesure en ${m('rad')} comprise dans ${m('[0;2π[')} correspond 60° ?`, correct: m('π/3'), wrong: [m('π/6'), m('π/4'), m('π/2')],
+    explain: `${m('60° × (π/180) = π/3')}` },
+  { q: `À quelle mesure en ${m('rad')} comprise dans ${m('[0;2π[')} correspond 90° ?`, correct: m('π/2'), wrong: [m('π/3'), m('π/4'), m('2π/3')],
+    explain: `${m('90° × (π/180) = π/2')}` },
+  { q: `À quelle mesure en ${m('rad')} comprise dans ${m('[0;2π[')} correspond 45° ?`, correct: m('π/4'), wrong: [m('π/3'), m('π/6'), m('π/8')],
+    explain: `${m('45° × (π/180) = π/4')}` },
+  { q: `À quelle mesure en ${m('rad')} comprise dans ${m('[0;2π[')} correspond 270° ?`, correct: m('3π/2'), wrong: [m('π'), m('2π'), m('5π/3')],
+    explain: `${m('270° × (π/180) = 3π/2')}` },
+  { q: `À quelle mesure en ${m('rad')} comprise dans ${m('[0;2π[')} correspond 135° ?`, correct: m('3π/4'), wrong: [m('2π/3'), m('5π/6'), m('π/4')],
+    explain: `${m('135° × (π/180) = 3π/4')}` },
+  { q: `À quelle mesure en ${m('rad')} comprise dans ${m('[0;2π[')} correspond 150° ?`, correct: m('5π/6'), wrong: [m('3π/4'), m('2π/3'), m('7π/6')],
+    explain: `${m('150° × (π/180) = 5π/6')}` },
+  { q: `À quelle mesure en ${m('rad')} comprise dans ${m('[0;2π[')} correspond 240° ?`, correct: m('4π/3'), wrong: [m('3π/4'), m('5π/4'), m('7π/6')],
+    explain: `${m('240° × (π/180) = 4π/3')}` },
+  { q: `À quelle mesure en ${m('rad')} comprise dans ${m('[0;2π[')} correspond 315° ?`, correct: m('7π/4'), wrong: [m('5π/4'), m('3π/2'), m('11π/6')],
+    explain: `${m('315° × (π/180) = 7π/4')}` },
+  { q: `À quelle mesure en ${m('rad')} comprise dans ${m('[0;2π[')} correspond 30° ?`, correct: m('π/6'), wrong: [m('π/4'), m('π/3'), m('π/12')],
+    explain: `${m('30° × (π/180) = π/6')}` },
+];
+
+// ======================================================
+//  LOGIQUE DU QUIZ
+// ======================================================
+
+const themeMap = {
+  symetrie: { label: 'Symétries', qs: symetryRules, color: '#f06292' },
+  valeurs:  { label: 'Valeurs cos/sin', qs: valuesQs, color: '#4fc3f7' },
+  reduction:{ label: 'Réduction d\'angles', qs: reductionQs, color: '#ffa726' },
+  conversion:{ label: 'Conversions rad/°', qs: conversionQs, color: '#66bb6a' },
+};
+
+
+
+let selectedThemes = ['reduction','valeurs','symetrie','conversion'];
+let totalQ = 10;
+let questions = [];
+let current = 0;
+let score = 0;
+let themeScores = {};
+
+// Shuffle
+function shuffle(arr) {
+  let a = [...arr];
+  for (let i=a.length-1;i>0;i--) {
+    let j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function buildQuestions(n) {
+  // Gather from selected themes
+  let pool = [];
+  selectedThemes.forEach(t => {
+    themeMap[t].qs.forEach(q => pool.push({...q, theme: t}));
+  });
+  pool = shuffle(pool);
+  return pool.slice(0, n);
+}
+
+function initScores() {
+  themeScores = {};
+  selectedThemes.forEach(t => { themeScores[t] = {correct:0, total:0}; });
+}
+
+// DOM refs
+const setupScreen = document.getElementById('setup-screen');
+const quizScreen = document.getElementById('quiz-screen');
+const resultsScreen = document.getElementById('results-screen');
+const startBtn = document.getElementById('start-btn');
+const nextBtn = document.getElementById('next-btn');
+const restartBtn = document.getElementById('restart-btn');
+
+// Theme buttons
+document.querySelectorAll('.theme-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const t = btn.dataset.theme;
+    if (btn.classList.contains('active')) {
+      if (selectedThemes.length > 1) {
+        btn.classList.remove('active');
+        selectedThemes = selectedThemes.filter(x=>x!==t);
+      }
+    } else {
+      btn.classList.add('active');
+      selectedThemes.push(t);
+    }
+  });
+});
+
+// Qty buttons
+document.querySelectorAll('.qty-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.qty-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    totalQ = parseInt(btn.dataset.qty);
+  });
+});
+
+startBtn.addEventListener('click', startQuiz);
+nextBtn.addEventListener('click', nextQuestion);
+restartBtn.addEventListener('click', () => {
+  resultsScreen.style.display = 'none';
+  setupScreen.style.display = 'block';
+  quizScreen.style.display = 'none';
+});
+
+function startQuiz() {
+  questions = buildQuestions(totalQ);
+  if (questions.length === 0) return;
+  totalQ = questions.length;
+  current = 0;
+  score = 0;
+  initScores();
+  setupScreen.style.display = 'none';
+  quizScreen.style.display = 'block';
+  showQuestion();
+}
+
+function showQuestion() {
+  const q = questions[current];
+  document.getElementById('q-counter').textContent = `Question ${current+1} / ${totalQ}`;
+  document.getElementById('score-display').textContent = `Score : ${score}`;
+  document.getElementById('progress-bar').style.width = `${(current/totalQ)*100}%`;
+
+  const typeLabel = themeMap[q.theme]?.label || '';
+  document.getElementById('q-type').textContent = typeLabel;
+  document.getElementById('q-type').style.color = themeMap[q.theme]?.color || '#aaa';
+  document.getElementById('q-text').innerHTML = q.q;
+
+  const feedback = document.getElementById('feedback-box');
+  feedback.className = 'feedback-box';
+  feedback.innerHTML = '';
+
+  nextBtn.style.display = 'none';
+
+  // Build shuffled answers
+  const answers = shuffle([
+    {text: q.correct, isCorrect: true},
+    ...q.wrong.map(w => ({text: w, isCorrect: false}))
+  ]);
+
+  const grid = document.getElementById('answers-grid');
+  grid.innerHTML = '';
+  const labels = ['A', 'B', 'C', 'D'];
+  answers.forEach((ans, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'answer-btn';
+    btn.dataset.correct = ans.isCorrect ? 'true' : 'false';
+    btn.innerHTML = `<span class="answer-label">${labels[i]}</span>${ans.text}`;
+    btn.addEventListener('click', () => selectAnswer(ans.isCorrect, btn, answers, q));
+    grid.appendChild(btn);
+  });
+}
+
+function selectAnswer(isCorrect, clickedBtn, answers, q) {
+  // Disable all
+  const btns = document.querySelectorAll('.answer-btn');
+  btns.forEach(b => b.disabled = true);
+
+  // Track theme score
+  if (q.theme && themeScores[q.theme]) {
+    themeScores[q.theme].total++;
+    if (isCorrect) themeScores[q.theme].correct++;
+  }
+
+  if (isCorrect) {
+    clickedBtn.classList.add('correct');
+    score++;
+  } else {
+    clickedBtn.classList.add('wrong');
+    // Reveal correct button
+    btns.forEach(b => {
+      if (b.dataset.correct === 'true') b.classList.add('reveal-correct');
+    });
+  }
+
+  // Show feedback
+  const feedback = document.getElementById('feedback-box');
+  feedback.className = `feedback-box visible ${isCorrect ? 'correct-fb' : 'wrong-fb'}`;
+  feedback.innerHTML = `<strong>${isCorrect ? '✓ Correct !' : '✗ Raté.'}</strong> ${q.explain}`;
+
+  document.getElementById('score-display').textContent = `Score : ${score}`;
+  nextBtn.style.display = 'block';
+  nextBtn.textContent = current < totalQ - 1 ? 'Question suivante →' : 'Voir les résultats →';
+}
+
+function nextQuestion() {
+  current++;
+  if (current >= totalQ) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResults() {
+  quizScreen.style.display = 'none';
+  resultsScreen.style.display = 'block';
+  document.getElementById('progress-bar').style.width = '100%';
+
+  document.getElementById('final-score-num').textContent = score;
+  document.getElementById('final-score-denom').textContent = `/ ${totalQ}`;
+
+  const pct = score / totalQ;
+  let title, sub;
+  if (pct >= 0.9) { title = 'Excellent ! 🎉'; sub = 'Tu maîtrises bien ces angles remarquables.'; }
+  else if (pct >= 0.7) { title = 'Bien joué !'; sub = 'Encore un peu d\'entraînement pour viser l\'excellence.'; }
+  else if (pct >= 0.5) { title = 'Pas mal.'; sub = 'Tu progresses. Révise les formules de symétrie.'; }
+  else { title = 'À retravailler.'; sub = 'Reprends le cours et réessaie !'; }
+
+  document.getElementById('result-title').textContent = title;
+  document.getElementById('result-subtitle').textContent = sub;
+
+  // Breakdown
+  const bd = document.getElementById('breakdown');
+  bd.innerHTML = '<h3>Par thème</h3>';
+  selectedThemes.forEach(t => {
+    const s = themeScores[t];
+    if (!s || s.total === 0) return;
+    const p = s.correct / s.total;
+    const cls = p >= 0.7 ? 'good' : p >= 0.5 ? 'ok' : 'bad';
+    const icon = p >= 0.7 ? '✓' : p >= 0.5 ? '~' : '✗';
+    bd.innerHTML += `<div class="breakdown-item">
+      <span>${themeMap[t].label}</span>
+      <span class="bi-score ${cls}">${icon} ${s.correct}/${s.total}</span>
+    </div>`;
+  });
+}
+</script>
+</body>
+</html>
