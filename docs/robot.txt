@@ -1,3 +1,7 @@
 User-agent: *
 Disallow: /private/
 Disallow: /restricted/
+Allow: /
+
+# Indique le plan du site s'il existe
+Sitemap: https://adminlandatome.github.io/LANDATOME/sitemap.xml
