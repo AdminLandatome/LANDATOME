@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FONCTIONS PART3 — Fiche Miroir</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['\\(', '\\)']],
+      displayMath: [['\\[', '\\]']],
+      packages: {'[+]': ['ams']}
+    },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"></script>
+
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #f5f0e8;
+    --cream: #ede8dc;
+    --rule: #c8b89a;
+    --accent: #2c5f8a;
+    --accent-light: #d4e8f5;
+    --correct: #1a5c3a;
+    --correct-bg: #e8f5ee;
+    --correct-border: #a8d5bc;
+    --highlight: #fff3b0;
+    --highlight-border: #e0c040;
+    --shadow: rgba(26, 26, 46, 0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 300;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── Page texture overlay ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(180,160,120,0.08) 27px, rgba(180,160,120,0.08) 28px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 40px 28px 80px;
+  }
+
+  /* ── Header ── */
+  header {
+    text-align: center;
+    border-top: 3px double var(--ink);
+    border-bottom: 3px double var(--ink);
+    padding: 18px 0 14px;
+    margin-bottom: 40px;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.9rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  header .subtitle {
+    font-style: italic;
+    font-size: 0.92rem;
+    color: #666;
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Global corrigé toggle ── */
+  .global-toggle-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 28px;
+  }
+
+  .btn-global {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    padding: 8px 20px;
+    border: 2px solid var(--accent);
+    background: transparent;
+    color: var(--accent);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    border-radius: 2px;
+  }
+
+  .btn-global:hover { background: var(--accent); color: #fff; }
+
+  /* ── Exercise blocks ── */
+  .exercice {
+    background: white;
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--accent);
+    border-radius: 3px;
+    margin-bottom: 36px;
+    box-shadow: 2px 4px 14px var(--shadow);
+    overflow: hidden;
+  }
+
+  .exercice-header {
+    background: var(--cream);
+    border-bottom: 1px solid var(--rule);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .exercice-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .btn-corrige {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 5px 14px;
+    border: 1.5px solid var(--accent);
+    background: transparent;
+    color: var(--accent);
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    border-radius: 2px;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .btn-corrige:hover { background: var(--accent); color: #fff; }
+  .btn-corrige.active { background: var(--accent); color: #fff; }
+
+  .exercice-body { padding: 22px 24px; }
+
+  /* ── Questions ── */
+  .question { margin-bottom: 16px; }
+
+  .question p, .question-text { font-size: 1rem; margin-bottom: 8px; }
+
+  .q-label {
+    font-weight: 600;
+    margin-right: 6px;
+    color: var(--accent);
+  }
+
+  .fonctions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 28px;
+    margin: 14px 0;
+  }
+
+  .fonction-item {
+    background: var(--cream);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 8px 14px;
+    font-size: 1rem;
+  }
+
+  .fonction-item .num {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    color: var(--accent);
+    margin-right: 6px;
+    font-size: 0.9rem;
+  }
+
+  /* ── Corrigé sections ── */
+  .corrige {
+    display: none;
+    margin-top: 20px;
+    border-top: 1px dashed var(--rule);
+    padding-top: 18px;
+  }
+
+  .corrige.visible { display: block; animation: fadeIn 0.3s ease; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .corrige-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--correct);
+    margin-bottom: 14px;
+    letter-spacing: 0.04em;
+  }
+
+  .corrige-block {
+    background: var(--correct-bg);
+    border: 1px solid var(--correct-border);
+    border-left: 3px solid var(--correct);
+    border-radius: 2px;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+  }
+
+  .corrige-block .q-label { color: var(--correct); }
+
+  .highlight-result {
+    display: inline-block;
+    background: var(--highlight);
+    border: 1px solid var(--highlight-border);
+    border-radius: 2px;
+    padding: 2px 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  /* ── Tableau de signes ── */
+  .tableau {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 0.88rem;
+  }
+
+  .tableau th, .tableau td {
+    border: 1px solid var(--correct-border);
+    padding: 6px 10px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .tableau th {
+    background: rgba(26, 92, 58, 0.12);
+    font-weight: 600;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.85rem;
+  }
+
+  .tableau .pos { color: #1a5c3a; font-weight: 600; }
+  .tableau .neg { color: #8b1a1a; font-weight: 600; }
+  .tableau .zero { color: #555; }
+
+  /* ── Tableau de variations ── */
+  .var-table {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid var(--correct-border);
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 10px 0;
+    font-size: 0.85rem;
+  }
+
+  .var-row { display: flex; flex-direction: column; min-width: 70px; }
+  .var-cell {
+    border: 1px solid var(--correct-border);
+    padding: 6px 8px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .var-cell.header {
+    background: rgba(26, 92, 58, 0.12);
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    font-size: 0.82rem;
+  }
+  .var-cell.arrow-up   { color: #1a5c3a; }
+  .var-cell.arrow-down { color: #8b1a1a; }
+
+  /* ── Separator between sub-questions in corrigé ── */
+  .corrige-block + .corrige-block { margin-top: 0; }
+
+  /* ── Note ── */
+  .note {
+    font-size: 0.83rem;
+    font-style: italic;
+    color: #666;
+    margin-top: 8px;
+  }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #999;
+    margin-top: 60px;
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <h1>Fonctions Part3 M01</h1>
+    
+  </header>
+
+  <div class="global-toggle-bar">
+    <button class="btn-global" id="globalBtn" onclick="toggleAll()">Afficher tous les corrigés</button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ EXERCICE 1 ═══ -->
+  <div class="exercice" id="ex1">
+    <div class="exercice-header">
+      <h2>Exercice N°1</h2>
+      <button class="btn-corrige" onclick="toggleCorrige('c1', this)">Corrigé</button>
+    </div>
+    <div class="exercice-body">
+      <p>Parmi les fonctions suivantes définies sur \(\mathbb{R}\), lesquelles sont des polynômes de degré 3 ? Justifier.</p>
+
+      <div class="fonctions-grid">
+        <div class="fonction-item"><span class="num">1)</span> \(f(x) = 2x^3 - \dfrac{3}{7}x^2 + x - 11\)</div>
+        <div class="fonction-item"><span class="num">2)</span> \(g(x) = \dfrac{5}{3}x^4 - 2x^2 + 8\)</div>
+        <div class="fonction-item"><span class="num">3)</span> \(h(x) = (x-4)(x+3)(2x+1)\)</div>
+        <div class="fonction-item"><span class="num">4)</span> \(p(x) = x^2 - 6x + 9\)</div>
+        <div class="fonction-item"><span class="num">5)</span> \(q(t) = -4t^3 + t - 2\)</div>
+      </div>
+
+      <!-- CORRIGÉ 1 -->
+      <div class="corrige" id="c1">
+        <div class="corrige-title">— Le corrigé —</div>
+
+        <div class="corrige-block">
+          <span class="q-label">1)</span> \(f(x) = 2x^3 - \dfrac{3}{7}x^2 + x - 11\)<br><br>
+          C'est un polynôme de degré 3. Le coefficient du terme de degré 3 est \(2 \neq 0\), et il n'y a pas de terme de degré strictement supérieur à 3.
+        </div>
+
+        <div class="corrige-block">
+          <span class="q-label">2)</span> \(g(x) = \dfrac{5}{3}x^4 - 2x^2 + 8\)<br><br>
+          Ce n'est <em>pas</em> un polynôme de degré 3. Il est clairement de degré 4.
+        </div>
+
+        <div class="corrige-block">
+          <span class="q-label">3)</span> \(h(x) = (x-4)(x+3)(2x+1)\)<br><br>
+          \[(x-4)(x+3) = x^2 - x - 12\]
+          \[(x^2 - x - 12)(2x+1) = 2x^3 + x^2 - 2x^2 - x - 24x - 12 = 2x^3 - x^2 - 25x - 12\]
+          C'est un polynôme de degré 3. Le coefficient du terme en \(x^3\) est \(2 \neq 0\).
+        </div>
+
+        <div class="corrige-block">
+          <span class="q-label">4)</span> \(p(x) = x^2 - 6x + 9\)<br><br>
+          Ce n'est <em>pas</em> un polynôme de degré 3. Il est clairement de degré 2.
+        </div>
+
+        <div class="corrige-block">
+          <span class="q-label">5)</span> \(q(t) = -4t^3 + t - 2\)<br><br>
+          C'est un polynôme de degré 3. Le coefficient du terme de degré 3 est \(-4 \neq 0\), et il n'y a pas de terme de degré strictement supérieur à 3.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ EXERCICE 2 ═══ -->
+  <div class="exercice" id="ex2">
+    <div class="exercice-header">
+      <h2>Exercice N°2</h2>
+      <button class="btn-corrige" onclick="toggleCorrige('c2', this)">Corrigé</button>
+    </div>
+    <div class="exercice-body">
+      <p>Déterminer une fonction polynôme \(P\) de degré 3 admettant \(-2\), \(1\) et \(5\) pour racines et telle que \(P(3) = 40\).</p>
+
+      <!-- CORRIGÉ 2 -->
+      <div class="corrige" id="c2">
+        <div class="corrige-title">— Le corrigé —</div>
+
+        <div class="corrige-block">
+          \(P\) est un polynôme de degré 3 de racines \(-2\), \(1\) et \(5\), donc pour tout réel \(x\) :
+          \[P(x) = a(x+2)(x-1)(x-5) \quad \text{avec } a \in \mathbb{R}\]
+          De plus \(P(3) = 40\), donc :
+          \[a(3+2)(3-1)(3-5) = 40 \iff a \times 5 \times 2 \times (-2) = 40 \iff -20a = 40 \iff a = -2\]
+          Ainsi : <span class="highlight-result">\(P(x) = -2(x+2)(x-1)(x-5)\)</span><br><br>
+          Forme développée : \(P(x) = -2x^3 + 8x^2 + 14x - 20\)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ EXERCICE 3 ═══ -->
+  <div class="exercice" id="ex3">
+    <div class="exercice-header">
+      <h2>Exercice N°3</h2>
+      <button class="btn-corrige" onclick="toggleCorrige('c3', this)">Corrigé</button>
+    </div>
+    <div class="exercice-body">
+      <p>Déterminer une fonction polynôme \(P\) de degré 3 admettant \(-1\), \(4\) et \(6\) pour racines et telle que \(P(2) = 32\).</p>
+
+      <!-- CORRIGÉ 3 -->
+      <div class="corrige" id="c3">
+        <div class="corrige-title">— Le corrigé —</div>
+
+        <div class="corrige-block">
+          \(P\) est un polynôme de degré 3 de racines \(-1\), \(4\) et \(6\), donc pour tout réel \(x\) :
+          \[P(x) = a(x+1)(x-4)(x-6) \quad \text{avec } a \in \mathbb{R}\]
+          De plus \(P(2) = 32\), donc :
+          \[a(2+1)(2-4)(2-6) = 32 \iff a \times 3 \times (-2) \times (-4) = 32 \iff 24a = 32 \iff a = \frac{4}{3}\]
+          Ainsi : <span class="highlight-result">\(P(x) = \dfrac{4}{3}(x+1)(x-4)(x-6)\)</span><br><br>
+          Forme développée : \(P(x) = \dfrac{4}{3}x^3 - 12x^2 + \dfrac{104}{3}x + 32\)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ EXERCICE 4 ═══ -->
+  <div class="exercice" id="ex4">
+    <div class="exercice-header">
+      <h2>Exercice N°4</h2>
+      <button class="btn-corrige" onclick="toggleCorrige('c4', this)">Corrigé</button>
+    </div>
+    <div class="exercice-body">
+      <p>On considère la fonction \(P\) définie par \(P(x) = x^3 - 3{,}5\,x^2 + ax + b\) où \(a\) et \(b\) sont des réels.</p>
+
+      <div class="question">
+        <p><span class="q-label">1)</span> Déterminer les valeurs de \(a\) et \(b\) pour que \(0{,}5\) soit une racine double de \(P\) et que \(2{,}5\) soit également une racine de \(P\).</p>
+      </div>
+      <div class="question">
+        <p><span class="q-label">2)</span> Avec ces valeurs, écrire la forme factorisée de \(P(x)\).</p>
+      </div>
+      <div class="question">
+        <p><span class="q-label">3)</span> Résoudre \(P(x) \leq 0\).</p>
+      </div>
+
+      <!-- CORRIGÉ 4 -->
+      <div class="corrige" id="c4">
+        <div class="corrige-title">— Le corrigé —</div>
+
+        <div class="corrige-block">
+          <span class="q-label">1)</span> \(P\) est de degré 3 avec \(0{,}5\) comme racine double et \(2{,}5\) comme troisième racine. Le coefficient de \(x^3\) dans la forme développée est \(1\), donc :
+          \[P(x) = (x - 0{,}5)^2(x - 2{,}5)\]
+          En développant :
+          \[(x-0{,}5)^2 = x^2 - x + 0{,}25\]
+          \[(x^2 - x + 0{,}25)(x - 2{,}5) = x^3 - 3{,}5\,x^2 + 2{,}75\,x - 0{,}625\]
+          Donc <span class="highlight-result">\(a = 2{,}75\)</span> et <span class="highlight-result">\(b = -0{,}625\)</span>.
+        </div>
+
+        <div class="corrige-block">
+          <span class="q-label">2)</span> <span class="highlight-result">\(P(x) = (x - 0{,}5)^2(x - 2{,}5)\)</span>
+        </div>
+
+        <div class="corrige-block">
+          <span class="q-label">3)</span> Résolution de \(P(x) \leq 0 \iff (x-0{,}5)^2(x-2{,}5) \leq 0\) :<br><br>
+          <ul style="margin: 8px 0 8px 20px; line-height:2;">
+            <li>\((x-0{,}5)^2 \geq 0\) toujours (nul en \(x = 0{,}5\))</li>
+            <li>\((x-2{,}5) \leq 0 \iff x \leq 2{,}5\)</li>
+          </ul>
+
+          <table class="tableau">
+            <tr>
+              <th>\(x\)</th><th>\(-\infty\)</th><th></th><th>\(0{,}5\)</th><th></th><th>\(2{,}5\)</th><th></th><th>\(+\infty\)</th>
+            </tr>
+            <tr>
+              <td>\((x-0{,}5)^2\)</td>
+              <td colspan="2" class="pos">+</td>
+              <td class="zero">0</td>
+              <td colspan="2" class="pos">+</td>
+              <td colspan="2" class="pos">+</td>
+            </tr>
+            <tr>
+              <td>\((x-2{,}5)\)</td>
+              <td colspan="4" class="neg">−</td>
+              <td class="zero">0</td>
+              <td colspan="2" class="pos">+</td>
+            </tr>
+            <tr>
+              <td>\(P(x)\)</td>
+              <td colspan="2" class="neg">−</td>
+              <td class="zero">0</td>
+              <td class="neg">−</td>
+              <td class="zero">0</td>
+              <td colspan="2" class="pos">+</td>
+            </tr>
+          </table>
+
+          L'ensemble des solutions est : <span class="highlight-result">\(\left]-\infty\,;\,2{,}5\right]\)</span><br>
+          <span class="note">(\(P(x) = 0\) en \(x = 0{,}5\) et \(x = 2{,}5\), ces valeurs sont incluses.)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ EXERCICE 5 ═══ -->
+  <div class="exercice" id="ex5">
+    <div class="exercice-header">
+      <h2>Exercice N°5</h2>
+      <button class="btn-corrige" onclick="toggleCorrige('c5', this)">Corrigé</button>
+    </div>
+    <div class="exercice-body">
+      <p>On considère la fonction \(P\) définie par \(P(x) = -x^3 + 6x^2 - 9x + k\) où \(k\) est un nombre réel.</p>
+
+      <div class="question">
+        <p><span class="q-label">1)</span> Déterminer la valeur du réel \(k\) pour que \(3\) soit une racine de \(P\).</p>
+      </div>
+      <div class="question">
+        <p><span class="q-label">2)</span> Sachant que \(3\) est une racine double de \(P\), factoriser \(P(x)\).</p>
+      </div>
+      <div class="question">
+        <p><span class="q-label">3)</span> Résoudre \(P(x) \geq 0\).</p>
+      </div>
+
+      <!-- CORRIGÉ 5 -->
+      <div class="corrige" id="c5">
+        <div class="corrige-title">— Le corrigé —</div>
+
+        <div class="corrige-block">
+          <span class="q-label">1)</span> Si \(3\) est une racine de \(P\) alors \(P(3) = 0\) :
+          \[P(3) = -3^3 + 6 \times 3^2 - 9 \times 3 + k = 0\]
+          \[-27 + 54 - 27 + k = 0 \iff k = 0\]
+          Ainsi, pour que \(3\) soit une racine de \(P\), il faut (et il suffit) que <span class="highlight-result">\(k = 0\)</span>.
+        </div>
+
+        <div class="corrige-block">
+          <span class="q-label">2)</span> Avec \(k = 0\) : \(P(x) = -x^3 + 6x^2 - 9x\).<br><br>
+          \(P\) est de degré 3 avec \(3\) comme racine double et une troisième racine \(r\). On sait que le coefficient de \(x^3\) dans la forme factorisée est le même que dans la forme développée, soit \(-1\) :
+          \[P(x) = -1 \cdot (x-3)^2(x-r)\]
+          En développant \(-(x-3)^2(x-r)\) et en identifiant avec \(-x^3 + 6x^2 - 9x\) (divisé par \(-1\) : \(x^3 - 6x^2 + 9x\)), le coefficient de \(x^0\) donne \(-9r = 0\), donc \(r = 0\).<br><br>
+          Ainsi : <span class="highlight-result">\(P(x) = -x(x-3)^2\)</span><br>
+          <span class="note">Vérification : \(-x(x^2-6x+9) = -x^3+6x^2-9x\) ✓</span>
+        </div>
+
+        <div class="corrige-block">
+          <span class="q-label">3)</span> Résolution de \(P(x) \geq 0 \iff -x(x-3)^2 \geq 0\) :<br><br>
+          <ul style="margin: 8px 0 8px 20px; line-height:2;">
+            <li>\(-1\) est toujours négatif</li>
+            <li>\((x-3)^2 \geq 0\) toujours (nul en \(x=3\))</li>
+            <li>\(x > 0 \iff x > 0\)</li>
+          </ul>
+
+          <table class="tableau">
+            <tr>
+              <th>\(x\)</th><th>\(-\infty\)</th><th></th><th>\(0\)</th><th></th><th>\(3\)</th><th></th><th>\(+\infty\)</th>
+            </tr>
+            <tr>
+              <td>\(-1\)</td>
+              <td colspan="7" class="neg">−</td>
+            </tr>
+            <tr>
+              <td>\((x-3)^2\)</td>
+              <td colspan="3" class="pos">+</td>
+              <td class="pos">+</td>
+              <td class="zero">0</td>
+              <td colspan="2" class="pos">+</td>
+            </tr>
+            <tr>
+              <td>\(x\)</td>
+              <td colspan="2" class="neg">−</td>
+              <td class="zero">0</td>
+              <td colspan="4" class="pos">+</td>
+            </tr>
+            <tr>
+              <td>\(P(x)\)</td>
+              <td colspan="2" class="pos">+</td>
+              <td class="zero">0</td>
+              <td colspan="2" class="neg">−</td>
+              <td class="zero">0</td>
+              <td class="neg">−</td>
+            </tr>
+          </table>
+
+          L'ensemble des solutions est : <span class="highlight-result">\(\left]-\infty\,;\,0\right]\)</span><br>
+          <span class="note">(\(P(x) = 0\) en \(x = 0\) et \(x = 3\), mais \(P(x) < 0\) entre \(0\) et \(3\), et pour \(x > 3\).)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>Fonctions Part3 — Fiche miroir · Exercices d'entraînement</footer>
+
+</div>
+
+<script>
+  function retypeset(el) {
+    if (window.MathJax && MathJax.typesetPromise) {
+      MathJax.typesetPromise([el]);
+    }
+  }
+
+  function toggleCorrige(id, btn) {
+    const el = document.getElementById(id);
+    const isVisible = el.classList.contains('visible');
+    el.classList.toggle('visible');
+    btn.classList.toggle('active');
+    btn.textContent = isVisible ? 'Corrigé' : 'Masquer';
+    if (!isVisible) retypeset(el);
+    updateGlobalBtn();
+  }
+
+  function toggleAll() {
+    const corrigeIds = ['c1','c2','c3','c4','c5'];
+    const btns = document.querySelectorAll('.btn-corrige');
+    const anyHidden = corrigeIds.some(id => !document.getElementById(id).classList.contains('visible'));
+
+    corrigeIds.forEach((id, i) => {
+      const el = document.getElementById(id);
+      const btn = btns[i];
+      if (anyHidden) {
+        el.classList.add('visible');
+        btn.classList.add('active');
+        btn.textContent = 'Masquer';
+        retypeset(el);
+      } else {
+        el.classList.remove('visible');
+        btn.classList.remove('active');
+        btn.textContent = 'Corrigé';
+      }
+    });
+
+    updateGlobalBtn();
+  }
+
+  function updateGlobalBtn() {
+    const corrigeIds = ['c1','c2','c3','c4','c5'];
+    const allVisible = corrigeIds.every(id => document.getElementById(id).classList.contains('visible'));
+    const btn = document.getElementById('globalBtn');
+    btn.textContent = allVisible ? 'Masquer tous les corrigés' : 'Afficher tous les corrigés';
+  }
+</script>
+</body>
+</html>
