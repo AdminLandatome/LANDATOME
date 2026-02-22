@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Automatome Web</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/png" href="https://AdminLandatome.github.io/LANDATOME/00_images/MC-Escher-Impossible-Cube.png" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<style>
+/* =========================================================
+   Reset & base
+========================================================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  background: #f0f2f5;
+  color: #1a1a2e;
+  min-height: 100vh;
+}
+
+/* =========================================================
+   Layout général
+========================================================= */
+#app {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+}
+
+/* =========================================================
+   Header
+========================================================= */
+header {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: #fff;
+  padding: 16px 28px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+header img { width: 44px; height: 44px; border-radius: 8px; }
+header h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: 0.04em; }
+header span { opacity: 0.55; font-size: 0.85rem; margin-left: auto; }
+
+/* =========================================================
+   Panneau gauche — sélection
+========================================================= */
+#panneau-selection {
+  background: #fff;
+  border-right: 1px solid #dde1e8;
+  overflow-y: auto;
+  padding-bottom: 80px;
+}
+
+.selection-compteur {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  border-bottom: 1px solid #dde1e8;
+  padding: 12px 16px;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.compteur-badge {
+  background: #e63946;
+  color: white;
+  border-radius: 20px;
+  padding: 2px 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  min-width: 28px;
+  text-align: center;
+}
+.btn-reset-sel {
+  margin-left: auto;
+  background: none;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  color: #555;
+}
+.btn-reset-sel:hover { background: #f5f5f5; }
+
+/* Catégories accordion */
+.categorie-groupe { border-bottom: 1px solid #eee; }
+.categorie-titre {
+  padding: 10px 16px;
+  background: #f7f8fa;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  user-select: none;
+  border-left: 4px solid transparent;
+  transition: border-color 0.2s;
+}
+.categorie-titre:hover { background: #eef0f5; border-left-color: #457b9d; }
+.categorie-titre .chevron { margin-left: auto; font-size: 0.7rem; transition: transform 0.2s; }
+.categorie-titre.open .chevron { transform: rotate(180deg); }
+.categorie-titre .badge-count {
+  background: #457b9d;
+  color: white;
+  border-radius: 12px;
+  padding: 1px 7px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.sous-categorie-titre {
+  padding: 6px 16px 6px 24px;
+  background: #fafbfd;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #457b9d;
+  user-select: none;
+  border-left: 3px solid transparent;
+}
+.sous-categorie-titre:hover { background: #eef0f5; border-left-color: #a8dadc; }
+.sous-categorie-titre .chevron { margin-left: auto; font-size: 0.65rem; transition: transform 0.2s; }
+.sous-categorie-titre.open .chevron { transform: rotate(180deg); }
+
+.grille-automatismes {
+  display: none;
+  padding: 8px 12px;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.grille-automatismes.visible { display: flex; }
+
+.carte-auto {
+  width: calc(50% - 4px);
+  border: 2px solid #dde1e8;
+  border-radius: 8px;
+  padding: 7px 8px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: all 0.15s;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  user-select: none;
+}
+.carte-auto:hover { border-color: #457b9d; background: #f0f8ff; }
+.carte-auto.selected {
+  border-color: #e63946;
+  background: #fff0f1;
+}
+.carte-auto .num { font-weight: 700; color: #1d3557; font-size: 0.73rem; }
+.carte-auto .desc { color: #444; font-size: 0.72rem; line-height: 1.3; }
+.carte-auto .nb-fois {
+  align-self: flex-end;
+  background: #e63946;
+  color: white;
+  border-radius: 10px;
+  padding: 0px 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+/* =========================================================
+   Panneau droit — contrôles + aperçu
+========================================================= */
+#panneau-principal {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* Barre d'actions */
+#barre-actions {
+  background: #fff;
+  border-bottom: 1px solid #dde1e8;
+  padding: 14px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 9;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+
+.groupe-options {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.groupe-options label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.groupe-options select,
+.groupe-options input[type=number],
+.groupe-options input[type=text],
+.groupe-options input[type=password] {
+  border: 1px solid #cdd4dd;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.88rem;
+  background: #f8f9fa;
+  color: #1a1a2e;
+  min-width: 140px;
+}
+.groupe-options input[type=number] { width: 80px; }
+
+.btn {
+  padding: 9px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-primary { background: #1d3557; color: #fff; }
+.btn-primary:hover:not(:disabled) { background: #16213e; transform: translateY(-1px); }
+.btn-secondary { background: #457b9d; color: #fff; }
+.btn-secondary:hover:not(:disabled) { background: #1d6fa4; transform: translateY(-1px); }
+.btn-danger { background: #e63946; color: #fff; }
+.btn-danger:hover:not(:disabled) { background: #c1121f; transform: translateY(-1px); }
+.btn-github { background: #24292e; color: #fff; }
+.btn-github:hover:not(:disabled) { background: #000; transform: translateY(-1px); }
+.btn-outline { background: #fff; color: #1d3557; border: 2px solid #1d3557; }
+.btn-outline:hover:not(:disabled) { background: #f0f4f8; }
+
+.actions-groupe {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-self: flex-end;
+}
+
+/* Barre de progression GitHub */
+#barre-progression {
+  display: none;
+  width: 100%;
+  height: 6px;
+  background: #dde1e8;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+#barre-progression-inner {
+  height: 100%;
+  background: #e63946;
+  width: 0;
+  transition: width 0.3s;
+}
+
+/* GitHub config supprimé — token hardcodé */
+
+/* Messages status */
+#status-msg {
+  padding: 10px 24px;
+  font-size: 0.85rem;
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+#status-msg.visible { display: flex; }
+#status-msg.ok { background: #d4edda; color: #155724; }
+#status-msg.err { background: #f8d7da; color: #721c24; }
+#status-msg.info { background: #d1ecf1; color: #0c5460; }
+
+/* Zone aperçu */
+#apercu {
+  flex: 1;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+#apercu-inner {
+  background: #fff;
+  border-radius: 12px;
+  min-height: 300px;
+  padding: 28px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  flex: 1;
+}
+#apercu-inner h2 {
+  font-size: 1.1rem;
+  color: #1d3557;
+  margin-bottom: 16px;
+  border-bottom: 2px solid #eef0f5;
+  padding-bottom: 8px;
+}
+.apercu-vide {
+  text-align: center;
+  color: #aaa;
+  padding: 60px 20px;
+  font-size: 0.95rem;
+}
+
+/* Navigation aperçu série */
+#nav-apercu {
+  display: none;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 16px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+}
+#nav-apercu.visible { display: flex; }
+#nav-apercu select {
+  border-radius: 6px;
+  border: 1px solid #cdd;
+  padding: 5px 8px;
+  font-size: 0.85rem;
+  min-width: 180px;
+  flex: 1;
+}
+.badge-mode {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: #1d3557;
+  color: white;
+}
+
+/* Sélection actuelle */
+#liste-selection {
+  padding: 12px 24px;
+  background: #f7f8fa;
+  border-top: 1px solid #eee;
+  font-size: 0.82rem;
+  color: #555;
+  word-break: break-all;
+  min-height: 36px;
+}
+#liste-selection strong { color: #1d3557; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  #app { grid-template-columns: 1fr; }
+  #panneau-selection { max-height: 40vh; overflow-y: auto; border-right: none; border-bottom: 1px solid #dde1e8; }
+  .carte-auto { width: calc(50% - 4px); }
+}
+
+/* =========================================================
+   CSS des formats d'exercices (reproduction du CDN externe)
+   Utilisé dans l'aperçu inline
+========================================================= */
+
+/* -- Styles communs à toutes les cellules de réponse -- */
+#apercu-inner [class*="_cellule_reponse"] {
+  padding: 10px 14px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.93rem;
+  line-height: 1.5;
+  background: #fff;
+  transition: background 0.15s;
+}
+#apercu-inner [class*="_cellule_reponse"][class$="_vrai"] {
+  background: #fff9c4;
+  border-color: #f4c430;
+  font-weight: 700;
+}
+#apercu-inner [class*="_cellule_reponse"][class$="_faux"] {
+  background: #fff;
+}
+
+/* -- Cellule question -- */
+#apercu-inner [class*="_cellule_question"] {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.6;
+  padding: 12px 0 10px 0;
+  color: #1a1a2e;
+}
+
+/* -- Explication (réponse ouverte) -- */
+#apercu-inner [class*="_cellule_explication_avec"] {
+  background: #fff9c4;
+  border: 2px solid #f4c430;
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 0.93rem;
+  line-height: 1.6;
+  margin-top: 8px;
+}
+#apercu-inner [class*="_cellule_explication_sans"] {
+  display: none;
+}
+
+/* -- Cellule graphique -- */
+#apercu-inner [class*="_cellule_graphique"] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+}
+#apercu-inner [class*="_cellule_graphique"] svg,
+#apercu-inner [class*="_cellule_graphique"] img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ---- FORMAT 01 : QCM 4 réponses texte ---- */
+.format01_grille {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto auto auto auto;
+  gap: 8px;
+}
+.format01_cellule_question {
+  grid-column: 1 / -1;
+}
+.format01_cellule_reponse1_faux,
+.format01_cellule_reponse1_vrai { grid-column: 1; grid-row: 2; }
+.format01_cellule_reponse2_faux,
+.format01_cellule_reponse2_vrai { grid-column: 2; grid-row: 2; }
+.format01_cellule_reponse3_faux,
+.format01_cellule_reponse3_vrai { grid-column: 1; grid-row: 3; }
+.format01_cellule_reponse4_faux,
+.format01_cellule_reponse4_vrai { grid-column: 2; grid-row: 3; }
+.format01_cellule_explication_sans,
+.format01_cellule_explication_avec { grid-column: 1 / -1; }
+
+/* ---- FORMAT 02 : QCM + image question à droite ---- */
+.format02_grille {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  grid-template-rows: auto auto auto auto auto;
+  gap: 8px;
+}
+.format02_cellule_question {
+  grid-column: 1; grid-row: 1;
+}
+.format02_cellule_reponse1_faux,
+.format02_cellule_reponse1_vrai { grid-column: 1; grid-row: 2; }
+.format02_cellule_reponse2_faux,
+.format02_cellule_reponse2_vrai { grid-column: 1; grid-row: 3; }
+.format02_cellule_reponse3_faux,
+.format02_cellule_reponse3_vrai { grid-column: 1; grid-row: 4; }
+.format02_cellule_reponse4_faux,
+.format02_cellule_reponse4_vrai { grid-column: 1; grid-row: 5; }
+.format02_cellule_explication_sans,
+.format02_cellule_explication_avec { grid-column: 1; grid-row: 6; }
+.format02_cellule_graphique {
+  grid-column: 2; grid-row: 1 / 7;
+  align-self: center;
+}
+
+/* ---- FORMAT 03 : QCM 4 réponses (variante colonnes) ---- */
+.format03_grille {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.format03_cellule_question { grid-column: 1 / -1; }
+.format03_cellule_reponse1_faux,
+.format03_cellule_reponse1_vrai { grid-column: 1; }
+.format03_cellule_reponse2_faux,
+.format03_cellule_reponse2_vrai { grid-column: 2; }
+.format03_cellule_reponse3_faux,
+.format03_cellule_reponse3_vrai { grid-column: 1; }
+.format03_cellule_reponse4_faux,
+.format03_cellule_reponse4_vrai { grid-column: 2; }
+.format03_cellule_explication_sans,
+.format03_cellule_explication_avec { grid-column: 1 / -1; }
+
+/* ---- FORMAT 04 : QCM 4 réponses (colonne unique) ---- */
+.format04_grille {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+.format04_cellule_question { }
+.format04_cellule_explication_sans,
+.format04_cellule_explication_avec { }
+
+/* ---- FORMAT 05 : QCM + graphique sous la question ---- */
+.format05_grille {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.format05_cellule_question {
+  grid-column: 1 / -1;
+}
+.format05_cellule_reponse1_faux,
+.format05_cellule_reponse1_vrai { grid-column: 1; }
+.format05_cellule_reponse2_faux,
+.format05_cellule_reponse2_vrai { grid-column: 2; }
+.format05_cellule_reponse3_faux,
+.format05_cellule_reponse3_vrai { grid-column: 1; }
+.format05_cellule_reponse4_faux,
+.format05_cellule_reponse4_vrai { grid-column: 2; }
+.format05_cellule_explication_sans,
+.format05_cellule_explication_avec { grid-column: 1 / -1; }
+.format05_cellule_graphique {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+}
+
+/* ---- FORMAT 08 : QCM + grand graphique à droite ---- */
+.format08_grille {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 8px;
+}
+.format08_cellule_question { grid-column: 1; }
+.format08_cellule_reponse1_faux,
+.format08_cellule_reponse1_vrai { grid-column: 1; }
+.format08_cellule_reponse2_faux,
+.format08_cellule_reponse2_vrai { grid-column: 1; }
+.format08_cellule_reponse3_faux,
+.format08_cellule_reponse3_vrai { grid-column: 1; }
+.format08_cellule_reponse4_faux,
+.format08_cellule_reponse4_vrai { grid-column: 1; }
+.format08_cellule_explication_sans,
+.format08_cellule_explication_avec { grid-column: 1; }
+.format08_cellule_graphique {
+  grid-column: 2; grid-row: 1 / 8;
+  align-self: center;
+  display: flex;
+  justify-content: center;
+}
+
+/* -- Éléments de page (accueil, fin, etc.) -- */
+#apercu-inner .titre_annonce {
+  font-size: 2rem;
+  font-weight: 800;
+  text-align: center;
+  color: #1d3557;
+  padding: 40px 0;
+  letter-spacing: 0.05em;
+}
+#apercu-inner .consigne {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #333;
+  background: #f8f9fa;
+  border-left: 4px solid #457b9d;
+  padding: 16px 20px;
+  border-radius: 0 8px 8px 0;
+}
+</style>
+</head>
+<body>
+
+<div id="app">
+
+<!-- ===== HEADER ===== -->
+<header>
+  <img src="https://AdminLandatome.github.io/LANDATOME/00_images/MC-Escher-Impossible-Cube.png" alt="Logo"/>
+  <h1>Automatome <em style="font-weight:300;font-style:normal;opacity:.6;">Web</em></h1>
+  <span>Générateur d'automatismes mathématiques</span>
+</header>
+
+<!-- ===== PANNEAU SÉLECTION ===== -->
+<aside id="panneau-selection">
+  <div class="selection-compteur">
+    <strong>Sélection :</strong>
+    <span class="compteur-badge" id="compteur">0</span>
+    question(s)
+    <button class="btn-reset-sel" onclick="resetSelection()">✕ Tout effacer</button>
+  </div>
+
+  <!-- Le menu est injecté par JS -->
+  <div id="menu-automatismes"></div>
+</aside>
+
+<!-- ===== PANNEAU PRINCIPAL ===== -->
+<main id="panneau-principal">
+
+  <!-- Barre d'actions -->
+  <div id="barre-actions">
+
+    <div class="groupe-options">
+      <label>Répétitions</label>
+      <input type="number" id="nb-repetitions" value="1" min="1" max="20" title="Nombre de fois que la même série est générée"/>
+    </div>
+
+    <div class="groupe-options">
+      <label>Télécharger comme</label>
+      <select id="mode-sortie">
+        <option value="serie-zip">Série HTML (ZIP)</option>
+        <option value="diaporama">Diaporama reveal.js (HTML)</option>
+      </select>
+    </div>
+
+    <div class="actions-groupe">
+      <button class="btn btn-primary" id="btn-apercu" onclick="genererApercu()" disabled>
+        👁 Aperçu
+      </button>
+      <button class="btn btn-secondary" id="btn-telecharger" onclick="telecharger()" disabled>
+        ⬇ Télécharger
+      </button>
+    </div>
+
+    <div class="actions-groupe">
+      <button class="btn btn-github" id="btn-upload" onclick="uploadGithub()" disabled>
+        ☁️ Mettre en ligne
+      </button>
+      <div id="barre-progression"><div id="barre-progression-inner"></div></div>
+    </div>
+
+  </div>
+
+  <!-- Status -->
+  <div id="status-msg"></div>
+
+  <!-- Sélection courante -->
+  <div id="liste-selection">
+    <strong>Numéros choisis :</strong> <span id="numeros-choisis">—</span>
+  </div>
+
+  <!-- Aperçu -->
+  <div id="apercu">
+    <!-- Barre de navigation (construite une fois, cachée au départ) -->
+    <div id="nav-apercu">
+      <span class="badge-mode" id="nav-badge">Série HTML</span>
+      <select id="sel-diapo"></select>
+      <button class="btn btn-outline" style="padding:5px 12px;font-size:.8rem" id="btn-prev" onclick="changerDiapo('prev')">‹ Préc.</button>
+      <button class="btn btn-outline" style="padding:5px 12px;font-size:.8rem" id="btn-next" onclick="changerDiapo('next')">Suiv. ›</button>
+      <span id="nav-compteur" style="font-size:.8rem;color:#777;margin-left:4px"></span>
+    </div>
+    <!-- Zone contenu, mise à jour à chaque diapo -->
+    <div id="apercu-inner">
+      <div class="apercu-vide">
+        🎯 Sélectionnez des automatismes à gauche, puis cliquez sur <strong>Aperçu</strong> pour prévisualiser, ou directement sur <strong>Télécharger</strong>.
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<!-- ===== SCRIPTS ===== -->
+<script src="automatome_moteur.js"></script>
+<script src="automatome_generateur.js"></script>
+<script>
+// ==============================================================
+//  Données du menu — toutes les catégories et automatismes
+// ==============================================================
+const MENU = [
+  {
+    id: "specialite", label: "Première Spécialité", couleur: "#e63946",
+    items: [
+      { n: 2001, desc: "Fraction (inverse du double/triple)" },
+      { n: 2002, desc: "Fraction (calcul complexe)" },
+      { n: 2101, desc: "Proportionnalité — taux composés" },
+      { n: 2102, desc: "Proportionnalité — coefficient mult." },
+      { n: 2201, desc: "Second degré x²≥k (sans intervalle)" },
+      { n: 2202, desc: "Second degré x²≤k (sans intervalle)" },
+      { n: 2203, desc: "Second degré — trouver la fonction" },
+      { n: 2204, desc: "Second degré x²≤k (avec intervalles)" },
+      { n: 2205, desc: "Second degré x²≥k (avec intervalles)" },
+      { n: 2206, desc: "Second degré x²≤k (sans graphique)" },
+      { n: 2207, desc: "Second degré x²≥k (sans graphique)" },
+      { n: 2301, desc: "Calcul littéral — fractions algébriques" },
+      { n: 2401, desc: "Identifier une droite affine" },
+      { n: 2501, desc: "Probabilité manquante" },
+      { n: 2701, desc: "Calcul algébrique — même dénominateur" },
+    ]
+  },
+  {
+    id: "technologique", label: "Première Technologique", couleur: "#457b9d",
+    items: [
+      { n: 3001, desc: "Fraction complexe" },
+      { n: 3101, desc: "Proportionnalité — hausse %" },
+      { n: 3102, desc: "Proportionnalité — baisse %" },
+      { n: 3103, desc: "Proportionnalité — calcul taux" },
+      { n: 3201, desc: "Puissances — unités de mesure" },
+      { n: 3202, desc: "Puissances — produit 10ⁿ×10ᵖ" },
+      { n: 3203, desc: "Puissances — quotient de puissances" },
+      { n: 3204, desc: "Puissances — calculs (2)" },
+      { n: 3205, desc: "Puissances — calculs (3)" },
+      { n: 3206, desc: "Puissances — calculs (4)" },
+      { n: 3207, desc: "Puissances — calculs (5)" },
+      { n: 3208, desc: "Puissances — calculs (6)" },
+      { n: 3209, desc: "Puissances — calculs (7)" },
+      { n: 3210, desc: "Puissances — calculs (8)" },
+      { n: 3211, desc: "Puissances — calculs (9)" },
+      { n: 3212, desc: "Puissances — calculs (10)" },
+      { n: 3213, desc: "Puissances — calculs (11)" },
+      { n: 3501, desc: "Diagramme — min/max" },
+      { n: 3502, desc: "Diagramme — identifier une période" },
+      { n: 3601, desc: "Fractions — addition" },
+    ]
+  },
+  {
+    id: "specifique", label: "Première Spécifique", couleur: "#2a9d8f",
+    items: [
+      { n: 4001, desc: "Pourcentage d'une quantité" },
+      { n: 4002, desc: "Comparer des fractions" },
+    ]
+  },
+  {
+    id: "ouverts", label: "Automatismes ouverts", couleur: "#e9c46a",
+    sousCats: [
+      {
+        id: "simple_dist", label: "Simple distributivité",
+        items: [
+          { n: 1, desc: "k(ax+b)" }, { n: 2, desc: "k(ax−b)" },
+          { n: 3, desc: "−k(ax+b)" }, { n: 4, desc: "−k(ax−b)" },
+          { n: 5, desc: "kx(ax+b)" }, { n: 6, desc: "kx(ax−b)" },
+          { n: 7, desc: "−kx(ax+b)" }, { n: 8, desc: "−kx(ax−b)" },
+          { n: 9, desc: "k(a+bx)" }, { n: 10, desc: "k(a−bx)" },
+          { n: 11, desc: "−k(a+bx)" }, { n: 12, desc: "−k(a−bx)" },
+          { n: 13, desc: "kx(a+bx)" }, { n: 14, desc: "kx(a−bx)" },
+          { n: 15, desc: "−kx(a+bx)" }, { n: 16, desc: "−kx(a−bx)" },
+        ]
+      },
+      {
+        id: "double_dist", label: "Double distributivité",
+        items: [
+          { n: 17, desc: "(ax+b)(cx+d)" }, { n: 18, desc: "(−ax+b)(cx+d)" },
+          { n: 19, desc: "(ax−b)(cx+d)" }, { n: 20, desc: "(ax+b)(−cx+d)" },
+          { n: 21, desc: "(ax+b)(cx−d)" }, { n: 22, desc: "(ax−b)(cx−d)" },
+          { n: 23, desc: "(a+bx)(cx+d)" }, { n: 24, desc: "(−a+bx)(cx+d)" },
+          { n: 25, desc: "(a−bx)(cx+d)" }, { n: 26, desc: "(a−bx)(−cx+d)" },
+          { n: 27, desc: "(a+bx)(cx−d)" },
+          { n: 70, desc: "(ax+b)(cx+d)+(ex+f)(gx+h)" },
+          { n: 71, desc: "(ax+b)(cx+d)−(ex+f)(gx+h)" },
+          { n: 72, desc: "Combinaison avec soustraction" },
+          { n: 73, desc: "(ax+b)²+(cx−d)²" },
+          { n: 74, desc: "(ax+b)²−(cx−d)²" },
+          { n: 83, desc: "(ax+b)×k" },
+          { n: 84, desc: "(ax−b)×k" },
+          { n: 85, desc: "(ax+b)×kx" },
+          { n: 86, desc: "(ax−b)×kx" },
+        ]
+      },
+      {
+        id: "identites", label: "Identités remarquables",
+        items: [
+          { n: 60, desc: "(ax+b)²" }, { n: 61, desc: "(a+bx)²" },
+          { n: 62, desc: "(ax−b)²" }, { n: 63, desc: "(a−bx)²" },
+          { n: 64, desc: "(ax+b)(ax−b)" }, { n: 65, desc: "(ax−b)(ax+b)" },
+          { n: 66, desc: "(ax−b)(b+ax)" }, { n: 67, desc: "(b+ax)(ax−b)" },
+        ]
+      },
+      {
+        id: "expressions_diverses", label: "Expressions diverses",
+        items: [
+          { n: 75, desc: "a(x−α)²+β" }, { n: 76, desc: "−a(x−α)²+β" },
+          { n: 77, desc: "a(x+α)²+β" }, { n: 78, desc: "−a(x+α)²+β" },
+          { n: 79, desc: "a(x−α)²−β" }, { n: 80, desc: "−a(x+α)²−β" },
+          { n: 81, desc: "a(x+α)²−β" }, { n: 82, desc: "−a(x−α)²−β" },
+          { n: 90, desc: "(ax+b)(cx+d)(ex+f)" }, { n: 91, desc: "(ax−b)(cx+d)(ex+f)" },
+          { n: 92, desc: "(−ax−b)(cx+d)(ex+f)" }, { n: 93, desc: "(ax+b)(cx−d)(ex+f)" },
+          { n: 94, desc: "(ax−b)(cx−d)(ex+f)" }, { n: 95, desc: "(ax−b)(cx−d)(ex−f)" },
+          { n: 96, desc: "(ax−b)(cx+d)(ex−f)" }, { n: 97, desc: "(ax−b)(−cx+d)(ex−f)" },
+          { n: 98, desc: "(ax−b)(−cx+d)(−ex+f)" }, { n: 99, desc: "(ax+b)(−cx+d)(ex+f)" },
+        ]
+      },
+      {
+        id: "factorisation", label: "Factoriser",
+        items: [
+          { n: 301, desc: "kax+kb" }, { n: 302, desc: "kax−kb" },
+          { n: 303, desc: "ka+kbx" }, { n: 304, desc: "ka−kbx" },
+          { n: 305, desc: "kax²+kbx" }, { n: 306, desc: "kax²−kbx" },
+          { n: 307, desc: "ax²+bx+c (racine évidente)" },
+          { n: 308, desc: "ax²+bx+c (discriminant)" },
+          { n: 309, desc: "ax²+bx+c (discriminant 2)" },
+        ]
+      },
+      {
+        id: "reduct_denom", label: "Réduire au même dénominateur",
+        items: [
+          { n: 100, desc: "m/(ax+b) + p/(cx+d)" },
+          { n: 101, desc: "m/(ax+b) − p/(cx+d)" },
+          { n: 102, desc: "m/(−ax+b) − (−p)/(cx+d)" },
+          { n: 103, desc: "mx/(ax+b) + p/(cx+d)" },
+          { n: 104, desc: "mx/(ax+b) − p/(cx+d)" },
+        ]
+      },
+      {
+        id: "derivation", label: "Exprimer une dérivée",
+        items: [
+          { n: 401, desc: "f(x)=ax+b — affine" },
+          { n: 402, desc: "f(x)=ax²+bx+c — trinôme" },
+          { n: 403, desc: "f(x)=ax³+bx²+cx+d — cubique" },
+          { n: 404, desc: "f(x)=ax^n+bx^p+cx+d — polynôme" },
+          { n: 405, desc: "f(x)=ax^n+bx+c/x — + inverse" },
+          { n: 406, desc: "f(x)=1/(ax+b) — inverse d'affine" },
+          { n: 407, desc: "f(x)=√(ax+b) — racine carrée" },
+          { n: 408, desc: "f(x)=(ax+b)/(cx+d) — homographique" },
+          { n: 409, desc: "f(x)=(ax+b)√(cx+d) — produit×racine" },
+          { n: 410, desc: "f(x)=(ax+b)^n — puissance d'affine" },
+          { n: 411, desc: "f(x)=(ax+b)(cx+d)^n — produit×puissance" },
+          { n: 412, desc: "f(x)=e^(ax+b) — exponentielle" },
+          { n: 413, desc: "f(x)=(ax+b)e^(cx+d) — produit×exp" },
+          { n: 414, desc: "f(x)=e^(ax+b)/(cx+d) — quotient÷affine" },
+        ]
+      },
+      {
+        id: "college", label: "Calculs de collège",
+        items: [
+          { n: 501, desc: "a+b" }, { n: 502, desc: "a+b+c" },
+          { n: 503, desc: "a+(b+c)" }, { n: 504, desc: "a−(b+c)" },
+          { n: 505, desc: "(a+b)+c" }, { n: 506, desc: "a+b+c+d" },
+          { n: 507, desc: "(a+b)+(c+d)" }, { n: 508, desc: "(a+b)−(c+d)" },
+          { n: 509, desc: "a+(b+c+d)" }, { n: 510, desc: "a−(b+c+d)" },
+          { n: 511, desc: "a+(b+(c+d))" }, { n: 512, desc: "a+(b−(c+d))" },
+          { n: 513, desc: "a−(b−(c+d))" },
+          { n: 601, desc: "a/c + b/c (relatifs)" },
+          { n: 602, desc: "a/c + b/(kc) (relatifs)" },
+          { n: 603, desc: "a/c × b/d (relatifs)" },
+        ]
+      },
+    ]
+  }
+];
+
+// ==============================================================
+//  État de l'application
+// ==============================================================
+let selectionNums = [];       // liste des numéros cliqués (avec répétitions)
+let derniereFichiers = null;  // { nomFichier: html } pour le ZIP
+let derniereApercu = null;    // { type, data } pour l'aperçu
+let apercu_idx = 0;           // index de la diapo courante en aperçu
+
+// ==============================================================
+//  Construction du menu
+// ==============================================================
+function buildMenu() {
+  const container = document.getElementById("menu-automatismes");
+
+  MENU.forEach(cat => {
+    const div = document.createElement("div");
+    div.className = "categorie-groupe";
+
+    const titre = document.createElement("div");
+    titre.className = "categorie-titre";
+    titre.id = "cat-" + cat.id;
+    titre.style.borderLeftColor = cat.couleur;
+    titre.innerHTML = `<span>${cat.label}</span><span class="badge-count" id="badge-${cat.id}">0</span><span class="chevron">▼</span>`;
+    titre.addEventListener("click", () => {
+      const grille = document.getElementById("grille-" + cat.id);
+      if (grille) {
+        grille.classList.toggle("visible");
+        titre.classList.toggle("open");
+      }
+    });
+    div.appendChild(titre);
+
+    if (cat.sousCats) {
+      // Conteneur principal (accordion)
+      const mainDiv = document.createElement("div");
+      mainDiv.id = "grille-" + cat.id;
+      mainDiv.className = "grille-automatismes";
+      mainDiv.style.flexDirection = "column";
+
+      cat.sousCats.forEach(sc => {
+        const scTitre = document.createElement("div");
+        scTitre.className = "sous-categorie-titre";
+        scTitre.innerHTML = `<span>${sc.label}</span><span class="badge-count" id="badge-sc-${sc.id}" style="background:#a8dadc;color:#1d3557">0</span><span class="chevron">▼</span>`;
+        scTitre.addEventListener("click", () => {
+          const g = document.getElementById("grille-sc-" + sc.id);
+          if (g) { g.classList.toggle("visible"); scTitre.classList.toggle("open"); }
+        });
+        mainDiv.appendChild(scTitre);
+
+        const scGrille = document.createElement("div");
+        scGrille.id = "grille-sc-" + sc.id;
+        scGrille.className = "grille-automatismes";
+        sc.items.forEach(item => {
+          scGrille.appendChild(buildCarte(item));
+        });
+        mainDiv.appendChild(scGrille);
+      });
+
+      div.appendChild(mainDiv);
+    } else {
+      const grille = document.createElement("div");
+      grille.id = "grille-" + cat.id;
+      grille.className = "grille-automatismes";
+      cat.items.forEach(item => {
+        grille.appendChild(buildCarte(item));
+      });
+      div.appendChild(grille);
+    }
+
+    container.appendChild(div);
+  });
+}
+
+function buildCarte(item) {
+  const carte = document.createElement("div");
+  carte.className = "carte-auto";
+  carte.id = "carte-" + item.n;
+  carte.innerHTML = `<span class="num">N° ${String(item.n).padStart(4,"0")}</span><span class="desc">${item.desc}</span>`;
+  carte.addEventListener("click", () => toggleSelection(item.n));
+  return carte;
+}
+
+// ==============================================================
+//  Gestion de la sélection
+// ==============================================================
+function toggleSelection(n) {
+  selectionNums.push(n);
+  mettreAJourUI();
+}
+
+function resetSelection() {
+  selectionNums = [];
+  mettreAJourUI();
+}
+
+function mettreAJourUI() {
+  // Mise à jour compteur et liste
+  document.getElementById("compteur").textContent = selectionNums.length;
+  document.getElementById("numeros-choisis").textContent =
+    selectionNums.length === 0 ? "—" : selectionNums.join(", ");
+
+  // Mise à jour des cartes
+  const comptes = {};
+  selectionNums.forEach(n => { comptes[n] = (comptes[n] || 0) + 1; });
+  document.querySelectorAll(".carte-auto").forEach(c => {
+    const n = parseInt(c.id.replace("carte-", ""));
+    const nb = comptes[n] || 0;
+    c.classList.toggle("selected", nb > 0);
+    const nbSpan = c.querySelector(".nb-fois");
+    if (nb > 0) {
+      if (!nbSpan) {
+        const span = document.createElement("span");
+        span.className = "nb-fois";
+        span.textContent = "×" + nb;
+        c.appendChild(span);
+      } else {
+        nbSpan.textContent = "×" + nb;
+      }
+    } else if (nbSpan) {
+      nbSpan.remove();
+    }
+  });
+
+  // Badges par catégorie
+  function computeBadge(items) {
+    return items.reduce((s, item) => s + (comptes[item.n] || 0), 0);
+  }
+  MENU.forEach(cat => {
+    let total = 0;
+    if (cat.sousCats) {
+      cat.sousCats.forEach(sc => {
+        const nb = computeBadge(sc.items);
+        total += nb;
+        const el = document.getElementById("badge-sc-" + sc.id);
+        if (el) el.textContent = nb;
+      });
+    } else {
+      total = computeBadge(cat.items);
+    }
+    const el = document.getElementById("badge-" + cat.id);
+    if (el) el.textContent = total;
+  });
+
+  // Boutons
+  const hasSel = selectionNums.length > 0;
+  document.getElementById("btn-apercu").disabled = !hasSel;
+  document.getElementById("btn-telecharger").disabled = !hasSel;
+  document.getElementById("btn-upload").disabled = !hasSel;
+
+  // Effacer aperçu si sélection vide
+  if (!hasSel) {
+    document.getElementById("apercu-inner").innerHTML = `<div class="apercu-vide">🎯 Sélectionnez des automatismes à gauche, puis cliquez sur <strong>Aperçu</strong>.</div>`;
+    document.getElementById("nav-apercu").classList.remove("visible");
+  }
+}
+
+// ==============================================================
+//  Génération et Aperçu
+// ==============================================================
+function genererDonnees() {
+  const nb = parseInt(document.getElementById("nb-repetitions").value) || 1;
+  const nums = [];
+  for (let i = 0; i < nb; i++) nums.push(...selectionNums);
+  return creationListeDeListes(nums);
+}
+
+// ---- Constantes de navigation ----
+// Les diapos sont indexées ainsi dans le tableau linéaire :
+//   0           → page accueil
+//   1           → consignes
+//   2..n+1      → questions 1..n
+//   n+2         → annonce correction
+//   n+3..2n+2   → réponses 1..n
+//   2n+3        → bilan
+// Soit 2n+4 diapos en tout.
+
+function idxToLabel(idx, n) {
+  if (idx === 0)       return "🏠 Accueil";
+  if (idx === 1)       return "📋 Consignes";
+  if (idx >= 2 && idx <= n+1) return `❓ Question ${idx-1}`;
+  if (idx === n+2)     return "📢 Correction";
+  if (idx >= n+3 && idx <= 2*n+2) return `✅ Réponse ${idx-n-2}`;
+  if (idx === 2*n+3)   return "🏁 Fin";
+  return "?";
+}
+function nbDiapos(n) { return 2*n+4; }
+
+function genererApercu() {
+  if (selectionNums.length === 0) return;
+  afficherStatus("Génération en cours…", "info");
+  const mode = document.getElementById("mode-sortie").value;
+  const data = genererDonnees();
+
+  if (mode === "serie-zip") {
+    derniereFichiers = genererSerie(data);
+    derniereApercu = { type: "serie", data };
+    // Construire le select une seule fois
+    _construireSelectSerie(data);
+    _afficherDiapo(0);
+  } else {
+    const html = genererDiaporama(data);
+    derniereFichiers = { "diaporama.html": html };
+    derniereApercu = { type: "diaporama", html };
+    _afficherApercuDiaporama(html);
+  }
+  afficherStatus("Aperçu prêt !", "ok");
+}
+
+function _construireSelectSerie(data) {
+  const n = data.length;
+  const sel = document.getElementById("sel-diapo");
+  sel.innerHTML = "";
+  for (let i = 0; i < nbDiapos(n); i++) {
+    const opt = document.createElement("option");
+    opt.value = i;
+    opt.textContent = idxToLabel(i, n);
+    sel.appendChild(opt);
+  }
+  // Attacher l'événement une seule fois (remplacer l'ancien)
+  sel.onchange = () => _afficherDiapo(parseInt(sel.value));
+  // Afficher la barre
+  document.getElementById("nav-badge").textContent = "Série HTML";
+  document.getElementById("nav-apercu").classList.add("visible");
+}
+
+function _afficherDiapo(idx) {
+  if (!derniereApercu || derniereApercu.type !== "serie") return;
+  const data = derniereApercu.data;
+  const n = data.length;
+  const total = nbDiapos(n);
+  // Clamp
+  idx = Math.max(0, Math.min(idx, total - 1));
+  apercu_idx = idx;
+
+  // Synchroniser le select sans déclencher onchange
+  const sel = document.getElementById("sel-diapo");
+  sel.value = idx;
+
+  // Compteur
+  document.getElementById("nav-compteur").textContent = `(${idx+1} / ${total})`;
+
+  // Activer/désactiver les boutons de navigation
+  document.getElementById("btn-prev").disabled = (idx === 0);
+  document.getElementById("btn-next").disabled = (idx === total - 1);
+
+  // Construire le contenu
+  const inner = document.getElementById("apercu-inner");
+  let html = "";
+
+  if (idx === 0) {
+    html = `<h2>🏠 Accueil</h2><div class="titre_annonce" style="font-size:1.5rem;padding:20px 0">Automatismes</div>`;
+  } else if (idx === 1) {
+    html = `<h2>📋 Consignes</h2><div class="consigne" style="padding:16px 0">Aucune justification n'est demandée et une seule réponse est possible par question.<br>Pour chaque question, reportez son numéro sur votre copie et indiquez votre réponse.<br><br>Si la question n'est pas un QCM alors la consigne est :<br><br>Donnez vos réponses sans justification<br>(vous pouvez, par contre, faire des calculs au brouillon)</div>`;
+  } else if (idx >= 2 && idx <= n+1) {
+    const qi = idx - 2;  // index dans data (0-based)
+    html = `<h2>❓ Question ${qi+1} / ${n}</h2>` + miseEnFormeQuestion(data[qi], qi);
+  } else if (idx === n+2) {
+    html = `<h2>📢 Annonce correction</h2><div class="titre_annonce" style="font-size:1.5rem;padding:20px 0">Correction</div>`;
+  } else if (idx >= n+3 && idx <= 2*n+2) {
+    const ri = idx - n - 3;  // index dans data (0-based)
+    html = `<h2>✅ Réponse ${ri+1} / ${n}</h2>` + miseEnFormeReponse(data[ri], ri);
+  } else if (idx === 2*n+3) {
+    html = `<h2>🏁 Fin</h2><div class="titre_annonce" style="font-size:1.5rem;padding:20px 0">Fin</div>`;
+  }
+
+  inner.innerHTML = html;
+
+  // Déclencher MathJax
+  if (window.MathJax && MathJax.Hub) {
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, inner]);
+  }
+}
+
+function changerDiapo(direction) {
+  if (!derniereApercu || derniereApercu.type !== "serie") return;
+  const n = derniereApercu.data.length;
+  if (direction === "prev") _afficherDiapo(apercu_idx - 1);
+  else if (direction === "next") _afficherDiapo(apercu_idx + 1);
+}
+
+function _afficherApercuDiaporama(html) {
+  document.getElementById("nav-badge").textContent = "Diaporama reveal.js";
+  document.getElementById("sel-diapo").innerHTML = `<option>— fichier unique —</option>`;
+  document.getElementById("sel-diapo").disabled = true;
+  document.getElementById("btn-prev").disabled = true;
+  document.getElementById("btn-next").disabled = true;
+  document.getElementById("nav-compteur").textContent = "";
+  document.getElementById("nav-apercu").classList.add("visible");
+
+  const inner = document.getElementById("apercu-inner");
+  const blob = new Blob([html], {type:"text/html"});
+  const url = URL.createObjectURL(blob);
+  inner.innerHTML = `<h2>Diaporama reveal.js</h2>
+    <p style="color:#555;font-size:.9rem;margin-bottom:14px">Fichier HTML autonome avec navigation par flèches clavier.</p>
+    <iframe src="${url}" style="width:100%;height:440px;border:1px solid #dde;border-radius:8px;"></iframe>`;
+}
+
+// ==============================================================
+//  Téléchargement
+// ==============================================================
+async function telecharger() {
+  if (selectionNums.length === 0) return;
+  const mode = document.getElementById("mode-sortie").value;
+  const data = genererDonnees();
+
+  if (mode === "serie-zip") {
+    afficherStatus("Génération du ZIP…", "info");
+    const fichiers = genererSerie(data);
+    derniereFichiers = fichiers;
+    const n = Math.round(Math.random() * 9000 + 1000);
+    await telechargerSerieZip(fichiers, "serie_" + n);
+    afficherStatus("ZIP téléchargé ! (" + Object.keys(fichiers).length + " fichiers)", "ok");
+  } else {
+    afficherStatus("Génération du diaporama…", "info");
+    const html = genererDiaporama(data);
+    derniereFichiers = { "diaporama.html": html };
+    const n = Math.round(Math.random() * 9000 + 1000);
+    telechargerDiaporama(html, "diaporama_" + n + ".html");
+    afficherStatus("Diaporama téléchargé !", "ok");
+  }
+}
+
+// ==============================================================
+//  Upload GitHub (token et destination hardcodés)
+// ==============================================================
+async function uploadGithub() {
+  if (selectionNums.length === 0) return;
+
+  // Générer le diaporama (format unique pour la mise en ligne)
+  const data = genererDonnees();
+  const html = genererDiaporama(data);
+  const ts = new Date().toISOString().slice(0,19).replace(/[:-]/g,'');
+  const nomFichier = `diapo_${ts}.html`;
+  const fichiers = { [nomFichier]: html };
+  derniereFichiers = fichiers;
+
+  const barre = document.getElementById('barre-progression');
+  const inner = document.getElementById('barre-progression-inner');
+  barre.style.display = 'block';
+  inner.style.width = '0';
+
+  afficherStatus(`Envoi vers GitHub (${GH_REPO} / ${GH_PATH})…`, 'info');
+
+  const erreurs = await uploadGitHub({
+    fichiers,
+    onProgress: (done, total) => {
+      inner.style.width = Math.round(done / total * 100) + '%';
+    }
+  });
+
+  barre.style.display = 'none';
+  if (erreurs.length === 0) {
+    const url = `https://adminlandatome.github.io/Landatome_public/rep_transfert_github/${nomFichier}`;
+    afficherLienGithub(url);
+  } else {
+    afficherStatus('Erreurs upload : ' + erreurs.slice(0,3).join(' | '), 'err');
+  }
+}
+
+function afficherLienGithub(url) {
+  const el = document.getElementById('status-msg');
+  el.className = 'visible ok';
+  el.innerHTML = `
+    <span>✅ En ligne !</span>
+    <input id="url-copier" type="text" value="${url}" readonly
+      style="flex:1;border:1px solid #a3d5a5;border-radius:5px;padding:5px 9px;font-size:.82rem;background:#fff;color:#155724;cursor:pointer"
+      onclick="this.select()" title="Cliquer pour sélectionner">
+    <button onclick="copierUrl('${url}')" title="Copier le lien"
+      style="background:#28a745;border:none;color:#fff;padding:5px 12px;border-radius:5px;font-size:.82rem;cursor:pointer;white-space:nowrap">
+      📋 Copier
+    </button>
+    <button onclick="this.closest('#status-msg').className='';this.closest('#status-msg').innerHTML=''" title="Fermer"
+      style="background:none;border:none;color:#155724;font-size:1.1rem;cursor:pointer;padding:0 4px;line-height:1">
+      ✕
+    </button>`;
+}
+
+function copierUrl(url) {
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = document.querySelector('#status-msg button');
+    if (btn) { btn.textContent = '✓ Copié !'; setTimeout(() => { btn.textContent = '📋 Copier'; }, 2000); }
+  }).catch(() => {
+    // Fallback : sélectionner le champ
+    const inp = document.getElementById('url-copier');
+    if (inp) { inp.select(); document.execCommand('copy'); }
+  });
+}
+
+// ==============================================================
+//  Utilitaires UI
+// ==============================================================
+function afficherStatus(msg, type) {
+  const el = document.getElementById("status-msg");
+  el.className = "visible " + type;
+  el.innerHTML = msg;
+  // Pas d'auto-disparition : l'utilisateur ferme lui-même via ✕ si nécessaire
+}
+
+// ==============================================================
+//  Init
+// ==============================================================
+buildMenu();
+mettreAJourUI();
+</script>
+</body>
+</html>
