@@ -621,7 +621,14 @@ header span { opacity: 0.55; font-size: 0.85rem; margin-left: auto; }
       </button>
     </div>
 
-    <div class="actions-groupe">
+    <div class="actions-groupe" style="flex-direction:column;align-items:stretch;gap:6px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <label style="font-size:.75rem;color:#aaa;white-space:nowrap">Token GitHub</label>
+        <input type="password" id="gh-token-input"
+          placeholder="github_pat_…"
+          style="flex:1;background:#2d2d4e;border:1px solid #444;color:#fff;border-radius:5px;padding:5px 8px;font-size:.8rem;min-width:0"
+          oninput="document.getElementById('btn-upload').disabled=!this.value.trim()||!window._hasSel"/>
+      </div>
       <button class="btn btn-github" id="btn-upload" onclick="uploadGithub()" disabled>
         ☁️ Mettre en ligne
       </button>
@@ -984,7 +991,9 @@ function mettreAJourUI() {
   const hasSel = selectionNums.length > 0;
   document.getElementById("btn-apercu").disabled = !hasSel;
   document.getElementById("btn-telecharger").disabled = !hasSel;
-  document.getElementById("btn-upload").disabled = !hasSel;
+  window._hasSel = hasSel;
+  const tok = document.getElementById('gh-token-input');
+  document.getElementById("btn-upload").disabled = !hasSel || !tok || !tok.value.trim();
 
   // Effacer aperçu si sélection vide
   if (!hasSel) {
@@ -1164,6 +1173,8 @@ async function telecharger() {
 // ==============================================================
 async function uploadGithub() {
   if (selectionNums.length === 0) return;
+  const token = document.getElementById('gh-token-input').value.trim();
+  if (!token) { afficherStatus('⚠️ Saisis ton token GitHub.', 'err'); return; }
 
   // Générer le diaporama (format unique pour la mise en ligne)
   const data = genererDonnees();
@@ -1181,6 +1192,7 @@ async function uploadGithub() {
   afficherStatus(`Envoi vers GitHub (${GH_REPO} / ${GH_PATH})…`, 'info');
 
   const erreurs = await uploadGitHub({
+    token,
     fichiers,
     onProgress: (done, total) => {
       inner.style.width = Math.round(done / total * 100) + '%';
