@@ -5,11 +5,13 @@
 	min-width:175mm;
 	max-width:175mm;
 	break-after:always;
-}
-.une_page img{
-	max-width:100%;
+	
 }
 
+.une_page img{
+	max-height:100%;
+	max-width:100%;
+}
 .titre_de_page{
 	background-color:#DDDDDD;
 	text-align:center;
@@ -63,7 +65,6 @@
 	font-size:120%;
 	text-align:left;
 }
-
 .bareme_exo{
 	grid-column: 3;
 	background-color:#DDDDDD;
@@ -74,40 +75,28 @@
 	
 }
 
-/*===============================================================Partie commune à tous les types de questions==================================================*/
-
-.grille_question{
+/*===============================================================Pour des questions sans graphique==================================================*/
+/*+++++++++++++++++Une colonne++++++++++++++++++++*/
+.corps_partie_exo_sans_graphique_une_colonne{
 	display:grid;
-	grid-template-columns:5mm auto 10mm;
+	grid-template-columns: auto 10mm;	
 }
-.grille_reponse{
-	display:grid;
-	grid-template-columns:5mm auto 10mm;
-	background-color:yellow;
-}
-.numeration_question{
+.corps_question_sans_graphique_une_colonne{
 	grid-column: 1;
-	font-weight:bold;
+	padding-left:5mm;
+	/*background-color:#55ff55;*/
 }
-.numeration_reponse{
+.corps_reponse_sans_graphique_une_colonne{
 	grid-column: 1;
-	font-weight:bold;
-	background-color:yellow;
-}
-/*le corps de question peut acceillir un graphique */
-.corps_de_question{
-	grid-column:2;
-}
-.corps_de_reponse{
-	grid-column:2;
+	padding-left:5mm;
 	background-color:yellow;
 }
 .bareme_invisible{
-    grid-column:3;	
+	
 	display:none;
 }
 .bareme_visible{
-	grid-column:3;
+	
 	font-size:80%;
 	background-color:yellow;
 	text-align: center;
@@ -116,42 +105,94 @@
 	border-radius:50%;
 	align-self: center;
 }
-/* pour des réponses où on ne souhaite pas écrire de barème ou dans lesquelles on ne veut pas afficher un barème qui existe */ 
-.bareme_visible_vide{
-	grid-column:3;
+/*+++++++++++++++++deux colonnes++++++++++++++++++++*/
+.corps_partie_exo_sans_graphique_deux_colonnes{
+	display:grid;
+	grid-template-columns: auto 10mm auto 10mm;	
+	gap:10px;
+}
+.corps_question_sans_graphique_deux_colonnes_1{
+	grid-column: 1;
+	/*background-color:#55ff55;*/
+}
+.corps_question_sans_graphique_deux_colonnes_2{
+	grid-column: 3;
+	/*background-color:#55ff55;*/
+}
+.corps_reponse_sans_graphique_deux_colonnes_1{
+	grid-column: 1;
 	background-color:yellow;
-	color:yellow;
+}
+.corps_reponse_sans_graphique_deux_colonnes_2{
+	grid-column: 3;
+	background-color:yellow;
+}
+.bareme_invisible{
+	display:none;
+}
+.bareme_visible{
+	font-size:80%;
+	background-color:yellow;
+	text-align: center;
+	border-style:solid;
+	border-width:1px;
+	border-radius:50%;
+	align-self: center;
 }
 
-.separation_avec_ligne{
-	margin-top:1px;
-	margin-bottom:1px;
-	min-height:1px;
-	max-height:1px;
-	background-color:#000000;
-	border:1px solid;
+/*===============================================================Pour des questions avec graphique==================================================*/
+.corps_partie_exo_avec_graphique{
+	display:grid;
+	grid-template-columns: auto auto ;	
+	grid-auto-rows: minmax(auto, auto);
+	gap:10px;
 }
-/* ce qui suit peut paraitre redondant mais c'est uniformiser les structures */
 
-/* partie d'exo sur une colonne */
-.grille_une_colonne{
+.corps_questions_et_graphique_cote_a_cote{
 	display:grid;
-	grid-template-columns:auto;
+	grid-template-columns: auto 10mm;	
+	/*background-color:#44ffff;*/
+	gap:5px;
 }
-/* partie d'exo sur deux colonnes (pour graphique ou automatismes) */
-.grille_deux_colonnes{
-	display:grid;
-	grid-template-columns:auto auto;
-	gap:3mm;
+
+.corps_question_a_cote_du_graphique{
+	grid-column: 1;
+	/*background-color:#55ff55;*/
 }
-/* partie d'exo sur trois colonnes (pour graphique ou autre) */
-.grille_trois_colonnes{
+.corps_reponse_a_cote_du_graphique{
+	grid-column: 1;
+	background-color:yellow;
+}
+.corps_question_le_graphique{
+	grid-column: 1;
+	/*background-color:#ffff33;*/
+	
+}
+.corps_reponse_le_graphique{
+	grid-column: 1;
+	background-color:yellow;
+	
+}
+
+/*===============================================================Pour des réponses type QCM x4==================================================*/
+
+.corps_qcm_reponse_grille{
 	display:grid;
-	grid-template-columns:auto auto auto;
-	gap:3mm;
-}/* partie d'exo sur quatre colonnes (automatismes ou autre) */
-.grille_quatre_colonnes{
-	display:grid;
-	grid-template-columns:auto auto auto auto;
-	gap:3mm;
+	grid-template-columns:auto 10mm auto 10mm;
+	
+}
+.qcm_reponse_fausse{
+	
+}
+.qcm_reponse_vraie{
+	background-color:yellow;	
+}
+
+/*===============================================================Pour caractères particuliers==================================================*/
+
+/* on utilise alors la balise <span> */
+
+.numero_de_question{
+	font-weight:bold;
+	padding-left:5mm;
 }
