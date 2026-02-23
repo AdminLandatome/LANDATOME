@@ -1005,11 +1005,20 @@ function mettreAJourUI() {
 // ==============================================================
 //  Génération et Aperçu
 // ==============================================================
-function genererDonnees() {
+
+// Retourne un tableau de N tableaux indépendants (valeurs aléatoires distinctes)
+function genererDonneesMulti() {
   const nb = parseInt(document.getElementById("nb-repetitions").value) || 1;
-  const nums = [];
-  for (let i = 0; i < nb; i++) nums.push(...selectionNums);
-  return creationListeDeListes(nums);
+  const series = [];
+  for (let i = 0; i < nb; i++) {
+    series.push(creationListeDeListes([...selectionNums]));
+  }
+  return series;
+}
+
+// Série 1 uniquement (pour l'aperçu)
+function genererDonnees() {
+  return genererDonneesMulti()[0];
 }
 
 // ---- Constantes de navigation ----
@@ -1149,22 +1158,63 @@ function _afficherApercuDiaporama(html) {
 async function telecharger() {
   if (selectionNums.length === 0) return;
   const mode = document.getElementById("mode-sortie").value;
-  const data = genererDonnees();
+  const nbRep = parseInt(document.getElementById("nb-repetitions").value) || 1;
+  const multiSeries = genererDonneesMulti();
+  const ts = Math.round(Math.random() * 9000 + 1000);
 
   if (mode === "serie-zip") {
     afficherStatus("Génération du ZIP…", "info");
-    const fichiers = genererSerie(data);
-    derniereFichiers = fichiers;
-    const n = Math.round(Math.random() * 9000 + 1000);
-    await telechargerSerieZip(fichiers, "serie_" + n);
-    afficherStatus("ZIP téléchargé ! (" + Object.keys(fichiers).length + " fichiers)", "ok");
+    const tousLesFichiers = {};
+
+    if (nbRep === 1) {
+      const fichiers = genererSerie(multiSeries[0]);
+      for (const [nom, contenu] of Object.entries(fichiers)) {
+        tousLesFichiers[nom] = contenu;
+      }
+      derniereFichiers = tousLesFichiers;
+      await telechargerSerieZip(tousLesFichiers, "serie_" + ts);
+      afficherStatus("ZIP téléchargé ! (" + Object.keys(tousLesFichiers).length + " fichiers)", "ok");
+    } else {
+      const seriesMeta = [];
+      for (let i = 0; i < nbRep; i++) {
+        const pad = String(i + 1).padStart(2, "0");
+        const dossier = "serie_" + pad;
+        const fichiers = genererSerie(multiSeries[i]);
+        for (const [nom, contenu] of Object.entries(fichiers)) {
+          tousLesFichiers[dossier + "/" + nom] = contenu;
+        }
+        seriesMeta.push({ label: "Série " + (i + 1), chemin: dossier + "/00_diapo_debut.html" });
+      }
+      const menuHtml = genererMenu(seriesMeta);
+      tousLesFichiers["menu.html"] = menuHtml;
+      derniereFichiers = tousLesFichiers;
+      await telechargerSerieZip(tousLesFichiers, "automatismes_" + ts);
+      afficherStatus("ZIP téléchargé ! (" + nbRep + " séries + menu.html)", "ok");
+    }
   } else {
-    afficherStatus("Génération du diaporama…", "info");
-    const html = genererDiaporama(data);
-    derniereFichiers = { "diaporama.html": html };
-    const n = Math.round(Math.random() * 9000 + 1000);
-    telechargerDiaporama(html, "diaporama_" + n + ".html");
-    afficherStatus("Diaporama téléchargé !", "ok");
+    if (nbRep === 1) {
+      afficherStatus("Génération du diaporama…", "info");
+      const html = genererDiaporama(multiSeries[0]);
+      derniereFichiers = { "diaporama.html": html };
+      telechargerDiaporama(html, "diaporama_" + ts + ".html");
+      afficherStatus("Diaporama téléchargé !", "ok");
+    } else {
+      afficherStatus("Génération du ZIP multi-diaporamas…", "info");
+      const tousLesFichiers = {};
+      const seriesMeta = [];
+      for (let i = 0; i < nbRep; i++) {
+        const pad = String(i + 1).padStart(2, "0");
+        const nomFichier = "diapo_serie_" + pad + ".html";
+        const html = genererDiaporama(multiSeries[i]);
+        tousLesFichiers[nomFichier] = html;
+        seriesMeta.push({ label: "Série " + (i + 1), chemin: nomFichier });
+      }
+      const menuHtml = genererMenu(seriesMeta);
+      tousLesFichiers["menu.html"] = menuHtml;
+      derniereFichiers = tousLesFichiers;
+      await telechargerSerieZip(tousLesFichiers, "automatismes_" + ts);
+      afficherStatus("ZIP téléchargé ! (" + nbRep + " diaporamas + menu.html)", "ok");
+    }
   }
 }
 
@@ -1176,12 +1226,35 @@ async function uploadGithub() {
   const token = document.getElementById('gh-token-input').value.trim();
   if (!token) { afficherStatus('⚠️ Saisis ton token GitHub.', 'err'); return; }
 
-  // Générer le diaporama (format unique pour la mise en ligne)
-  const data = genererDonnees();
-  const html = genererDiaporama(data);
+  const nbRep = parseInt(document.getElementById("nb-repetitions").value) || 1;
+  const multiSeries = genererDonneesMulti();
   const ts = new Date().toISOString().slice(0,19).replace(/[:-]/g,'');
-  const nomFichier = `diapo_${ts}.html`;
-  const fichiers = { [nomFichier]: html };
+
+  // Construire le dictionnaire de fichiers à uploader
+  const fichiers = {};
+  const seriesMeta = [];
+  let sessionPath;
+
+  if (nbRep === 1) {
+    // Un seul diaporama, comportement proche de l'original
+    const nomFichier = `diapo_${ts}.html`;
+    fichiers[nomFichier] = genererDiaporama(multiSeries[0]);
+    sessionPath = null; // fichiers directement dans GH_PATH
+  } else {
+    // Multi-séries : dossier session_TS/
+    sessionPath = `session_${ts}`;
+    for (let i = 0; i < nbRep; i++) {
+      const pad = String(i + 1).padStart(2, "0");
+      const nomFichier = `diapo_serie_${pad}.html`;
+      fichiers[sessionPath + "/" + nomFichier] = genererDiaporama(multiSeries[i]);
+      // URL publique relative au menu
+      seriesMeta.push({ label: "Série " + (i + 1), chemin: nomFichier });
+    }
+    // Menu avec liens relatifs (le menu est dans sessionPath/)
+    const menuHtml = genererMenu(seriesMeta);
+    fichiers[sessionPath + "/menu.html"] = menuHtml;
+  }
+
   derniereFichiers = fichiers;
 
   const barre = document.getElementById('barre-progression');
@@ -1189,11 +1262,18 @@ async function uploadGithub() {
   barre.style.display = 'block';
   inner.style.width = '0';
 
-  afficherStatus(`Envoi vers GitHub (${GH_REPO} / ${GH_PATH})…`, 'info');
+  const totalFichiers = Object.keys(fichiers).length;
+  afficherStatus(`Envoi de ${totalFichiers} fichier(s) vers GitHub…`, 'info');
+
+  // Upload avec chemin relatif depuis GH_PATH
+  const fichiersAvecChemin = {};
+  for (const [nom, contenu] of Object.entries(fichiers)) {
+    fichiersAvecChemin[nom] = contenu;
+  }
 
   const erreurs = await uploadGitHub({
     token,
-    fichiers,
+    fichiers: fichiersAvecChemin,
     onProgress: (done, total) => {
       inner.style.width = Math.round(done / total * 100) + '%';
     }
@@ -1201,18 +1281,25 @@ async function uploadGithub() {
 
   barre.style.display = 'none';
   if (erreurs.length === 0) {
-    const url = `https://adminlandatome.github.io/Landatome_public/rep_transfert_github/${nomFichier}`;
-    afficherLienGithub(url);
+    let urlPrincipale;
+    if (nbRep === 1) {
+      const nomFichier = Object.keys(fichiers)[0];
+      urlPrincipale = `https://adminlandatome.github.io/Landatome_public/rep_transfert_github/${nomFichier}`;
+    } else {
+      urlPrincipale = `https://adminlandatome.github.io/Landatome_public/rep_transfert_github/${sessionPath}/menu.html`;
+    }
+    afficherLienGithub(urlPrincipale, nbRep > 1);
   } else {
     afficherStatus('Erreurs upload : ' + erreurs.slice(0,3).join(' | '), 'err');
   }
 }
 
-function afficherLienGithub(url) {
+function afficherLienGithub(url, estMenu = false) {
   const el = document.getElementById('status-msg');
   el.className = 'visible ok';
+  const label = estMenu ? "✅ Menu en ligne !" : "✅ En ligne !";
   el.innerHTML = `
-    <span>✅ En ligne !</span>
+    <span>${label}</span>
     <input id="url-copier" type="text" value="${url}" readonly
       style="flex:1;border:1px solid #a3d5a5;border-radius:5px;padding:5px 9px;font-size:.82rem;background:#fff;color:#155724;cursor:pointer"
       onclick="this.select()" title="Cliquer pour sélectionner">

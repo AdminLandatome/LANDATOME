@@ -435,6 +435,61 @@ const GH_REPO   = "AdminLandatome/Landatome_public";
 const GH_BRANCH = "main";
 const GH_PATH   = "docs/rep_transfert_github";
 
+// ============================================================
+//  Génération du MENU HTML (index des séries)
+//  series : tableau de { label, chemin } où chemin = "serie_01/00_diapo_debut.html"
+//           ou chemin = "diapo_serie_01.html" pour le mode diaporama
+// ============================================================
+function genererMenu(series) {
+    const cartes = series.map((s, i) => `
+    <a href="${s.chemin}" class="carte-serie">
+      <div class="carte-numero">Série ${i + 1}</div>
+      <div class="carte-label">${s.label}</div>
+      <div class="carte-fleche">▶</div>
+    </a>`).join("\n");
+
+    return `<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Menu — Automatismes</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/png" href="${ICON_URL}"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",Helvetica,Arial,sans-serif;background:#f0f2f5;color:#1a1a2e;min-height:100vh}
+header{background:linear-gradient(135deg,#1d3557 0%,#16213e 100%);color:#fff;padding:22px 32px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 12px rgba(0,0,0,.3)}
+header img{width:44px;height:44px;border-radius:8px}
+header h1{font-size:1.5rem;font-weight:700;letter-spacing:.04em}
+header span{opacity:.55;font-size:.85rem;margin-left:auto}
+main{max-width:960px;margin:40px auto;padding:0 24px}
+h2{font-size:1.2rem;font-weight:700;color:#1d3557;margin-bottom:24px;border-bottom:2px solid #dde1e8;padding-bottom:10px}
+.grille{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.carte-serie{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:#fff;border:2px solid #dde1e8;border-radius:14px;padding:28px 20px;text-decoration:none;color:#1a1a2e;box-shadow:0 2px 8px rgba(0,0,0,.06);transition:all .18s;cursor:pointer}
+.carte-serie:hover{border-color:#457b9d;background:#f0f8ff;transform:translateY(-3px);box-shadow:0 6px 18px rgba(0,0,0,.12)}
+.carte-numero{font-size:1.6rem;font-weight:900;color:#1d3557}
+.carte-label{font-size:.85rem;color:#555;text-align:center;line-height:1.4}
+.carte-fleche{font-size:1.4rem;color:#457b9d;margin-top:4px}
+footer{text-align:center;color:#aaa;font-size:.8rem;padding:32px 0;margin-top:40px}
+</style>
+</head>
+<body>
+<header>
+  <img src="${ICON_URL}" alt="Logo"/>
+  <h1>Automatome <em style="font-weight:300;font-style:normal;opacity:.6">Web</em></h1>
+  <span>${series.length} série${series.length > 1 ? "s" : ""} disponible${series.length > 1 ? "s" : ""}</span>
+</header>
+<main>
+  <h2>📋 Choisissez une série</h2>
+  <div class="grille">
+${cartes}
+  </div>
+</main>
+<footer>Automatome — Générateur d'automatismes mathématiques</footer>
+</body>
+</html>`;
+}
+
 async function uploadGitHub({ fichiers, onProgress, token, owner, repo, branch, basePath } = {}) {
     // Priorité aux paramètres passés, sinon valeurs fixes
     const _token  = token  || GH_TOKEN;
