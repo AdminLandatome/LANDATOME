@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Landatome - Probabilités</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <link rel="stylesheet" href="https://adminlandatome.github.io/LANDATOME/styles/styles_pour_les_devoirs_V01.css">
+    
+    <style>
+        /* Styles complémentaires pour assurer le rendu des tableaux et du contenu spécifique */
+        body { background-color: #f0f0f0; padding: 20px; }
+        .une_page { background-color: white; margin: auto; padding: 10mm; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        table { border-collapse: collapse; width: 100%; margin: 10px 0; }
+        th, td { border: 1px solid black; padding: 5px; text-align: center; }
+        .total-cell { font-weight: bold; background-color: #f0f0f0; }
+        
+        /* Adaptation pour que le bouton "VOIR LE CORRIGÉ" s'intègre au style jaune des réponses */
+        details summary { cursor: pointer; font-weight: bold; outline: none; padding: 5px; }
+        .corps_reponse_sans_graphique_une_colonne { padding: 10px; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+    <div class="une_page">
+        <div class="titre_de_page">Probabilités Conditionnelles M03</div>
+
+        
+
+        <div class="grille_entete_exo">
+            <div class="numero_exo">Exercice n°1</div>
+            <div class="titre_exo">Gestion d'un magasin d'informatique</div>
+            <div class="bareme_exo"></div>
+        </div>
+
+        <p>Un magasin propose des ordinateurs, du matériel d'impression ou des logiciels. 80 clients ont acheté un seul produit. Voici la répartition :</p>
+        
+        <table>
+            <tr>
+                <th>Paiement \ Produit</th>
+                <th>Impression</th>
+                <th>Logiciels</th>
+                <th>Ordi.</th>
+                <th class="total-cell">Total</th>
+            </tr>
+            <tr>
+                <td>Espèces</td>
+                <td>12</td>
+                <td>12</td>
+                <td>0</td>
+                <td class="total-cell">24</td>
+            </tr>
+            <tr>
+                <td>Carte bancaire</td>
+                <td>36</td>
+                <td>14</td>
+                <td>6</td>
+                <td class="total-cell">56</td>
+            </tr>
+            <tr class="total-cell">
+                <td>Total</td>
+                <td>48</td>
+                <td>26</td>
+                <td>6</td>
+                <td>80</td>
+            </tr>
+        </table>
+
+        <div class="corps_partie_exo_sans_graphique_une_colonne">
+            <div class="corps_question_sans_graphique_une_colonne">
+                <span class="numero_de_question">1.</span> Quelle est la probabilité que le client ait payé par carte bancaire ? 
+            </div>
+            <div class="bareme_invisible"></div>
+
+            <div class="corps_question_sans_graphique_une_colonne">
+                <span class="numero_de_question">2.</span> Le client a acheté du matériel d'impression. Quelle est la probabilité qu'il ait payé par carte ?
+            </div>
+            <div class="bareme_invisible"></div>
+        </div>
+
+        <div class="corps_reponse_sans_graphique_une_colonne">
+            <details>
+                <summary>VOIR LE CORRIGÉ</summary>
+                <p><strong>1) Probabilité du paiement par carte :</strong><br>
+                Sur un total de 80 clients, 56 ont payé par carte bancaire.<br>
+                \( P(CB) = \frac{56}{80} = \mathbf{0,7} \)</p>
+
+                <p><strong>2) Probabilité conditionnelle :</strong><br>
+                On cherche \( P_{I}(CB) \) (Sachant que c'est de l'Impression).<br>
+                \( P_{I}(CB) = \frac{36}{48} = \mathbf{0,75} \)</p>
+            </details>
+        </div>
+
+        <div class="grille_entete_exo">
+            <div class="numero_exo">Exercice n°2</div>
+            <div class="titre_exo">Loisirs au lycée</div>
+            <div class="bareme_exo"></div>
+        </div>
+
+        <p>On interroge 1500 élèves sur leurs activités culturelles (C) et sportives (S).</p>
+        
+        <table>
+            <tr>
+                <th></th>
+                <th>Sportif (S)</th>
+                <th>Non Sportif (\(\overline{S}\))</th>
+                <th>Total</th>
+            </tr>
+            <tr>
+                <td>Culturel (C)</td>
+                <td>402</td>
+                <td>591</td>
+                <td class="total-cell">993</td>
+            </tr>
+            <tr>
+                <td>Non Cult. (\(\overline{C}\))</td>
+                <td>315</td>
+                <td>192</td>
+                <td class="total-cell">507</td>
+            </tr>
+            <tr class="total-cell">
+                <td>Total</td>
+                <td>717</td>
+                <td>783</td>
+                <td>1500</td>
+            </tr>
+        </table>
+
+        <div class="corps_partie_exo_sans_graphique_une_colonne">
+            <div class="corps_question_sans_graphique_une_colonne">
+                <span class="numero_de_question">1.</span> Déterminer la probabilité \( P(C) \).
+            </div>
+            <div class="bareme_invisible"></div>
+
+            <div class="corps_question_sans_graphique_une_colonne">
+                <span class="numero_de_question">2.</span> Déterminer la probabilité \( P_{C}(S) \).
+            </div>
+            <div class="bareme_invisible"></div>
+        </div>
+
+        <div class="corps_reponse_sans_graphique_une_colonne">
+            <details>
+                <summary>VOIR LE CORRIGÉ</summary>
+                <p><strong>1) Calcul de \( P(C) \) :</strong><br>
+                \( P(C) = \frac{993}{1500} = \mathbf{0,662} \)</p>
+
+                <p><strong>2) Calcul de \( P_{C}(S) \) :</strong><br>
+                Parmi les 993 élèves pratiquant une activité culturelle, 402 font du sport.<br>
+                \( P_{C}(S) = \frac{402}{993} \approx \mathbf{0,405} \)</p>
+            </details>
+        </div>
+    </div> <div class="une_page">
+        <div class="grille_entete_exo">
+            <div class="numero_exo">Exercice n°3</div>
+            <div class="titre_exo">Santé et prévention</div>
+            <div class="bareme_exo"></div>
+        </div>
+
+        <p>Une enquête sur 10 000 personnes révèle que 9% sont atteintes d'une maladie cardio-vasculaire (M). Parmi elles, 45% pratiquent un sport (S). Chez les non-atteints, 60% sont sportifs.</p>
+
+        <div class="corps_reponse_sans_graphique_une_colonne">
+            <details>
+                <summary>VOIR LE CORRIGÉ</summary>
+                <p><strong>Tableau des effectifs (pour 10 000 personnes) :</strong></p>
+                <table>
+                    <tr>
+                        <th></th>
+                        <th>Sportif (S)</th>
+                        <th>Non Sportif (\(\overline{S}\))</th>
+                        <th>Total</th>
+                    </tr>
+                    <tr>
+                        <td>Malade (M)</td>
+                        <td>405</td>
+                        <td>495</td>
+                        <td class="total-cell">900</td>
+                    </tr>
+                    <tr>
+                        <td>Sain (\(\overline{M}\))</td>
+                        <td>5460</td>
+                        <td>3640</td>
+                        <td class="total-cell">9100</td>
+                    </tr>
+                    <tr class="total-cell">
+                        <td>Total</td>
+                        <td>5865</td>
+                        <td>4135</td>
+                        <td>10000</td>
+                    </tr>
+                </table>
+                <p><strong>Question :</strong> Montrer que \( P(S) = 0,5865 \). </p>
+                <p><strong>Démonstration :</strong><br>
+                D'après la formule des probabilités totales :<br>
+                \( P(S) = P(M \cap S) + P(\overline{M} \cap S) \)<br>
+                \( P(S) = \frac{405}{10000} + \frac{5460}{10000} = \mathbf{0,5865} \)</p>
+            </details>
+        </div>
+    </div>
+
+</body>
+</html>
