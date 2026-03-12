@@ -1,0 +1,91 @@
+/* Global */
+body { 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+    background-color: #e0e0e0; /* Gris Thonny */
+    margin: 0; padding: 10px;
+}
+.nav-exos {
+	background-color:#f0f0f0;	
+}
+.container { 
+    max-width: 1000px; 
+    margin: 0 auto; 
+    background: #f0f0f0; 
+    border: 1px solid #999; 
+    display: flex; 
+    flex-direction: column;
+    height: 95vh;
+}
+
+/* Barre d'outils (Header) */
+header { 
+    background: #f0f0f0; 
+    padding: 5px 10px; 
+    display: flex; 
+    align-items: center; 
+    gap: 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+h1 { font-size: 14px; margin: 0; color: #555; font-weight: normal; }
+
+/* Éditeur */
+.editor-section { flex: 1; background: white; border-bottom: 2px solid #ccc; }
+
+.CodeMirror { 
+    height: 100% !important; 
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+}
+
+/* Console / Shell */
+.output-section { 
+    height: 250px; 
+    background: white; 
+    display: flex; 
+    flex-direction: column; 
+}
+
+.shell-header { 
+    background: #f0f0f0; 
+    padding: 3px 10px; 
+    font-size: 12px; 
+    border-top: 1px solid #ccc; 
+    border-bottom: 1px solid #eee;
+    color: #333;
+}
+
+.console { 
+    flex: 1;
+    padding: 10px;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+    color: #000;
+    overflow-y: auto;
+    white-space: pre-wrap;
+}
+
+/* Boutons style Thonny */
+.primary-btn {
+    background: #ffffff;
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    padding: 4px 12px;
+    cursor: pointer;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.primary-btn:hover { background: #e8f0fe; border-color: #4285f4; }
+
+.primary-btn:disabled { opacity: 0.5; cursor: wait; }
+
+/* Section consigne intégrée discrètement */
+.consigne-section {
+    background: #fff9c4; /* Jaune post-it léger */
+    padding: 8px 15px;
+    font-size: 13px;
+    border-bottom: 1px solid #ccc;
+}

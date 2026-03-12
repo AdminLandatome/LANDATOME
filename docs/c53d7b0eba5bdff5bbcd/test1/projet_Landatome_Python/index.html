@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Labo Python Interactif</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/neo.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🐍 Mon Labo Python</h1>
+            <div class="nav-exos">
+                <button id="btn-prev" onclick="changerExercice(-1)">⬅️ Précédent</button>
+                <span id="exo-titre">Chargement...</span>
+                <button id="btn-next" onclick="changerExercice(1)">Suivant ➡️</button>
+            </div>
+        </header>
+
+        <main>
+            <section class="consigne-section">
+                <h3>Énoncé</h3>
+                <div id="consigne-texte">Veuillez patienter pendant le chargement de Python...</div>
+            </section>
+
+            <section class="editor-section">
+                <textarea id="code-editor"></textarea>
+                <button id="run-btn" class="primary-btn" disabled>Chargement de Python...</button>
+            </section>
+
+            <section class="output-section">
+                <div class="shell-header">Shell (Python 3.10)</div>
+                <div id="output" class="console">>>> </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    
+    <script src="exercices.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
