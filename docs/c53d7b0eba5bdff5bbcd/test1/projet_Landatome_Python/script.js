@@ -167,7 +167,7 @@ function updateProgress() {
 // ─── Navigation exercices ─────────────────────────────────────────────────────
 function chargerExercice(index) {
     const exo = exercices[index];
-    document.getElementById("exo-titre").innerText = `Exercice ${exo.id} : ${exo.titre}`;
+    document.getElementById("exo-titre").innerText = `Exercice ${exo.id} :\n ${exo.titre}`;
     document.getElementById("consigne-texte").innerHTML = exo.consigne;
     editor.setValue(exo.codeDepart.trimStart());
     resetConsole();

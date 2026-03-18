@@ -16,11 +16,10 @@ const exercices = [
 	{
     id: 3,
     titre: "Arithmétique E01",
-    consigne: "Creer une fonction qui renvoie le reste de la division euclidienne de a par b.",
-    codeDepart: `def ma_fonction(a, b):
+    consigne: "Créer une fonction qui renvoie le reste de la division euclidienne de a par b.",
+    codeDepart: `def division(a, b):
     resultat = 0
     # ton code ici
-	#encore du code
     return resultat
 `,
     test: "division(28,7)==28%7"
