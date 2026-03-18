@@ -5,7 +5,25 @@ body {
     margin: 0; padding: 10px;
 }
 .nav-exos {
-	background-color:#f0f0f0;	
+	background-color:#f0f0f0;
+    width:50%;	
+}
+.exercice{
+	background-color:#DDDDDD;
+	font-variant:small-caps;
+	
+	font-weight:bold;
+	text-align:left;
+	margin-bottom:10px;
+	
+}
+
+.toolbar {
+    display: flex;
+    gap: 8px;
+    padding: 6px 10px;
+    background: #f0f0f0;
+    border-bottom: 1px solid #ccc;
 }
 .container { 
     max-width: 1000px; 
@@ -55,7 +73,7 @@ h1 { font-size: 14px; margin: 0; color: #555; font-weight: normal; }
     color: #333;
 }
 
-.console { 
+.console {
     flex: 1;
     padding: 10px;
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
@@ -63,6 +81,12 @@ h1 { font-size: 14px; margin: 0; color: #555; font-weight: normal; }
     color: #000;
     overflow-y: auto;
     white-space: pre-wrap;
+    resize: none;
+    border: none;
+    outline: none;
+    background: white;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Boutons style Thonny */
