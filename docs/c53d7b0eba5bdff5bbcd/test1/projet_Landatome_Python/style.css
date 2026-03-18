@@ -9,7 +9,7 @@ body {
 }
 .nav-exos {
 	background-color:#f0f0f0;
-    width:50%;	
+    width:75%;	
 }
 .exercice{
 	background-color:#DDDDDD;
@@ -110,7 +110,7 @@ h1 {
     border-radius: 3px;
     padding: 4px 12px;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 11px;
     display: flex;
     align-items: center;
     gap: 5px;
