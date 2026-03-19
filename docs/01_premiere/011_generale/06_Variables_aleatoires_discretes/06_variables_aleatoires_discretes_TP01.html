@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variables aléatoires TP01</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/neo.min.css">
+    
+    <link rel="stylesheet" href="https://adminlandatome.github.io/LANDATOME/styles/style_landatome_python.css">
+</head>
+<body>
+    <h1>Variables aléatoires TP01</h1>
+    <div class="container">
+	
+        <header>
+            
+            <div class="nav-exos">
+			    <div id="exo-titre" class="exercice">Chargement...</div>
+                <button id="btn-prev" onclick="changerExercice(-1)">⬅️ Précédent</button>
+                
+                <button id="btn-next" onclick="changerExercice(1)">Suivant ➡️</button> 
+				
+            </div>
+        </header>
+
+        <main>
+            <section class="consigne-section">
+                
+                <div id="consigne-texte">Veuillez patienter pendant le chargement de Python...</div>
+            </section>
+			<div class="shell-header">Editeur</div>
+
+            <section class="editor-section">
+                <textarea id="code-editor"></textarea>
+            </section>
+
+			<div class="toolbar">
+                <button id="run-btn" class="primary-btn" disabled>Chargement...</button>
+                <button id="exec-btn" class="primary-btn" disabled>▶️ Exécuter</button>
+                <button id="save-btn" class="primary-btn" disabled>💾 Enregistrer .py</button>
+                <button id="plot-btn" class="primary-btn" style="display:none;" onclick="togglePlot(true)">📊 Graphique</button>
+            </div>
+
+            <!-- Zone d'affichage des graphes matplotlib -->
+            <section id="plot-section" style="display:none;">
+                <div class="shell-header" style="display:flex; justify-content:space-between; align-items:center;">
+                    <span>📊 Graphique</span>
+                    <button onclick="togglePlot(false)" style="background:none; border:none; cursor:pointer; font-size:16px; padding:0 4px; color:#555;" title="Fermer">✕</button>
+                </div>
+                <div id="plot-container" style="padding:10px; background:white;"></div>
+            </section>
+
+            <section class="output-section">
+                <div class="shell-header">Console (Python 3.10)</div>
+                <textarea id="output" class="console" spellcheck="false"></textarea>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    
+    <script src="06_variables_aleatoires_discretes_TP01_exercices.js"></script>
+    <script src="06_variables_aleatoires_discretes_TP01_script.js"></script>
+
+    <script>
+        function togglePlot(visible) {
+            document.getElementById("plot-section").style.display = visible ? "block" : "none";
+            document.getElementById("plot-btn").style.display     = visible ? "none"  : "block";
+        }
+
+        // Afficher automatiquement la section dès qu'une image est insérée
+        const observer = new MutationObserver(() => {
+            const container = document.getElementById("plot-container");
+            if (container && container.children.length > 0) {
+                togglePlot(true);
+            }
+        });
+        document.addEventListener("DOMContentLoaded", () => {
+            observer.observe(document.getElementById("plot-container"), { childList: true });
+        });
+    </script>
+</body>
+</html>
