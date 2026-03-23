@@ -218,15 +218,23 @@
   /* Fill handle */
   .fill-handle {
     position: absolute;
-    bottom: 0px;
-    right: 0px;
-    width: 10px;
-    height: 10px;
+    bottom: -4px;
+    right: -4px;
+    width: 14px;
+    height: 14px;
     background: var(--fill-handle);
     border: 2px solid var(--bg);
     cursor: crosshair;
-    z-index: 3;
-    border-radius: 1px;
+    z-index: 10;
+    border-radius: 2px;
+    touch-action: none;
+  }
+  /* Larger invisible hit area for touch */
+  .fill-handle::after {
+    content: '';
+    position: absolute;
+    top: -8px; left: -8px;
+    right: -8px; bottom: -8px;
   }
 
   /* Active (editing) cell */
@@ -770,7 +778,9 @@ function commitEdit(newValue) {
   if (!editing) return;
   editing = false;
   const editor = document.getElementById('inline-editor');
-  const val = newValue !== undefined ? newValue : editor.value;
+  let val = newValue !== undefined ? newValue : editor.value;
+  // Normalise les formules en majuscules (noms de fonctions + références)
+  if (val.trim().startsWith('=')) val = val.toUpperCase();
   const id = cellId(selRow, selCol);
   if (val.trim() === '') {
     delete data[id];
@@ -797,106 +807,116 @@ function cancelEdit() {
 //  FILL HANDLE (RECOPIE)
 // ════════════════════════════════════════════════════════
 function fillRange() {
-  if (fillEndRow < 0) return;
+  // Rien à faire si on n'a pas bougé
+  if (fillEndRow === fillStartRow && fillEndCol === fillStartCol) {
+    return;
+  }
+
   const srcId = cellId(fillStartRow, fillStartCol);
   const srcVal = data[srcId] || '';
-  
+
   const minR = Math.min(fillStartRow, fillEndRow);
   const maxR = Math.max(fillStartRow, fillEndRow);
   const minC = Math.min(fillStartCol, fillEndCol);
   const maxC = Math.max(fillStartCol, fillEndCol);
-  
+
   for (let r = minR; r <= maxR; r++) {
     for (let c = minC; c <= maxC; c++) {
       if (r === fillStartRow && c === fillStartCol) continue;
       const dR = r - fillStartRow;
       const dC = c - fillStartCol;
-      data[cellId(r, c)] = adaptFormula(srcVal, dR, dC);
+      const adapted = adaptFormula(srcVal, dR, dC);
+      data[cellId(r, c)] = adapted;
     }
   }
   renderAll();
 }
 
-// Adapt formula references when copying (relative references)
-function adaptFormula(src, dR, dC) {
-  if (!src.startsWith('=')) {
-    // Numbers: try to detect series (not implemented for simplicity, just copy)
-    return src;
+// Convert column letter(s) to 0-based index (A→0, B→1, AA→26…)
+function colLetterToIndex(letters) {
+  return letters.split('').reduce((acc, ch) => acc * 26 + ch.charCodeAt(0) - 64, 0) - 1;
+}
+// Convert 0-based index to column letter(s)
+function colIndexToLetter(idx) {
+  let s = '';
+  idx++;
+  while (idx > 0) {
+    const rem = (idx - 1) % 26;
+    s = String.fromCharCode(65 + rem) + s;
+    idx = Math.floor((idx - 1) / 26);
   }
-  // Shift cell references
-  return src.replace(/\$?([A-Z]+)\$?(\d+)/g, (match, col, row) => {
-    const hasColLock = match.startsWith('$') || match.includes('$' + col);
-    const hasRowLock = match.includes('$' + row);
-    const newCol = hasColLock ? col : colName(colName(col).charCodeAt(0) - 65 + dC);
-    const newRow = hasRowLock ? row : (parseInt(row) + dR);
-    if (!newCol || newCol.charCodeAt(0) < 65 || newRow < 1) return match;
-    return `${newCol}${newRow}`;
+  return s;
+}
+
+// Adapt formula references when copying (à la LibreOffice)
+// Handles $COL$ROW locking, multi-letter columns, ranges
+function adaptFormula(src, dR, dC) {
+  if (!src.startsWith('=')) return src;
+  src = src.toUpperCase(); // normalise avant d'adapter
+  // Regex: optional $ before col letters, optional $ before row digits
+  return src.replace(/(\$?)([A-Z]+)(\$?)(\d+)/g, (match, dc, col, dr, row) => {
+    const colLocked = dc === '$';
+    const rowLocked = dr === '$';
+    const newColIdx = colLocked ? colLetterToIndex(col) : colLetterToIndex(col) + dC;
+    const newRow    = rowLocked ? parseInt(row)         : parseInt(row) + dR;
+    if (newColIdx < 0 || newRow < 1) return match;
+    return dc + colIndexToLetter(newColIdx) + dr + newRow;
   });
 }
 
-function attachFillListeners() {
-  const wrapper = document.getElementById('sheet-wrapper');
+function getCellFromPoint(x, y) {
+  // Walk up from elementFromPoint to find a td.cell (handles child elements like fill-handle)
+  let el = document.elementFromPoint(x, y);
+  while (el && !el.classList.contains('cell')) el = el.parentElement;
+  return (el && el.classList.contains('cell')) ? el : null;
+}
 
-  // Mouse
-  wrapper.addEventListener('mousedown', e => {
-    if (e.target.classList.contains('fill-handle')) {
-      fillDragging = true;
-      fillStartRow = selRow; fillStartCol = selCol;
-      fillEndRow = selRow; fillEndCol = selCol;
-      e.preventDefault();
-      e.stopPropagation();
-    }
+function attachFillListeners() {
+  // Use document-level pointer events to avoid conflicts and handle drag outside wrapper
+  document.addEventListener('pointerdown', e => {
+    if (!e.target.classList.contains('fill-handle')) return;
+    e.preventDefault();
+    e.stopPropagation();
+    fillDragging = true;
+    fillStartRow = selRow; fillStartCol = selCol;
+    fillEndRow = selRow; fillEndCol = selCol;
+    e.target.setPointerCapture(e.pointerId);
   });
-  document.addEventListener('mousemove', e => {
+
+  document.addEventListener('pointermove', e => {
     if (!fillDragging) return;
-    const el = document.elementFromPoint(e.clientX, e.clientY);
-    if (el && el.classList.contains('cell')) {
-      const r = parseInt(el.dataset.r), c = parseInt(el.dataset.c);
+    e.preventDefault();
+    // Temporarily hide the fill handle so elementFromPoint can find the cell beneath
+    const fh = document.querySelector('.fill-handle');
+    if (fh) fh.style.pointerEvents = 'none';
+    const td = getCellFromPoint(e.clientX, e.clientY);
+    if (fh) fh.style.pointerEvents = '';
+    if (td) {
+      const r = parseInt(td.dataset.r), c = parseInt(td.dataset.c);
       if (r !== fillEndRow || c !== fillEndCol) {
         fillEndRow = r; fillEndCol = c;
         showFillPreview();
       }
     }
-  });
-  document.addEventListener('mouseup', e => {
-    if (fillDragging) {
-      fillDragging = false;
-      fillRange();
-      clearFillPreview();
-      setRange(Math.min(fillStartRow,fillEndRow), Math.min(fillStartCol,fillEndCol),
-               Math.max(fillStartRow,fillEndRow), Math.max(fillStartCol,fillEndCol));
-    }
-  });
+  }, { passive: false });
 
-  // Touch
-  let lastFillTap = 0;
-  wrapper.addEventListener('touchstart', e => {
-    if (e.target.classList.contains('fill-handle')) {
-      fillDragging = true;
-      fillStartRow = selRow; fillStartCol = selCol;
-      fillEndRow = selRow; fillEndCol = selCol;
-      e.preventDefault();
-    }
-  }, { passive: false });
-  wrapper.addEventListener('touchmove', e => {
+  document.addEventListener('pointerup', e => {
     if (!fillDragging) return;
-    e.preventDefault();
-    const touch = e.touches[0];
-    const el = document.elementFromPoint(touch.clientX, touch.clientY);
-    if (el && el.classList.contains('cell')) {
-      const r = parseInt(el.dataset.r), c = parseInt(el.dataset.c);
-      fillEndRow = r; fillEndCol = c;
-      showFillPreview();
+    // Relire la cellule cible au moment du relâchement (pointermove peut avoir raté)
+    const fh = document.querySelector('.fill-handle');
+    if (fh) fh.style.pointerEvents = 'none';
+    const tdUp = getCellFromPoint(e.clientX, e.clientY);
+    if (fh) fh.style.pointerEvents = '';
+    if (tdUp) {
+      fillEndRow = parseInt(tdUp.dataset.r);
+      fillEndCol = parseInt(tdUp.dataset.c);
+    } else {
     }
-  }, { passive: false });
-  wrapper.addEventListener('touchend', e => {
-    if (fillDragging) {
-      fillDragging = false;
-      fillRange();
-      clearFillPreview();
-      setRange(Math.min(fillStartRow,fillEndRow), Math.min(fillStartCol,fillEndCol),
-               Math.max(fillStartRow,fillEndRow), Math.max(fillStartCol,fillEndCol));
-    }
+    fillDragging = false;
+    fillRange();
+    clearFillPreview();
+    setRange(Math.min(fillStartRow,fillEndRow), Math.min(fillStartCol,fillEndCol),
+             Math.max(fillStartRow,fillEndRow), Math.max(fillStartCol,fillEndCol));
   });
 }
 
@@ -926,6 +946,7 @@ function attachCellListeners() {
   let lastTap = 0, lastTapCell = '';
   wrapper.addEventListener('pointerdown', e => {
     if (fillDragging) return;
+    if (e.target.classList.contains('fill-handle')) return; // handled separately
     const td = e.target.closest('.cell');
     if (!td) return;
     const r = parseInt(td.dataset.r), c = parseInt(td.dataset.c);
