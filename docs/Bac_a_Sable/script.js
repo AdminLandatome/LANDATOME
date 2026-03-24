@@ -66,14 +66,16 @@ except Exception:
 `);
 
         // Activer les boutons de la toolbar
-        document.getElementById("run-btn").disabled  = false;
+        document.getElementById("run-btn").disabled  = true;
         document.getElementById("run-btn").innerText = "✅ Vérifier";
+		document.getElementById("run-btn").style = "display:none;"
+		
         document.getElementById("exec-btn").disabled = false;
         document.getElementById("exec-btn").onclick  = runFreeCode;
         document.getElementById("save-btn").disabled = false;
         document.getElementById("save-btn").onclick  = downloadCode;
 
-        setupProgressBar();
+        //setupProgressBar();
         initConsole();
         chargerExercice(0);
 
