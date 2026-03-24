@@ -18,12 +18,11 @@
             
             <div class="nav-exos">
 			    <div id="exo-titre" class="exercice">Chargement...</div>
-				<!--
                 <button id="btn-prev" onclick="changerExercice(-1)">⬅️ Précédent</button>
                 
                 <button id="btn-next" onclick="changerExercice(1)">Suivant ➡️</button> 
-				-->
-            </div> 
+				
+            </div>
         </header>
 
         <main>
@@ -42,6 +41,10 @@
                 <button id="exec-btn" class="primary-btn" disabled>▶️ Exécuter</button>
                 <button id="save-btn" class="primary-btn" disabled>💾 Enregistrer .py</button>
                 <button id="plot-btn" class="primary-btn" style="display:none;" onclick="togglePlot(true)">📊 Graphique</button>
+                <!-- Bouton et input pour charger une image -->
+                <input type="file" id="img-input" accept="image/*" style="display:none;" onchange="chargerImage(this)">
+                <button id="img-btn" class="primary-btn" disabled>📂 Ouvrir image</button>
+                <button id="dl-img-btn" class="primary-btn" style="display:none;">💾 Télécharger image</button>
             </div>
 
             <!-- Zone d'affichage des graphes matplotlib -->

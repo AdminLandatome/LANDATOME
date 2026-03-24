@@ -78,12 +78,101 @@ except Exception:
         document.getElementById("save-btn").disabled = false;
         document.getElementById("save-btn").onclick  = downloadCode;
 
+        // Activer le bouton image
+        document.getElementById("img-btn").disabled = false;
+        document.getElementById("img-btn").onclick  = () => document.getElementById("img-input").click();
+
+        // Bouton téléchargement image : toujours visible, chemin par défaut
+        const dlBtn = document.getElementById("dl-img-btn");
+        dlBtn.style.display = "inline-flex";
+        dlBtn.onclick = () => telechargerImageResultat();
+
         initConsole();
         chargerExercice(0);
 
     } catch (err) {
         const ta = document.getElementById("output");
         ta.value = "❌ Erreur : " + err;
+    }
+}
+
+// ─── Chargement d'image dans Pyodide ─────────────────────────────────────────
+async function chargerImage(input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    // Réinitialiser l'input pour permettre de recharger le même fichier
+    input.value = "";
+
+    const ext = file.name.split(".").pop().toLowerCase();
+    const inputPath  = "/image_input."  + ext;
+    const outputPath = "/image_output." + ext;
+
+    // Lire le fichier et l'écrire dans le FS virtuel de Pyodide
+    const arrayBuffer = await file.arrayBuffer();
+    pyodide.FS.writeFile(inputPath, new Uint8Array(arrayBuffer));
+
+    // Exposer les chemins comme variables Python globales
+    pyodide.globals.set("__image_input__",  inputPath);
+    pyodide.globals.set("__image_output__", outputPath);
+
+    appendToConsole(`📂 Image chargée : ${file.name} → accessible via __image_input__\n`);
+
+    // Injecter un code d'exemple dans l'éditeur
+    editor.setValue(
+`from PIL import Image
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Ouvrir l'image chargée
+img = Image.open(__image_input__).convert("RGB")
+arr = np.array(img)  # shape : (hauteur, largeur, 3)
+
+print(f"Taille : {img.width}x{img.height}, mode : {img.mode}")
+
+# ── Exemple : supprimer le canal rouge ──────────────────────────
+arr_modif = arr.copy()
+arr_modif[:, :, 0] = 0   # canal R = 0
+
+# ── Autres idées à essayer ───────────────────────────────────────
+# Niveaux de gris :     arr_modif = np.mean(arr, axis=2, keepdims=True).repeat(3, axis=2).astype(np.uint8)
+# Inverser les couleurs: arr_modif = 255 - arr
+# Garder seulement le vert : arr_modif[:,:,0]=0 ; arr_modif[:,:,2]=0
+
+# Sauvegarder le résultat
+img_modif = Image.fromarray(arr_modif.astype("uint8"))
+img_modif.save(__image_output__)
+
+# Afficher avant / après
+fig, axes = plt.subplots(1, 2, figsize=(10, 5))
+axes[0].imshow(arr)
+axes[0].set_title("Original")
+axes[0].axis("off")
+axes[1].imshow(arr_modif)
+axes[1].set_title("Modifiée")
+axes[1].axis("off")
+plt.tight_layout()
+plt.show()
+`);
+
+}
+
+// ─── Téléchargement de l'image résultat ──────────────────────────────────────
+function telechargerImageResultat(pyodidePath, nomFichier) {
+    // Chemin par défaut si aucune image n'a été chargée via le bouton
+    pyodidePath = pyodidePath || "/image_output.png";
+    nomFichier  = nomFichier  || "resultat.png";
+    try {
+        const data = pyodide.FS.readFile(pyodidePath);
+        const blob = new Blob([data], { type: "image/" + nomFichier.split(".").pop() });
+        const url  = URL.createObjectURL(blob);
+        const a    = document.createElement("a");
+        a.href     = url;
+        a.download = nomFichier;
+        a.click();
+        URL.revokeObjectURL(url);
+    } catch (err) {
+        appendToConsole("⚠️ Image résultat introuvable. Lance d'abord le code avec img.save(\"/image_output.png\").\n");
     }
 }
 
