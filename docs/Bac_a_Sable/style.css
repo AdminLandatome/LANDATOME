@@ -137,3 +137,23 @@ h1 {
 	padding:15px;
 	border-radius:5px;
 }
+/* ─── Gestion des erreurs style Thonny ─────────────────────────────────────── */
+
+/* Surlignage de la ligne en erreur dans l'éditeur */
+.error-line-highlight {
+    background-color: #ffd6d6 !important;
+}
+
+/* Marqueur gutter (point rouge à gauche du numéro de ligne) */
+.error-gutter-marker {
+    color: #cc0000;
+    font-size: 10px;
+    line-height: 1;
+    padding: 0 2px;
+    cursor: default;
+}
+
+/* Coloration rouge du texte d'erreur dans la console */
+.console-error {
+    color: #cc0000;
+}

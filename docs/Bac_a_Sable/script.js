@@ -23,9 +23,12 @@ async function init() {
         theme: "neo",
         lineNumbers: true,
         indentUnit: 4,
-        gutters: ["CodeMirror-linenumbers"],
+        gutters: ["CodeMirror-linenumbers", "error-gutter"],
         extraKeys: { "Tab": (cm) => cm.replaceSelection("    ", "end") }
     });
+
+    // Effacer les marqueurs d'erreur dès que l'utilisateur modifie le code
+    editor.on("change", () => clearErrorMarkers());
 
     // Pyodide
     try {
@@ -75,13 +78,109 @@ except Exception:
         document.getElementById("save-btn").disabled = false;
         document.getElementById("save-btn").onclick  = downloadCode;
 
-        //setupProgressBar();
         initConsole();
         chargerExercice(0);
 
     } catch (err) {
         const ta = document.getElementById("output");
         ta.value = "❌ Erreur : " + err;
+    }
+}
+
+// ─── Gestion des erreurs style Thonny ────────────────────────────────────────
+
+/**
+ * Parse le traceback Python pour extraire le numéro de ligne et le message.
+ * Retourne { lineNumber: int|null, message: string, fullTraceback: string }
+ */
+function parseTraceback(errMessage) {
+    const allLines = errMessage.split("\n");
+    const lines = allLines.filter(l => l.trim() !== "");
+
+    // Numéro de ligne : on garde le dernier match (le plus profond dans la pile utilisateur)
+    let lineNumber = null;
+    for (const line of lines) {
+        const match = line.match(/File "<string>", line (\d+)/);
+        if (match) lineNumber = parseInt(match[1], 10);
+    }
+
+    // Traceback nettoyé : on garde "Traceback...", les frames "<string>", et la ligne d'erreur finale
+    // On supprime les frames internes Pyodide (/lib/python, /home/pyodide, etc.)
+    const kept = [];
+    let i = 0;
+    while (i < lines.length) {
+        const line = lines[i];
+        if (line.startsWith("Traceback")) {
+            kept.push(line);
+        } else if (line.trim().startsWith('File "<string>"')) {
+            kept.push("  " + line.trim());
+            // La ligne suivante est le code source, on la garde si elle existe
+            if (i + 1 < lines.length && !lines[i+1].trim().startsWith("File ")) {
+                kept.push("    " + lines[i+1].trim());
+                i++;
+            }
+        } else if (/^\w.*Error/.test(line) || /^Exception/.test(line) || /^Syntax/.test(line)) {
+            kept.push(line);
+        }
+        i++;
+    }
+
+    const fullTraceback = kept.length > 0 ? kept.join("\n") : lines.slice(-3).join("\n");
+    const message = lines[lines.length - 1] || errMessage;
+
+    return { lineNumber, message, fullTraceback };
+}
+
+/**
+ * Affiche le traceback dans la console avec coloration rouge,
+ * et surligne la ligne fautive dans l'éditeur.
+ */
+function afficherErreur(errMessage) {
+    const { lineNumber, fullTraceback } = parseTraceback(errMessage);
+
+    // Afficher le traceback complet dans la console
+    appendToConsole("⚠️ " + fullTraceback + "\n");
+
+    // Surligner la ligne dans l'éditeur
+    if (lineNumber !== null) {
+        highlightErrorLine(lineNumber);
+    }
+}
+
+/**
+ * Surligne la ligne fautive dans CodeMirror (numérotation Python = 1-based).
+ */
+function highlightErrorLine(lineNumber) {
+    const line = lineNumber - 1; // CodeMirror est 0-based
+    const totalLines = editor.lineCount();
+    if (line < 0 || line >= totalLines) return;
+
+    // Marqueur gutter (icône à gauche)
+    const marker = document.createElement("div");
+    marker.className = "error-gutter-marker";
+    marker.title = `Erreur ligne ${lineNumber}`;
+    marker.innerHTML = "●";
+    editor.setGutterMarker(line, "error-gutter", marker);
+
+    // Surlignage de la ligne entière
+    editor.addLineClass(line, "background", "error-line-highlight");
+
+    // Scroller vers la ligne fautive
+    editor.scrollIntoView({ line: line, ch: 0 }, 80);
+
+    // Mettre le curseur sur la ligne
+    editor.setCursor({ line: line, ch: 0 });
+    editor.focus();
+}
+
+/**
+ * Efface tous les marqueurs d'erreur.
+ */
+function clearErrorMarkers() {
+    editor.clearGutter("error-gutter");
+    const totalLines = editor.lineCount();
+    for (let i = 0; i < totalLines; i++) {
+        editor.removeLineClass(i, "background", "error-line-highlight");
     }
 }
 
@@ -113,7 +212,7 @@ async function chargerPackagesDepuisCode(code) {
 // ─── Affichage des images matplotlib ─────────────────────────────────────────
 function afficherImageMatplotlib(b64) {
     const container = document.getElementById("plot-container");
-    container.innerHTML = "";  // effacer l'ancienne image
+    container.innerHTML = "";
     const img = document.createElement("img");
     img.src = "data:image/png;base64," + b64;
     img.style = "max-width:100%; border:1px solid #ccc; border-radius:4px; margin-top:6px;";
@@ -127,7 +226,6 @@ function traiterSortie(text) {
     const endMarker = "__END_IMG__";
 
     if (text.includes(marker)) {
-        // Extraire les images et le texte restant
         const parts = text.split(marker);
         const texteBefore = parts[0];
         if (texteBefore.trim()) appendToConsole(texteBefore);
@@ -172,8 +270,8 @@ function chargerExercice(index) {
     document.getElementById("exo-titre").innerText = "";
     document.getElementById("consigne-texte").innerHTML = exo.consigne;
     editor.setValue(exo.codeDepart.trimStart());
+    clearErrorMarkers();
     resetConsole();
-    // Effacer les graphes précédents
     const container = document.getElementById("plot-container");
     if (container) {
         container.innerHTML = "";
@@ -231,7 +329,6 @@ function preventCursorBeforePrompt() {
 async function handleConsoleKey(e) {
     const ta = document.getElementById("output");
 
-    // Bloquer toute modification avant le prompt (sauf flèches)
     const navKeys = ["ArrowUp", "ArrowDown", "ArrowRight", "ArrowLeft"];
     if (!navKeys.includes(e.key)) {
         if (ta.selectionStart < consoleInputStart ||
@@ -241,7 +338,6 @@ async function handleConsoleKey(e) {
         }
     }
 
-    // Entrée : exécuter la ligne
     if (e.key === "Enter") {
         e.preventDefault();
         const userInput = ta.value.substring(consoleInputStart).trim();
@@ -252,7 +348,6 @@ async function handleConsoleKey(e) {
             consoleHistory.unshift(userInput);
             historyIndex = -1;
 
-            // Vérifier les modules non supportés
             const unsupported = detecterModulesInsupports(userInput);
             if (unsupported.length > 0) {
                 appendToConsole(`❌ Module(s) non supporté(s) dans le navigateur : ${unsupported.join(", ")}\n`);
@@ -260,13 +355,11 @@ async function handleConsoleKey(e) {
             }
 
             try {
-                // Charger les packages si nécessaire
                 await pyodide.loadPackagesFromImports(userInput);
                 if (/matplotlib/.test(userInput)) {
                     await pyodide.runPythonAsync(`_setup_matplotlib()`);
                 }
 
-                // Rediriger stdout pour capturer les images matplotlib
                 let capturedOutput = "";
                 pyodide.setStdout({ batched: (text) => { capturedOutput += text + "\n"; } });
 
@@ -283,7 +376,9 @@ async function handleConsoleKey(e) {
                 }
             } catch (err) {
                 pyodide.setStdout({ batched: (text) => appendToConsole(text + "\n") });
-                appendToConsole(err.message.split("\n").pop() + "\n");
+                // Dans la console REPL, on affiche le traceback complet mais sans highlight éditeur
+                const { fullTraceback } = parseTraceback(err.message);
+                appendToConsole("⚠️ " + fullTraceback + "\n");
             }
         } else {
             appendToConsole("");
@@ -291,7 +386,6 @@ async function handleConsoleKey(e) {
         ta.scrollTop = ta.scrollHeight;
     }
 
-    // Historique flèche haut
     if (e.key === "ArrowUp") {
         e.preventDefault();
         if (historyIndex < consoleHistory.length - 1) {
@@ -300,7 +394,6 @@ async function handleConsoleKey(e) {
         }
     }
 
-    // Historique flèche bas
     if (e.key === "ArrowDown") {
         e.preventDefault();
         if (historyIndex > 0) {
@@ -317,16 +410,15 @@ async function handleConsoleKey(e) {
 async function runFreeCode() {
     const userCode = editor.getValue();
 
-    // Vérifier les modules non supportés
     const unsupported = detecterModulesInsupports(userCode);
     if (unsupported.length > 0) {
         resetConsole(`❌ Module(s) non supporté(s) dans le navigateur : ${unsupported.join(", ")}\n💡 turtle et tkinter nécessitent une application bureau.`);
         return;
     }
 
+    clearErrorMarkers();
     resetConsole(">>> Exécution en cours...");
 
-    // Effacer le graphe précédent
     const container = document.getElementById("plot-container");
     if (container) {
         container.innerHTML = "";
@@ -334,26 +426,30 @@ async function runFreeCode() {
     }
 
     try {
-        // Charger les packages requis par le code
         await chargerPackagesDepuisCode(userCode);
 
-        // Capturer stdout pour intercepter les images matplotlib
+        // stdout capturé pour détecter les images matplotlib
+        // stderr affiché directement (tracebacks, warnings)
         let capturedOutput = "";
+        let stderrOutput = "";
         pyodide.setStdout({ batched: (text) => { capturedOutput += text + "\n"; } });
-        pyodide.setStderr({ batched: (text) => { capturedOutput += text + "\n"; } });
+        pyodide.setStderr({ batched: (text) => { stderrOutput += text + "\n"; } });
 
         await pyodide.runPythonAsync(userCode);
 
-        // Restaurer stdout
         pyodide.setStdout({ batched: (text) => appendToConsole(text + "\n") });
         pyodide.setStderr({ batched: (text) => appendToConsole(text + "\n") });
 
         if (capturedOutput) traiterSortie(capturedOutput);
 
+        // Stderr sans exception JS (ex: warnings Python)
+        if (stderrOutput.trim()) afficherErreur(stderrOutput);
+
     } catch (err) {
         pyodide.setStdout({ batched: (text) => appendToConsole(text + "\n") });
         pyodide.setStderr({ batched: (text) => appendToConsole(text + "\n") });
-        appendToConsole("⚠️ " + err.message.split("\n").pop() + "\n");
+        // err.message contient le traceback complet dans ce cas
+        afficherErreur(err.message);
     }
 }
 
@@ -362,13 +458,14 @@ async function validerCode() {
     const testCondition = exercices[currentExoIndex].test;
     const ta = document.getElementById("output");
 
-    // Vérifier les modules non supportés
     const unsupported = detecterModulesInsupports(userCode);
     if (unsupported.length > 0) {
         ta.style.color = "#ff4444";
         resetConsole(`❌ Module(s) non supporté(s) : ${unsupported.join(", ")}`);
         return;
     }
+
+    clearErrorMarkers();
 
     try {
         await chargerPackagesDepuisCode(userCode);
@@ -386,7 +483,7 @@ async function validerCode() {
         }
     } catch (err) {
         ta.style.color = "#ff4444";
-        resetConsole("⚠️ Erreur :\n" + err.message.split("\n").pop());
+        afficherErreur(err.message);
     }
 }
 
