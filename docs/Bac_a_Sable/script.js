@@ -89,6 +89,7 @@ except Exception:
 
         initConsole();
         chargerExercice(0);
+        setTimeout(() => editor.refresh(), 100);
 
     } catch (err) {
         const ta = document.getElementById("output");
@@ -381,8 +382,10 @@ function initConsole() {
     const ta = document.getElementById("output");
     ta.value = "Python 3.10 prêt !\n" + PROMPT;
     consoleInputStart = ta.value.length;
-    ta.focus();
-    ta.setSelectionRange(consoleInputStart, consoleInputStart);
+    if (window.innerWidth > 768) {
+        ta.focus();
+        ta.setSelectionRange(consoleInputStart, consoleInputStart);
+    }
 
     ta.addEventListener("keydown",  handleConsoleKey);
     ta.addEventListener("mouseup",  preventCursorBeforePrompt);
