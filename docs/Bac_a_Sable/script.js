@@ -23,6 +23,7 @@ async function init() {
         theme: "neo",
         lineNumbers: true,
         indentUnit: 4,
+		inputStyle: "contenteditable",
         gutters: ["CodeMirror-linenumbers", "error-gutter"],
         extraKeys: { "Tab": (cm) => cm.replaceSelection("    ", "end") }
     });
