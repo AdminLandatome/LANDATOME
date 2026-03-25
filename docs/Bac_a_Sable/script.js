@@ -10,6 +10,9 @@ let consoleHistory = [];
 let historyIndex   = -1;
 let consoleInputStart = 0;
 
+// ─── Détection mobile ────────────────────────────────────────────────────────
+const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
 // ─── Packages non supportés dans Pyodide ─────────────────────────────────────
 const UNSUPPORTED_MODULES = ["turtle", "tkinter", "wx", "PyQt5", "pygame"];
 
@@ -17,18 +20,46 @@ const UNSUPPORTED_MODULES = ["turtle", "tkinter", "wx", "PyQt5", "pygame"];
 async function init() {
     scores = new Array(exercices.length).fill(false);
 
-    // CodeMirror
-    editor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
-        mode: "python",
-        theme: "neo",
-        lineNumbers: true,
-        indentUnit: 4,
-        gutters: ["CodeMirror-linenumbers", "error-gutter"],
-        extraKeys: { "Tab": (cm) => cm.replaceSelection("    ", "end") }
-    });
-
-    // Effacer les marqueurs d'erreur dès que l'utilisateur modifie le code
-    editor.on("change", () => clearErrorMarkers());
+    if (isMobile) {
+        // Sur mobile : textarea natif, on n'instancie pas CodeMirror
+        const ta = document.getElementById("code-editor");
+        ta.style.display    = "block";
+        ta.style.width      = "100%";
+        ta.style.height     = "250px";
+        ta.style.fontFamily = "monospace";
+        ta.style.fontSize   = "14px";
+        ta.style.padding    = "8px";
+        ta.style.boxSizing  = "border-box";
+        ta.style.border     = "none";
+        ta.style.resize     = "vertical";
+        ta.style.outline    = "none";
+        // Shim : editor expose les mêmes méthodes que CodeMirror
+        editor = {
+            getValue:        ()    => ta.value,
+            setValue:        (v)   => { ta.value = v; },
+            on:              ()    => {},
+            focus:           ()    => ta.focus(),
+            refresh:         ()    => {},
+            lineCount:       ()    => ta.value.split("\n").length,
+            clearGutter:     ()    => {},
+            addLineClass:    ()    => {},
+            removeLineClass: ()    => {},
+            setGutterMarker: ()    => {},
+            scrollIntoView:  ()    => {},
+            setCursor:       ()    => {},
+        };
+    } else {
+        // Sur desktop : CodeMirror comme avant
+        editor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
+            mode: "python",
+            theme: "neo",
+            lineNumbers: true,
+            indentUnit: 4,
+            gutters: ["CodeMirror-linenumbers", "error-gutter"],
+            extraKeys: { "Tab": (cm) => cm.replaceSelection("    ", "end") }
+        });
+        editor.on("change", () => clearErrorMarkers());
+    }
 
     // Pyodide
     try {
@@ -71,8 +102,8 @@ except Exception:
         // Activer les boutons de la toolbar
         document.getElementById("run-btn").disabled  = true;
         document.getElementById("run-btn").innerText = "✅ Vérifier";
-		document.getElementById("run-btn").style = "display:none;"
-		
+        document.getElementById("run-btn").style     = "display:none;";
+
         document.getElementById("exec-btn").disabled = false;
         document.getElementById("exec-btn").onclick  = runFreeCode;
         document.getElementById("save-btn").disabled = false;
@@ -155,7 +186,6 @@ axes[1].axis("off")
 plt.tight_layout()
 plt.show()
 `);
-
 }
 
 // ─── Téléchargement de l'image résultat ──────────────────────────────────────
@@ -179,23 +209,16 @@ function telechargerImageResultat(pyodidePath, nomFichier) {
 
 // ─── Gestion des erreurs style Thonny ────────────────────────────────────────
 
-/**
- * Parse le traceback Python pour extraire le numéro de ligne et le message.
- * Retourne { lineNumber: int|null, message: string, fullTraceback: string }
- */
 function parseTraceback(errMessage) {
     const allLines = errMessage.split("\n");
     const lines = allLines.filter(l => l.trim() !== "");
 
-    // Numéro de ligne : on garde le dernier match (le plus profond dans la pile utilisateur)
     let lineNumber = null;
     for (const line of lines) {
         const match = line.match(/File "<string>", line (\d+)/);
         if (match) lineNumber = parseInt(match[1], 10);
     }
 
-    // Traceback nettoyé : on garde "Traceback...", les frames "<string>", et la ligne d'erreur finale
-    // On supprime les frames internes Pyodide (/lib/python, /home/pyodide, etc.)
     const kept = [];
     let i = 0;
     while (i < lines.length) {
@@ -204,7 +227,6 @@ function parseTraceback(errMessage) {
             kept.push(line);
         } else if (line.trim().startsWith('File "<string>"')) {
             kept.push("  " + line.trim());
-            // La ligne suivante est le code source, on la garde si elle existe
             if (i + 1 < lines.length && !lines[i+1].trim().startsWith("File ")) {
                 kept.push("    " + lines[i+1].trim());
                 i++;
@@ -221,52 +243,33 @@ function parseTraceback(errMessage) {
     return { lineNumber, message, fullTraceback };
 }
 
-/**
- * Affiche le traceback dans la console avec coloration rouge,
- * et surligne la ligne fautive dans l'éditeur.
- */
 function afficherErreur(errMessage) {
     const { lineNumber, fullTraceback } = parseTraceback(errMessage);
-
-    // Afficher le traceback complet dans la console
     appendToConsole("⚠️ " + fullTraceback + "\n");
-
-    // Surligner la ligne dans l'éditeur
     if (lineNumber !== null) {
         highlightErrorLine(lineNumber);
     }
 }
 
-/**
- * Surligne la ligne fautive dans CodeMirror (numérotation Python = 1-based).
- */
 function highlightErrorLine(lineNumber) {
-    const line = lineNumber - 1; // CodeMirror est 0-based
+    if (isMobile) return; // Pas de gutter sur mobile
+    const line = lineNumber - 1;
     const totalLines = editor.lineCount();
     if (line < 0 || line >= totalLines) return;
 
-    // Marqueur gutter (icône à gauche)
     const marker = document.createElement("div");
     marker.className = "error-gutter-marker";
     marker.title = `Erreur ligne ${lineNumber}`;
     marker.innerHTML = "●";
     editor.setGutterMarker(line, "error-gutter", marker);
-
-    // Surlignage de la ligne entière
     editor.addLineClass(line, "background", "error-line-highlight");
-
-    // Scroller vers la ligne fautive
     editor.scrollIntoView({ line: line, ch: 0 }, 80);
-
-    // Mettre le curseur sur la ligne
     editor.setCursor({ line: line, ch: 0 });
     editor.focus();
 }
 
-/**
- * Efface tous les marqueurs d'erreur.
- */
 function clearErrorMarkers() {
+    if (isMobile) return;
     editor.clearGutter("error-gutter");
     const totalLines = editor.lineCount();
     for (let i = 0; i < totalLines; i++) {
@@ -288,8 +291,6 @@ async function chargerPackagesDepuisCode(code) {
     try {
         appendToConsole("⏳ Chargement des modules...\n");
         await pyodide.loadPackagesFromImports(code);
-
-        // Après chargement, reconfigurer matplotlib si présent dans le code
         if (/matplotlib/.test(code)) {
             await pyodide.runPythonAsync(`_setup_matplotlib()`);
         }
@@ -382,14 +383,20 @@ function initConsole() {
     const ta = document.getElementById("output");
     ta.value = "Python 3.10 prêt !\n" + PROMPT;
     consoleInputStart = ta.value.length;
-    if (window.innerWidth > 768) {
+
+    // Focus uniquement sur desktop (sur mobile ça ouvre le clavier intempestivement)
+    if (!isMobile) {
         ta.focus();
         ta.setSelectionRange(consoleInputStart, consoleInputStart);
     }
 
-    ta.addEventListener("keydown",  handleConsoleKey);
-    ta.addEventListener("mouseup",  preventCursorBeforePrompt);
-    ta.addEventListener("click",    preventCursorBeforePrompt);
+    ta.addEventListener("keydown", handleConsoleKey);
+
+    // Sur mobile, on évite de forcer le curseur (ça casse la saisie)
+    if (!isMobile) {
+        ta.addEventListener("mouseup", preventCursorBeforePrompt);
+        ta.addEventListener("click",   preventCursorBeforePrompt);
+    }
 }
 
 function resetConsole(msg) {
@@ -468,7 +475,6 @@ async function handleConsoleKey(e) {
                 }
             } catch (err) {
                 pyodide.setStdout({ batched: (text) => appendToConsole(text + "\n") });
-                // Dans la console REPL, on affiche le traceback complet mais sans highlight éditeur
                 const { fullTraceback } = parseTraceback(err.message);
                 appendToConsole("⚠️ " + fullTraceback + "\n");
             }
@@ -520,8 +526,6 @@ async function runFreeCode() {
     try {
         await chargerPackagesDepuisCode(userCode);
 
-        // stdout capturé pour détecter les images matplotlib
-        // stderr affiché directement (tracebacks, warnings)
         let capturedOutput = "";
         let stderrOutput = "";
         pyodide.setStdout({ batched: (text) => { capturedOutput += text + "\n"; } });
@@ -533,14 +537,11 @@ async function runFreeCode() {
         pyodide.setStderr({ batched: (text) => appendToConsole(text + "\n") });
 
         if (capturedOutput) traiterSortie(capturedOutput);
-
-        // Stderr sans exception JS (ex: warnings Python)
         if (stderrOutput.trim()) afficherErreur(stderrOutput);
 
     } catch (err) {
         pyodide.setStdout({ batched: (text) => appendToConsole(text + "\n") });
         pyodide.setStderr({ batched: (text) => appendToConsole(text + "\n") });
-        // err.message contient le traceback complet dans ce cas
         afficherErreur(err.message);
     }
 }
