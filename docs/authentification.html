@@ -7,11 +7,7 @@
   <meta name="robots" content="nofollow,nosnippet">
   <link rel="icon" type="image/png" sizes="16x16" href="images/MC-Escher-Impossible-Cube.png">
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       min-height: 100vh;
@@ -23,7 +19,7 @@
     }
 
     h1 {
-      color: #ffffff;
+      color: #fff;
       font-style: italic;
       text-align: center;
       margin: 40px 0 50px;
@@ -31,7 +27,7 @@
       text-shadow:
         #F5F 0 -1px 4px,
         #fff 0 -2px 10px,
-        #ffffff 0 -10px 20px,
+        #fff 0 -10px 20px,
         red 0 -18px 40px;
     }
 
@@ -40,41 +36,60 @@
       flex-direction: column;
       align-items: center;
       gap: 16px;
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255,255,255,0.15);
       backdrop-filter: blur(8px);
       border-radius: 16px;
       padding: 36px 32px;
       width: 90%;
       max-width: 360px;
-      box-shadow: 0 4px 32px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 32px rgba(0,0,0,0.15);
     }
 
     .authentification label {
       color: #000;
       font-size: 1.1rem;
       font-weight: bold;
-      text-align: center;
     }
 
-    /* ---- INPUT : 16px minimum obligatoire sur mobile ---- */
-    .authentification input[type="password"] {
+    .input-wrapper {
+      position: relative;
       width: 100%;
-      padding: 12px 16px;
-      font-size: 16px;       /* < 16px = zoom auto Android/iOS = bug de focus */
-      border: 2px solid rgba(0, 0, 100, 0.3);
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      padding: 12px 48px 12px 16px;
+      font-size: 16px;
+      border: 2px solid rgba(0,0,100,0.3);
       border-radius: 8px;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255,255,255,0.9);
       color: #000;
       outline: none;
       transition: border-color 0.2s;
-      /* Pas d'inputmode, pas d'autocomplete bizarre */
     }
 
-    .authentification input[type="password"]:focus {
+    .input-wrapper input:focus {
       border-color: #0000ee;
     }
 
-    .authentification button {
+    .toggle-eye {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+    }
+
+    .btn-valider {
       width: 100%;
       padding: 12px;
       font-size: 1.1rem;
@@ -87,19 +102,14 @@
       transition: background 0.2s;
     }
 
-    .authentification button:hover,
-    .authentification button:active {
+    .btn-valider:hover,
+    .btn-valider:active {
       background: #0000aa;
-    }
-
-    .error-msg {
-      color: #cc0000;
-      font-size: 0.9rem;
-      display: none;
     }
 
     .video-wrapper {
       margin-top: 40px;
+      margin-bottom: 40px;
       width: 90%;
       max-width: 640px;
     }
@@ -117,15 +127,21 @@
 
   <div class="authentification">
     <label for="plaintext">Mot de passe</label>
-    <input
-  type="text"
-  id="plaintext"
-  placeholder="mot de passe"
-  autocomplete="off"
-  style="-webkit-text-security: disc; text-security: disc;"
->
-    <button onclick="handleHash()">Valider</button>
-    <span class="error-msg" id="errorMsg">Mot de passe incorrect.</span>
+    <div class="input-wrapper">
+      <input
+        type="password"
+        id="plaintext"
+        placeholder="mot de passe"
+        autocomplete="current-password"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+      >
+      <button class="toggle-eye" id="toggleBtn" onclick="toggleVisibility()" tabindex="-1" aria-label="Afficher le mot de passe">
+        👁
+      </button>
+    </div>
+    <button class="btn-valider" onclick="handleHash()">Valider</button>
   </div>
 
   <div class="video-wrapper">
@@ -137,6 +153,16 @@
   </div>
 
   <script>
+    const input = document.getElementById('plaintext');
+    let visible = false;
+
+    function toggleVisibility() {
+      visible = !visible;
+      input.type = visible ? 'text' : 'password';
+      document.getElementById('toggleBtn').textContent = visible ? '🙈' : '👁';
+      input.focus();
+    }
+
     function sha256(str) {
       const buffer = new TextEncoder().encode(str);
       return crypto.subtle.digest('SHA-256', buffer).then(hash => {
@@ -147,27 +173,22 @@
     }
 
     function handleHash() {
-      const plaintextInput = document.getElementById('plaintext');
-      const plaintext = plaintextInput.value;
-
+      const plaintext = input.value;
       if (!plaintext) return;
-
       sha256(plaintext)
         .then(hash => {
           const modifiedHash = hash.slice(0, 20) + '/' + hash.slice(20) + '.html';
-          // window.location.href au lieu de window.open : compatible mobile
           window.location.href = modifiedHash;
         })
         .catch(error => {
           console.error('Erreur :', error);
         })
         .finally(() => {
-          plaintextInput.value = '';
+          input.value = '';
         });
     }
 
-    // Valider avec Entrée
-    document.getElementById('plaintext').addEventListener('keydown', function(e) {
+    input.addEventListener('keydown', function(e) {
       if (e.key === 'Enter') handleHash();
     });
   </script>
