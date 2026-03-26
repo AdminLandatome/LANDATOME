@@ -31,6 +31,38 @@
         red 0 -18px 40px;
     }
 
+    .warning-banner {
+      display: none;
+      background: #fff3cd;
+      border: 2px solid #ff9800;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      width: 90%;
+      max-width: 360px;
+      text-align: center;
+      font-size: 1rem;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    .warning-banner strong {
+      display: block;
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+
+    .warning-banner a {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 10px 20px;
+      background: #ff9800;
+      color: #fff;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
     .authentification {
       display: flex;
       flex-direction: column;
@@ -125,6 +157,16 @@
 
   <h1>Landatome</h1>
 
+  <div class="warning-banner" id="warningBanner">
+    <strong>⚠️ Navigateur non compatible</strong>
+    Firefox Android ne supporte pas la saisie sur cette page.
+    Merci d'utiliser Chrome (ou un autre navigateur).
+    <br>
+    <a href="https://play.google.com/store/apps/details?id=com.android.chrome">
+      Télécharger Chrome
+    </a>
+  </div>
+
   <div class="authentification">
     <label for="plaintext">Mot de passe</label>
     <div class="input-wrapper">
@@ -153,6 +195,12 @@
   </div>
 
   <script>
+    // Détection Firefox Android
+    const isFirefoxAndroid = /Firefox/.test(navigator.userAgent) && /Android/.test(navigator.userAgent);
+    if (isFirefoxAndroid) {
+      document.getElementById('warningBanner').style.display = 'block';
+    }
+
     const input = document.getElementById('plaintext');
     let visible = false;
 
