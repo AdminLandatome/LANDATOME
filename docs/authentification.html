@@ -118,11 +118,12 @@
   <div class="authentification">
     <label for="plaintext">Mot de passe</label>
     <input
-      type="password"
-      id="plaintext"
-      placeholder="mot de passe"
-      autocomplete="current-password"
-    >
+  type="text"
+  id="plaintext"
+  placeholder="mot de passe"
+  autocomplete="off"
+  style="-webkit-text-security: disc; text-security: disc;"
+>
     <button onclick="handleHash()">Valider</button>
     <span class="error-msg" id="errorMsg">Mot de passe incorrect.</span>
   </div>
