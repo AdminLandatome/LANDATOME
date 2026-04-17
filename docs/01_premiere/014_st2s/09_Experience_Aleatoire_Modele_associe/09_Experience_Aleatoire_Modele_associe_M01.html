@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Landatome - Expérience Aléatoire M01</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <link rel="stylesheet" href="https://adminlandatome.github.io/LANDATOME/styles/styles_pour_les_devoirs_V01.css">
+
+    <style>
+        body { background-color: #f0f0f0; padding: 20px; }
+        .une_page { background-color: white; margin: auto; padding: 10mm; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        table { border-collapse: collapse; width: 100%; margin: 10px 0; }
+        th, td { border: 1px solid black; padding: 5px; text-align: center; }
+        .total-cell { font-weight: bold; background-color: #f0f0f0; }
+        details summary { cursor: pointer; font-weight: bold; outline: none; padding: 5px; }
+        .corps_reponse_sans_graphique_une_colonne { padding: 10px; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="une_page">
+    <div class="titre_de_page">Expérience Aléatoire, Modèle Associé M01</div>
+
+    <!-- ============================================================ -->
+    <!-- EXERCICE N°1 — miroir de E01 Ex1 (chaussettes 2 tiroirs)    -->
+    <!-- Contexte : 2 sacs de billes                                  -->
+    <!-- ============================================================ -->
+    <div class="grille_entete_exo">
+        <div class="numero_exo">Exercice n°1</div>
+        <div class="titre_exo">Pêche aux billes</div>
+        <div class="bareme_exo"></div>
+    </div>
+
+    <p>
+        Léa a réparti des billes dans deux sacs. Dans le premier sac, elle a mis
+        4 billes bleues, 3 billes vertes et 3 billes rouges. Dans le second sac,
+        elle a mis 6 billes bleues et 4 billes vertes. Elle tire au hasard une
+        bille dans chaque sac.
+    </p>
+
+    <div class="corps_partie_exo_sans_graphique_une_colonne">
+        <div class="corps_question_sans_graphique_une_colonne">
+            <span class="numero_de_question">1.</span> Représenter la situation par un arbre pondéré.
+        </div>
+        <div class="bareme_invisible"></div>
+        <div class="corps_question_sans_graphique_une_colonne">
+            <span class="numero_de_question">2.</span>
+            Quelle est la probabilité \( p_1 \) que Léa obtienne une bille rouge et une bille bleue ?
+        </div>
+        <div class="bareme_invisible"></div>
+        <div class="corps_question_sans_graphique_une_colonne">
+            <span class="numero_de_question">3.</span>
+            Quelle est la probabilité \( p_2 \) que Léa obtienne des billes assorties (même couleur) ?
+        </div>
+        <div class="bareme_invisible"></div>
+        <div class="corps_question_sans_graphique_une_colonne">
+            <span class="numero_de_question">4.</span>
+            Quelle est la probabilité \( p_3 \) que Léa obtienne au moins une bille bleue ?
+        </div>
+        <div class="bareme_invisible"></div>
+    </div>
+
+    <div class="corps_reponse_sans_graphique_une_colonne">
+        <details>
+            <summary>VOIR LE CORRIGÉ</summary>
+
+            <p><strong>Notations :</strong><br>
+            \( B \) : « Obtenir une bille bleue » &nbsp;|&nbsp;
+            \( V \) : « Obtenir une bille verte » &nbsp;|&nbsp;
+            \( R \) : « Obtenir une bille rouge »</p>
+
+            <p><strong>Sac 1 :</strong> 10 billes — \(P_1(B)=\dfrac{4}{10}=\dfrac{2}{5}\),
+            \(P_1(V)=\dfrac{3}{10}\), \(P_1(R)=\dfrac{3}{10}\)<br>
+            <strong>Sac 2 :</strong> 10 billes — \(P_2(B)=\dfrac{6}{10}=\dfrac{3}{5}\),
+            \(P_2(V)=\dfrac{4}{10}=\dfrac{2}{5}\)</p>
+
+            <p><em>L'arbre pondéré comporte 3 branches au premier niveau (B, V, R)
+            et 2 branches au second niveau (B, V) pour chacune.</em></p>
+
+            <p><strong>2)</strong>
+            \[
+                p_1 = \frac{3}{10} \times \frac{3}{5} = \frac{9}{50} = 0{,}18
+            \]
+            </p>
+
+            <p><strong>3)</strong> Les paires assorties possibles sont \((B\,;\,B)\) et \((V\,;\,V)\) :
+            \[
+                p_2 = \frac{2}{5}\times\frac{3}{5} + \frac{3}{10}\times\frac{2}{5}
+                    = \frac{6}{25} + \frac{6}{50}
+                    = \frac{12}{50} + \frac{6}{50}
+                    = \frac{18}{50} = \frac{9}{25} = 0{,}36
+            \]
+            </p>
+
+            <p><strong>4)</strong> Dès que la première bille est bleue, la condition est remplie.
+            On calcule séparément le cas où la première n'est pas bleue mais la seconde l'est :
+            \[
+                p_3 = \frac{2}{5} + \frac{3}{10}\times\frac{3}{5} + \frac{3}{10}\times\frac{3}{5}
+                    = \frac{2}{5} + \frac{9}{50} + \frac{9}{50}
+                    = \frac{20}{50} + \frac{9}{50} + \frac{9}{50}
+                    = \frac{38}{50} = \frac{19}{25} = 0{,}76
+            \]
+            </p>
+        </details>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- EXERCICE N°2 — miroir de E01 Ex2 (livre de recettes, 4×)    -->
+    <!-- Contexte : playlist aléatoire, 4 titres                      -->
+    <!-- ============================================================ -->
+    <div class="grille_entete_exo">
+        <div class="numero_exo">Exercice n°2</div>
+        <div class="titre_exo">Playlist aléatoire</div>
+        <div class="bareme_exo"></div>
+    </div>
+
+    <p>
+        Tom écoute de la musique en mode aléatoire. Dans sa playlist,
+        40 % des titres sont des chansons de jazz et les autres sont des
+        chansons de rock. Il lance la lecture aléatoire 4 fois de suite.
+    </p>
+
+    <div class="corps_partie_exo_sans_graphique_une_colonne">
+        <div class="corps_question_sans_graphique_une_colonne">
+            <span class="numero_de_question">1.</span> Représenter cette situation par un arbre pondéré.
+        </div>
+        <div class="bareme_invisible"></div>
+        <div class="corps_question_sans_graphique_une_colonne">
+            <span class="numero_de_question">2.</span>
+            Quelle est la probabilité que Tom entende autant de jazz que de rock lors de ses 4 écoutes ?
+        </div>
+        <div class="bareme_invisible"></div>
+        <div class="corps_question_sans_graphique_une_colonne">
+            <span class="numero_de_question">3.</span>
+            Quelle est la probabilité que Tom entende uniquement du rock lors de ses 4 écoutes ?
+        </div>
+        <div class="bareme_invisible"></div>
+        <div class="corps_question_sans_graphique_une_colonne">
+            <span class="numero_de_question">4.</span>
+            Quelle est la probabilité que Tom entende au moins une fois du jazz lors de ses 4 écoutes ?
+        </div>
+        <div class="bareme_invisible"></div>
+    </div>
+
+    <div class="corps_reponse_sans_graphique_une_colonne">
+        <details>
+            <summary>VOIR LE CORRIGÉ</summary>
+
+            <p><strong>Notations :</strong><br>
+            \( J \) : « Le titre est du jazz » (probabilité 0,4) &nbsp;|&nbsp;
+            \( \overline{J} \) : « Le titre est du rock » (probabilité 0,6)</p>
+
+            <p><em>L'arbre pondéré est un schéma de Bernoulli à 4 épreuves indépendantes
+            de paramètre \( p = 0{,}4 \).</em></p>
+
+            <p><strong>2)</strong> On cherche les issues avec exactement 2 titres de jazz.
+            Notons \( E_1 \) cet événement. Il y a \( \binom{4}{2}=6 \) issues, chacune
+            de probabilité \( 0{,}4^2 \times 0{,}6^2 \) :
+            \[
+                P(E_1) = 6 \times 0{,}4^2 \times 0{,}6^2 = 6 \times 0{,}16 \times 0{,}36 = 0{,}3456
+            \]
+            </p>
+
+            <p><strong>3)</strong> Une seule issue : \((\overline{J}\,;\,\overline{J}\,;\,\overline{J}\,;\,\overline{J})\)
+            \[
+                P = 0{,}6^4 = 0{,}1296
+            \]
+            </p>
+
+            <p><strong>4)</strong> L'événement « au moins un jazz » est le complémentaire de
+            « uniquement du rock » :
+            \[
+                P = 1 - 0{,}6^4 = 1 - 0{,}1296 = 0{,}8704
+            \]
+            </p>
+        </details>
+    </div>
+
+</div><!-- fin page 1 -->
+
+<div class="une_page">
+
+    <!-- ============================================================ -->
+    <!-- EXERCICE N°3 — miroir de E01 Ex3 (arbre P(A) P(B) abstrait) -->
+    <!-- Contexte : arbre avec P(C) et P(D)                           -->
+    <!-- ============================================================ -->
+    <div class="grille_entete_exo">
+        <div class="numero_exo">Exercice n°3</div>
+        <div class="titre_exo">Construction d'un arbre pondéré</div>
+        <div class="bareme_exo"></div>
+    </div>
+
+    <p>
+        Construire un arbre pondéré représentant une expérience aléatoire composée
+        de deux épreuves indépendantes sachant que \( P(C) = 0{,}37 \) et
+        \( P(D) = 0{,}54 \). On utilisera uniquement les lettres \( C \) et \( D \).
+    </p>
+
+    <div class="corps_reponse_sans_graphique_une_colonne">
+        <details>
+            <summary>VOIR LE CORRIGÉ</summary>
+            <p>
+                \( P(\overline{C}) = 1 - 0{,}37 = 0{,}63 \) &nbsp;&nbsp;
+                \( P(\overline{D}) = 1 - 0{,}54 = 0{,}46 \)
+            </p>
+            <p>
+                La somme des probabilités à chaque nœud doit valoir 1
+                (chaque nœud représente une expérience aléatoire).
+                On obtient un arbre à deux niveaux :
+            </p>
+            <ul>
+                <li>Premier niveau : branche \(C\) (proba 0,37) et branche \(\overline{C}\) (proba 0,63).</li>
+                <li>Second niveau : depuis chaque nœud, branche \(D\) (proba 0,54)
+                    et branche \(\overline{D}\) (proba 0,46).</li>
+            </ul>
+            <p>Les quatre probabilités d'issues sont :</p>
+            <table>
+                <tr>
+                    <th>Issue</th>
+                    <th>\((C\,;\,D)\)</th>
+                    <th>\((C\,;\,\overline{D})\)</th>
+                    <th>\((\overline{C}\,;\,D)\)</th>
+                    <th>\((\overline{C}\,;\,\overline{D})\)</th>
+                    <th class="total-cell">Total</th>
+                </tr>
+                <tr>
+                    <td>Probabilité</td>
+                    <td>\(0{,}37\times0{,}54=0{,}1998\)</td>
+                    <td>\(0{,}37\times0{,}46=0{,}1702\)</td>
+                    <td>\(0{,}63\times0{,}54=0{,}3402\)</td>
+                    <td>\(0{,}63\times0{,}46=0{,}2898\)</td>
+                    <td class="total-cell">1</td>
+                </tr>
+            </table>
+        </details>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- EXERCICE N°4 — miroir de E01 Ex4 (pièce truquée, 3 lancers) -->
+    <!-- Contexte : dé truqué, 3 lancers                              -->
+    <!-- ============================================================ -->
+    <div class="grille_entete_exo">
+        <div class="numero_exo">Exercice n°4</div>
+        <div class="titre_exo">Dé truqué</div>
+        <div class="bareme_exo"></div>
+    </div>
+
+    <p>
+        On lance 3 fois de suite un dé truqué à six faces. La probabilité
+        d'obtenir le chiffre 1 est égale à 0,25.
+    </p>
+
+    <div class="corps_partie_exo_sans_graphique_une_colonne">
+        <div class="corps_question_sans_graphique_une_colonne">
+            <span class="numero_de_question">1.</span> Les épreuves sont-elles indépendantes ?
+        </div>
+        <div class="bareme_invisible"></div>
+        <div class="corps_question_sans_graphique_une_colonne">
+            <span class="numero_de_question">2.</span> Représenter la situation par un arbre pondéré.
+        </div>
+        <div class="bareme_invisible"></div>
+    </div>
+
+    <div class="corps_reponse_sans_graphique_une_colonne">
+        <details>
+            <summary>VOIR LE CORRIGÉ</summary>
+
+            <p><strong>1)</strong>
+            Les épreuves sont indépendantes car le résultat d'un lancer
+            n'a aucune influence sur le suivant ni sur celui d'après.</p>
+
+            <p><strong>2)</strong>
+            On note \( U \) : « Obtenir le chiffre 1 » (proba 0,25) et
+            \( \overline{U} \) : « Ne pas obtenir le chiffre 1 » (proba 0,75).<br>
+            On obtient un schéma de Bernoulli de paramètre \(\left(3\,;\,0{,}25\right)\).
+            L'arbre comporte 3 niveaux, chaque nœud donnant naissance à deux branches :
+            \( U \) (0,25) et \( \overline{U} \) (0,75).</p>
+        </details>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- EXERCICE N°5 — miroir de E01 Ex5 (bonbons forme + couleur)  -->
+    <!-- Contexte : vêtements type + couleur                          -->
+    <!-- ============================================================ -->
+    <div class="grille_entete_exo">
+        <div class="numero_exo">Exercice n°5</div>
+        <div class="titre_exo">Boutique de vêtements</div>
+        <div class="bareme_exo"></div>
+    </div>
+
+    <p>
+        Dans une boutique, 70 % des vêtements sont des t-shirts et les autres
+        sont des pulls. Parmi tous les vêtements, 25 % sont blancs, 35 % sont
+        noirs et les autres sont colorés. On choisit au hasard un vêtement pour
+        regarder son type, puis on regarde sa couleur.
+    </p>
+
+    <div class="corps_partie_exo_sans_graphique_une_colonne">
+        <div class="corps_question_sans_graphique_une_colonne">
+            <span class="numero_de_question">1.</span>
+            Expliquer pourquoi les épreuves sont indépendantes.
+        </div>
+        <div class="bareme_invisible"></div>
+        <div class="corps_question_sans_graphique_une_colonne">
+            <span class="numero_de_question">2.</span>
+            Compléter l'arbre pondéré ci-dessous pour représenter la situation.
+        </div>
+        <div class="bareme_invisible"></div>
+        <div class="corps_question_sans_graphique_une_colonne">
+            <span class="numero_de_question">3.</span>
+            Quelle est la probabilité d'obtenir un t-shirt coloré ?
+        </div>
+        <div class="bareme_invisible"></div>
+        <div class="corps_question_sans_graphique_une_colonne">
+            <span class="numero_de_question">4.</span>
+            Quelle est la probabilité d'obtenir un pull blanc ?
+        </div>
+        <div class="bareme_invisible"></div>
+    </div>
+
+    <div class="corps_reponse_sans_graphique_une_colonne">
+        <details>
+            <summary>VOIR LE CORRIGÉ</summary>
+
+            <p><strong>1)</strong>
+            La couleur d'un vêtement ne dépend pas de son type : la répartition
+            des couleurs est identique pour tous les vêtements, donc le choix du
+            type n'a aucune influence sur la couleur obtenue. Les épreuves sont
+            bien indépendantes.</p>
+
+            <p><strong>2)</strong>
+            \(T\) : « T-shirt » (0,7) ; \(P\) : « Pull » (0,3)<br>
+            \(Bl\) : « Blanc » (0,25) ; \(No\) : « Noir » (0,35) ;
+            \(Co\) : « Coloré » (0,40)<br>
+            L'arbre a 2 branches au premier niveau et 3 branches à chaque
+            second niveau, avec les mêmes probabilités de couleur (0,25 / 0,35 / 0,40)
+            dans les deux sous-arbres.</p>
+
+            <p><strong>3)</strong>
+            \[
+                p_1 = 0{,}7 \times 0{,}40 = 0{,}28
+            \]
+            </p>
+
+            <p><strong>4)</strong>
+            \[
+                p_2 = 0{,}3 \times 0{,}25 = 0{,}075
+            \]
+            </p>
+        </details>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- EXERCICE N°6 — miroir de E01 Ex6 (dé + carte 32)            -->
+    <!-- Contexte : roue de couleurs + sac de jetons                  -->
+    <!-- ============================================================ -->
+    <div class="grille_entete_exo">
+        <div class="numero_exo">Exercice n°6</div>
+        <div class="titre_exo">Roue et jetons</div>
+        <div class="bareme_exo"></div>
+    </div>
+
+    <p>
+        On fait tourner une roue de jeu divisée en 8 secteurs égaux, dont 3 sont
+        rouges et 5 sont noirs, et on note la couleur obtenue. Puis on tire un
+        jeton dans un sac contenant 4 jetons numérotés 1, 2, 3 et 4, et on
+        regarde si le numéro est pair ou non.
+    </p>
+    <p>
+        On note \( R \) l'événement « La roue s'arrête sur rouge » et
+        \( Pa \) l'événement « Le jeton tiré est pair ».
+    </p>
+
+    <div class="corps_partie_exo_sans_graphique_une_colonne">
+        <div class="corps_question_sans_graphique_une_colonne">
+            <span class="numero_de_question">1.</span>
+            Représenter la situation par un arbre pondéré en utilisant
+            uniquement les lettres \( R \) et \( Pa \).
+        </div>
+        <div class="bareme_invisible"></div>
+        <div class="corps_question_sans_graphique_une_colonne">
+            <span class="numero_de_question">2.</span>
+            Donner l'univers \( \Omega \) de cette expérience.
+        </div>
+        <div class="bareme_invisible"></div>
+        <div class="corps_question_sans_graphique_une_colonne">
+            <span class="numero_de_question">3.</span>
+            Donner alors la loi de probabilité de cette expérience.
+        </div>
+        <div class="bareme_invisible"></div>
+    </div>
+
+    <div class="corps_reponse_sans_graphique_une_colonne">
+        <details>
+            <summary>VOIR LE CORRIGÉ</summary>
+
+            <p>
+                La roue comporte 8 secteurs égaux dont 3 rouges, donc
+                \( P(R) = \dfrac{3}{8} \) et \( P(\overline{R}) = \dfrac{5}{8} \).<br>
+                Le sac contient 4 jetons dont 2 pairs (2 et 4), donc
+                \( P(Pa) = \dfrac{2}{4} = \dfrac{1}{2} \) et
+                \( P(\overline{Pa}) = \dfrac{1}{2} \).
+            </p>
+
+            <p><strong>2)</strong>
+            \[
+                \Omega = \{(R\,;\,Pa)\,;\,(R\,;\,\overline{Pa})\,;\,
+                (\overline{R}\,;\,Pa)\,;\,(\overline{R}\,;\,\overline{Pa})\}
+            \]
+            </p>
+
+            <p><strong>3)</strong></p>
+            <table>
+                <tr>
+                    <th>Issue</th>
+                    <th>\((R\,;\,Pa)\)</th>
+                    <th>\((R\,;\,\overline{Pa})\)</th>
+                    <th>\((\overline{R}\,;\,Pa)\)</th>
+                    <th>\((\overline{R}\,;\,\overline{Pa})\)</th>
+                    <th class="total-cell">Total</th>
+                </tr>
+                <tr>
+                    <td>Probabilité</td>
+                    <td>\(\dfrac{3}{16}\)</td>
+                    <td>\(\dfrac{3}{16}\)</td>
+                    <td>\(\dfrac{5}{16}\)</td>
+                    <td>\(\dfrac{5}{16}\)</td>
+                    <td class="total-cell">1</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>\(=\dfrac{3}{8}\times\dfrac{1}{2}\)</td>
+                    <td>\(=\dfrac{3}{8}\times\dfrac{1}{2}\)</td>
+                    <td>\(=\dfrac{5}{8}\times\dfrac{1}{2}\)</td>
+                    <td>\(=\dfrac{5}{8}\times\dfrac{1}{2}\)</td>
+                    <td></td>
+                </tr>
+            </table>
+        </details>
+    </div>
+
+</div><!-- fin page 2 -->
+
+</body>
+</html>

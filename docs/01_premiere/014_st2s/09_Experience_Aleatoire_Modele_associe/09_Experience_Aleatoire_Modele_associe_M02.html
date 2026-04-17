@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Landatome - Expérience Aléatoire M02</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <link rel="stylesheet" href="https://adminlandatome.github.io/LANDATOME/styles/styles_pour_les_devoirs_V01.css">
+
+    <style>
+        body { background-color: #f0f0f0; padding: 20px; }
+        .une_page { background-color: white; margin: auto; padding: 10mm; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        table { border-collapse: collapse; width: 100%; margin: 10px 0; }
+        th, td { border: 1px solid black; padding: 5px; text-align: center; }
+        .total-cell { font-weight: bold; background-color: #f0f0f0; }
+        details summary { cursor: pointer; font-weight: bold; outline: none; padding: 5px; }
+        .corps_reponse_sans_graphique_une_colonne { padding: 10px; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="une_page">
+    <div class="titre_de_page">Expérience Aléatoire, Modèle Associé M02</div>
+
+    <!-- ============================================================ -->
+    <!-- EXERCICE N°1 — miroir de E02 Ex1                            -->
+    <!-- E02 : urne 2N/8B, arbre Bernoulli à compléter, 3 tirages    -->
+    <!-- M02 : sac 3R/7J, arbre Bernoulli à compléter, 3 tirages     -->
+    <!-- ============================================================ -->
+    <div class="grille_entete_exo">
+        <div class="numero_exo">Exercice n°1</div>
+        <div class="titre_exo">Tirage dans un sac</div>
+        <div class="bareme_exo"></div>
+    </div>
+
+    <p>
+        Un sac contient 3 jetons rouges et 7 jetons jaunes. On tire un jeton au
+        hasard dans le sac. Tous les jetons ont la même probabilité d'être tirés.
+    </p>
+    <p>On désigne par :</p>
+    <ul>
+        <li>\( R \) l'événement : « le jeton tiré est rouge » et</li>
+        <li>\( J \) l'événement : « le jeton tiré est jaune ».</li>
+    </ul>
+
+    <div class="corps_partie_exo_sans_graphique_une_colonne">
+        <div class="corps_question_sans_graphique_une_colonne">
+            <span class="numero_de_question">1.</span>
+            Compléter l'arbre de probabilités suivant correspondant à cette épreuve de Bernoulli.
+        </div>
+        <div class="bareme_invisible"></div>
+    </div>
+
+    <!-- Arbre à compléter — même mise en page que E02 Ex1 -->
+    <div style="margin: 15px 40px;">
+        <svg viewBox="0 0 320 120" width="320" height="120" xmlns="http://www.w3.org/2000/svg" font-family="serif" font-size="14">
+            <!-- nœud racine -->
+            <circle cx="30" cy="60" r="4" fill="black"/>
+            <!-- branche haute : R -->
+            <line x1="34" y1="58" x2="190" y2="20" stroke="black" stroke-width="1.5"/>
+            <text x="95" y="28" text-anchor="middle">0,3</text>
+            <text x="210" y="24" font-style="italic">R</text>
+            <!-- branche basse : J -->
+            <line x1="34" y1="62" x2="190" y2="100" stroke="black" stroke-width="1.5"/>
+            <text x="95" y="98" text-anchor="middle">__</text>
+            <text x="210" y="104" font-style="italic">J</text>
+        </svg>
+    </div>
+
+    <div class="corps_partie_exo_sans_graphique_une_colonne">
+        <div class="corps_question_sans_graphique_une_colonne">
+            <span class="numero_de_question">2.</span>
+        </div>
+        <div class="corps_question_sans_graphique_une_colonne">
+            <span class="numero_de_question">2.a)</span>
+            Trois tirages sont successivement réalisés en remettant à chaque fois le jeton
+            dans le sac avant d'effectuer le tirage suivant. Représenter cette épreuve par
+            un arbre pondéré.
+        </div>
+        <div class="bareme_invisible"></div>
+        <div class="corps_question_sans_graphique_une_colonne">
+            <span class="numero_de_question">2.b)</span>
+            Calculer la probabilité de l'événement \( E \) : « obtenir trois jetons rouges ».
+        </div>
+        <div class="bareme_invisible"></div>
+        <div class="corps_question_sans_graphique_une_colonne">
+            <span class="numero_de_question">2.c)</span>
+            On désigne par \( F \) l'événement : « obtenir exactement deux jetons rouges ».
+            Démontrer que \( P(F) = 0{,}189 \).
+        </div>
+        <div class="bareme_invisible"></div>
+    </div>
+
+    <div class="corps_reponse_sans_graphique_une_colonne">
+        <details>
+            <summary>VOIR LE CORRIGÉ</summary>
+
+            <p><strong>1)</strong>
+            \( P(R) = \dfrac{3}{10} = 0{,}3 \) donc \( P(J) = 1 - 0{,}3 = 0{,}7 \).
+            </p>
+
+            <p><strong>2.a)</strong>
+            Le tirage avec remise rend les trois épreuves indépendantes.
+            On obtient un schéma de Bernoulli de paramètre \(\left(3\,;\,0{,}3\right)\).
+            L'arbre comporte 3 niveaux ; à chaque nœud partent deux branches :
+            \(R\) (probabilité 0,3) et \(J\) (probabilité 0,7).
+            </p>
+
+            <p><strong>2.b)</strong>
+            \[
+                P(E) = 0{,}3 \times 0{,}3 \times 0{,}3 = 0{,}3^3 = 0{,}027
+            \]
+            </p>
+
+            <p><strong>2.c)</strong>
+            \( F = \{(R\,;\,R\,;\,J)\,;\,(R\,;\,J\,;\,R)\,;\,(J\,;\,R\,;\,R)\} \)<br>
+            Donc :
+            \[
+                P(F) = 0{,}3 \times 0{,}3 \times 0{,}7
+                     + 0{,}3 \times 0{,}7 \times 0{,}3
+                     + 0{,}7 \times 0{,}3 \times 0{,}3
+                     = 3 \times 0{,}063
+                     = 0{,}189 \quad \square
+            \]
+            </p>
+        </details>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- EXERCICE N°2 — miroir de E02 Ex2                            -->
+    <!-- E02 : plats cuisinés, 97 % conformes, 3 tirages avec remise  -->
+    <!-- M02 : ampoules, 95 % fonctionnelles, 3 contrôles avec remise -->
+    <!-- ============================================================ -->
+    <div class="grille_entete_exo">
+        <div class="numero_exo">Exercice n°2</div>
+        <div class="titre_exo">Contrôle qualité d'ampoules</div>
+        <div class="bareme_exo"></div>
+    </div>
+
+    <p>Des ampoules LED sont fabriquées en grandes quantités.</p>
+    <ul>
+        <li>On prélève au hasard une ampoule dans un lot dans lequel 95 % des ampoules
+            sont fonctionnelles.</li>
+        <li>On remet l'ampoule dans le lot et on effectue un deuxième prélèvement.</li>
+        <li>On répète une troisième fois l'expérience.</li>
+    </ul>
+    <p>On a ainsi réalisé trois prélèvements avec remise.</p>
+
+    <div class="corps_partie_exo_sans_graphique_une_colonne">
+        <div class="corps_question_sans_graphique_une_colonne">
+            Calculer la probabilité de l'événement \( C \) :
+            « les trois ampoules prélevées sont fonctionnelles ».
+        </div>
+        <div class="bareme_invisible"></div>
+    </div>
+
+    <div class="corps_reponse_sans_graphique_une_colonne">
+        <details>
+            <summary>VOIR LE CORRIGÉ</summary>
+
+            <p>
+                Le tirage avec remise rend les épreuves indépendantes.
+                Chaque épreuve n'a que deux issues : « Fonctionnelle » (succès,
+                probabilité 0,95) et « Défectueuse » (échec, probabilité 0,05).
+                On reconnaît un <strong>schéma de Bernoulli de paramètre
+                \(\left(3\,;\,0{,}95\right)\)</strong>.
+            </p>
+
+            <p>L'événement \(C\) correspond à l'unique branche
+            (Fonct. ; Fonct. ; Fonct.) de l'arbre, donc :
+            \[
+                P(C) = 0{,}95 \times 0{,}95 \times 0{,}95
+                     = 0{,}95^3
+                     \approx 0{,}857\,375
+            \]
+            </p>
+        </details>
+    </div>
+
+</div><!-- fin page 1 -->
+
+<div class="une_page">
+
+    <!-- ============================================================ -->
+    <!-- EXERCICE N°3 — miroir de E02 Ex3                            -->
+    <!-- E02 : 3 enfants, p(garçon)=0,515, calculer P(E0..E3)        -->
+    <!-- M02 : 3 lancers d'une pièce, p(Pile)=0,48, calculer P(E0..E3)-->
+    <!-- ============================================================ -->
+    <div class="grille_entete_exo">
+        <div class="numero_exo">Exercice n°3</div>
+        <div class="titre_exo">Lancers d'une pièce</div>
+        <div class="bareme_exo"></div>
+    </div>
+
+    <p>
+        On lance trois fois de suite une pièce légèrement déséquilibrée.
+        La probabilité d'obtenir Pile est \( p = 0{,}48 \).
+    </p>
+    <p>
+        À l'aide d'un arbre de probabilités, calculer la probabilité de chacun
+        des événements suivants. <em>Arrondir à \( 10^{-3} \).</em>
+    </p>
+
+    <div class="corps_partie_exo_sans_graphique_une_colonne">
+        <div class="corps_question_sans_graphique_une_colonne">
+            \( E_0 \) : « obtenir 0 fois Pile sur les 3 lancers » ;
+        </div>
+        <div class="corps_question_sans_graphique_une_colonne">
+            \( E_1 \) : « obtenir exactement 1 fois Pile » ;
+        </div>
+        <div class="corps_question_sans_graphique_une_colonne">
+            \( E_2 \) : « obtenir exactement 2 fois Pile » ;
+        </div>
+        <div class="corps_question_sans_graphique_une_colonne">
+            \( E_3 \) : « obtenir 3 fois Pile ».
+        </div>
+        <div class="bareme_invisible"></div>
+    </div>
+
+    <div class="corps_reponse_sans_graphique_une_colonne">
+        <details>
+            <summary>VOIR LE CORRIGÉ</summary>
+
+            <p>
+                On note \(P\) : « Pile » (proba 0,48) et
+                \(\overline{P}\) : « Face » (proba 0,52).<br>
+                On obtient un <strong>schéma de Bernoulli de paramètre
+                \(\left(3\,;\,0{,}48\right)\)</strong>.
+            </p>
+
+            <p>
+                <strong>\( P(E_0) \)</strong> — aucun Pile, une seule issue
+                \((\overline{P}\,;\,\overline{P}\,;\,\overline{P})\) :
+                \[
+                    P(E_0) = 0{,}52^3 \approx \mathbf{0{,}141}
+                \]
+            </p>
+
+            <p>
+                <strong>\( P(E_1) \)</strong> — exactement 1 Pile,
+                3 issues possibles :
+                \[
+                    P(E_1) = 3 \times 0{,}48 \times 0{,}52^2
+                           = 3 \times 0{,}48 \times 0{,}2704
+                           \approx \mathbf{0{,}389}
+                \]
+            </p>
+
+            <p>
+                <strong>\( P(E_2) \)</strong> — exactement 2 Pile,
+                3 issues possibles :
+                \[
+                    P(E_2) = 3 \times 0{,}48^2 \times 0{,}52
+                           = 3 \times 0{,}2304 \times 0{,}52
+                           \approx \mathbf{0{,}359}
+                \]
+            </p>
+
+            <p>
+                <strong>\( P(E_3) \)</strong> — 3 fois Pile, une seule issue
+                \((P\,;\,P\,;\,P)\) :
+                \[
+                    P(E_3) = 0{,}48^3 \approx \mathbf{0{,}111}
+                \]
+            </p>
+
+            <p><em>Vérification :</em>
+            \( 0{,}141 + 0{,}389 + 0{,}359 + 0{,}111 = 1{,}000 \quad \checkmark \)</p>
+        </details>
+    </div>
+
+</div><!-- fin page 2 -->
+
+</body>
+</html>
