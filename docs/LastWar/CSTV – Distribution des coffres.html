@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" id="html">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>CSTV – Distribution des coffres</title>
+<title>CSTV</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&display=swap" rel="stylesheet">
 <style>
 :root{--gold:#f0c566;--gold2:#b98a2c;--ink:#eaf1ff;--mute:#9fb3d9;--panel:#0b1d44;--panel2:#08142f;--line:#c9a24a;
@@ -45,49 +45,78 @@ tr.top1 td{color:var(--gold)}
 .foot{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:0 14px 14px;flex-wrap:wrap;color:var(--mute);font-size:.8rem}
 button{font:inherit;font-size:.85rem;color:var(--gold);background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:6px 14px;cursor:pointer}
 button:hover{background:#10285c}
+.langs{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
+.langs button{padding:5px 11px;font-family:Cinzel,Georgia,serif;letter-spacing:.05em}
+.langs button.on{background:var(--gold);color:#1a1200;border-color:var(--gold)}
 @media(max-width:560px){.stats{grid-template-columns:1fr 1fr}.stat.big{grid-column:1/-1}}
 </style>
 </head>
 <body>
 <main>
-<div class="frame"><h1>CSTV – Distribution des coffres</h1></div>
+<div class="langs" id="langs"></div>
+<div class="frame"><h1 id="t_title"></h1></div>
 
 <div class="frame form">
-  <label>N – nombre de coffres<input id="N" type="number" min="1" step="1" value="3000" inputmode="numeric"></label>
-  <label>n – nombre de participants<input id="n" type="number" min="1" step="1" value="100" inputmode="numeric"></label>
+  <label><span id="t_N"></span><input id="N" type="number" min="1" step="1" value="3000" inputmode="numeric"></label>
+  <label><span id="t_n"></span><input id="n" type="number" min="1" step="1" value="100" inputmode="numeric"></label>
   <p class="err" id="err"></p>
 </div>
 
 <div id="out" hidden>
   <div class="stats">
-    <div class="frame stat big"><span>Coffres totaux</span><b id="tot">–</b></div>
-    <div class="frame stat"><span>Distribués</span><b id="dist">–</b></div>
-    <div class="frame stat"><span>Reste</span><b id="reste">–</b></div>
+    <div class="frame stat big"><span id="t_tot"></span><b id="tot">–</b></div>
+    <div class="frame stat"><span id="t_dist"></span><b id="dist">–</b></div>
+    <div class="frame stat"><span id="t_rest"></span><b id="reste">–</b></div>
   </div>
 
   <div class="frame board">
-    <h2>Classement</h2>
+    <h2 id="t_rank"></h2>
     <div class="cols" id="cols"></div>
-    <div class="foot"><span id="rinfo"></span><button id="copy" type="button">Copier la liste</button></div>
+    <div class="foot"><span id="rinfo"></span><button id="copy" type="button"></button></div>
   </div>
 
   <div class="frame board">
-    <h2>Répartition par tranche</h2>
+    <h2 id="t_ranges"></h2>
     <div class="ranges" id="ranges"></div>
   </div>
 </div>
 </main>
 <script>
 const $ = id => document.getElementById(id);
-const fr = x => x.toLocaleString("fr-FR");
+const T = {
+fr:{loc:"fr-FR",title:"CSTV – Distribution des coffres",N:"N – nombre de coffres",n:"n – nombre de participants",e1:"N et n doivent être des entiers positifs.",e2:"Il faut au moins autant de coffres que de participants (N ≥ n).",e3:"n est limité à 100 000.",tot:"Coffres totaux",dist:"Distribués",rest:"Reste",rank:"Classement",ranges:"Répartition par tranche",boxes:"Coffres",copy:"Copier la liste",copied:"Copié ✓",ratio:"Raison r = "},
+en:{loc:"en-GB",title:"CSTV – Reward Box Distribution",N:"N – number of boxes",n:"n – number of participants",e1:"N and n must be positive integers.",e2:"There must be at least as many boxes as participants (N ≥ n).",e3:"n is limited to 100,000.",tot:"Total boxes",dist:"Distributed",rest:"Remaining",rank:"Leaderboard",ranges:"Distribution by rank range",boxes:"Boxes",copy:"Copy list",copied:"Copied ✓",ratio:"Common difference r = "},
+pl:{loc:"pl-PL",title:"CSTV – Podział skrzyń z nagrodami",N:"N – liczba skrzyń",n:"n – liczba uczestników",e1:"N i n muszą być dodatnimi liczbami całkowitymi.",e2:"Skrzyń musi być co najmniej tyle, ile uczestników (N ≥ n).",e3:"n jest ograniczone do 100 000.",tot:"Łączna liczba skrzyń",dist:"Rozdane",rest:"Reszta",rank:"Ranking",ranges:"Podział według przedziałów rang",boxes:"Skrzynie",copy:"Kopiuj listę",copied:"Skopiowano ✓",ratio:"Różnica r = "},
+es:{loc:"es-ES",title:"CSTV – Distribución de cajas de recompensa",N:"N – número de cajas",n:"n – número de participantes",e1:"N y n deben ser enteros positivos.",e2:"Debe haber al menos tantas cajas como participantes (N ≥ n).",e3:"n está limitado a 100 000.",tot:"Cajas totales",dist:"Distribuidas",rest:"Sobrantes",rank:"Clasificación",ranges:"Reparto por tramos de rango",boxes:"Cajas",copy:"Copiar lista",copied:"Copiado ✓",ratio:"Razón r = "},
+it:{loc:"it-IT",title:"CSTV – Distribuzione dei forzieri premio",N:"N – numero di forzieri",n:"n – numero di partecipanti",e1:"N e n devono essere interi positivi.",e2:"Servono almeno tanti forzieri quanti partecipanti (N ≥ n).",e3:"n è limitato a 100.000.",tot:"Forzieri totali",dist:"Distribuiti",rest:"Rimanenti",rank:"Classifica",ranges:"Ripartizione per fasce di rango",boxes:"Forzieri",copy:"Copia elenco",copied:"Copiato ✓",ratio:"Ragione r = "},
+de:{loc:"de-DE",title:"CSTV – Verteilung der Belohnungskisten",N:"N – Anzahl der Kisten",n:"n – Anzahl der Teilnehmer",e1:"N und n müssen positive ganze Zahlen sein.",e2:"Es muss mindestens so viele Kisten wie Teilnehmer geben (N ≥ n).",e3:"n ist auf 100.000 begrenzt.",tot:"Kisten insgesamt",dist:"Verteilt",rest:"Übrig",rank:"Rangliste",ranges:"Verteilung nach Rangbereich",boxes:"Kisten",copy:"Liste kopieren",copied:"Kopiert ✓",ratio:"Differenz r = "},
+fi:{loc:"fi-FI",title:"CSTV – Palkintoarkkujen jako",N:"N – arkkujen määrä",n:"n – osallistujien määrä",e1:"N:n ja n:n on oltava positiivisia kokonaislukuja.",e2:"Arkkuja tarvitaan vähintään yhtä monta kuin osallistujia (N ≥ n).",e3:"n on enintään 100 000.",tot:"Arkkuja yhteensä",dist:"Jaettu",rest:"Jäljelle jää",rank:"Sijoitukset",ranges:"Jako sijaryhmittäin",boxes:"Arkut",copy:"Kopioi lista",copied:"Kopioitu ✓",ratio:"Erotus r = "}
+};
+let lang = "fr";
+try { const sv = localStorage.getItem("cstv_lang"); if(sv && T[sv]) lang = sv; else { const b = (navigator.language || "fr").slice(0,2); if(T[b]) lang = b; } } catch(e) {}
+const t = k => T[lang][k];
+const fr = x => x.toLocaleString(T[lang].loc);
+function applyLang(){
+  document.documentElement.lang = lang;
+  document.title = t("title");
+  const m = {t_title:"title",t_N:"N",t_n:"n",t_tot:"tot",t_dist:"dist",t_rest:"rest",t_rank:"rank",t_ranges:"ranges",copy:"copy"};
+  for(const id in m) $(id).textContent = t(m[id]);
+  $("langs").innerHTML = Object.keys(T).map(k => `<button type="button" data-l="${k}" class="${k === lang ? "on" : ""}">${k.toUpperCase()}</button>`).join("");
+}
+$("langs").addEventListener("click", e => {
+  const l = e.target.dataset && e.target.dataset.l;
+  if(!l) return;
+  lang = l; try { localStorage.setItem("cstv_lang", l); } catch(x) {}
+  applyLang(); calc();
+});
 let lastList = [];
 function calc(){
   const N = Number($("N").value), n = Number($("n").value), err = $("err");
   err.textContent = ""; $("out").hidden = true;
   if(!$("N").value || !$("n").value) return;
-  if(!Number.isInteger(N) || !Number.isInteger(n) || N < 1 || n < 1){ err.textContent = "N et n doivent être des entiers positifs."; return; }
-  if(N < n){ err.textContent = "Il faut au moins autant de coffres que de participants (N ≥ n)."; return; }
-  if(n > 100000){ err.textContent = "n est limité à 100 000."; return; }
+  if(!Number.isInteger(N) || !Number.isInteger(n) || N < 1 || n < 1){ err.textContent = t("e1"); return; }
+  if(N < n){ err.textContent = t("e2"); return; }
+  if(n > 100000){ err.textContent = t("e3"); return; }
   const num = BigInt(2 * (N - n)), den = BigInt(n) * BigInt(n - 1);
   const U = [];
   for(let k = 1; k <= n; k++) U.push(n === 1 ? 1 : 1 + Number((num * BigInt(k - 1)) / den));
@@ -98,13 +127,13 @@ function calc(){
   $("tot").textContent = fr(N);
   $("dist").textContent = fr(sum);
   $("reste").textContent = fr(N - sum);
-  $("rinfo").textContent = n === 1 ? "" : "Raison r = " + (2 * (N - n) / (n * (n - 1))).toLocaleString("fr-FR", {maximumFractionDigits: 6});
+  $("rinfo").textContent = n === 1 ? "" : t("ratio") + (2 * (N - n) / (n * (n - 1))).toLocaleString(T[lang].loc, {maximumFractionDigits: 6});
   let html = "";
   for(let s = 0; s < n; s += 25){
     const e = Math.min(s + 25, n);
     let rows = "";
     for(let i = s; i < e; i++) rows += `<tr${i === 0 ? ' class="top1"' : ""}><td>${i + 1}</td><td>${fr(list[i])}</td></tr>`;
-    html += `<table><thead><tr><th>#</th><th>Coffres</th></tr></thead><tbody>${rows}</tbody></table>`;
+    html += `<table><thead><tr><th>#</th><th>${t("boxes")}</th></tr></thead><tbody>${rows}</tbody></table>`;
   }
   $("cols").innerHTML = html;
   let rg = "";
@@ -120,9 +149,10 @@ $("N").addEventListener("input", calc);
 $("n").addEventListener("input", calc);
 $("copy").addEventListener("click", () => {
   const b = $("copy");
-  const done = () => { b.textContent = "Copié ✓"; setTimeout(() => b.textContent = "Copier la liste", 1500); };
+  const done = () => { b.textContent = t("copied"); setTimeout(() => b.textContent = t("copy"), 1500); };
   try { navigator.clipboard.writeText(lastList.map((u, i) => (i + 1) + "\t" + u).join("\n")).then(done, () => {}); } catch(e) {}
 });
+applyLang();
 calc();
 </script>
 </body>
