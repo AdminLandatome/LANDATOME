@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CSTV – Distribution des coffres</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#f0c566;--gold2:#b98a2c;--ink:#eaf1ff;--mute:#9fb3d9;--panel:#0b1d44;--panel2:#08142f;--line:#c9a24a;
+color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:Georgia,"Times New Roman",serif;min-height:100vh;
+background:radial-gradient(ellipse at 50% 0,#1d4a9e 0,#0d2559 35%,#050d22 80%) fixed}
+main{max-width:860px;margin:0 auto;padding:22px 14px 50px}
+.frame{border:2px solid var(--line);border-radius:14px;background:linear-gradient(#0c2150cc,#07122ccc);box-shadow:0 0 0 1px #000,0 0 22px #2f6fe055,inset 0 0 18px #000a}
+h1{font-family:Cinzel,Georgia,serif;font-weight:800;text-align:center;margin:0;padding:16px 10px;font-size:clamp(1.3rem,5vw,2.2rem);letter-spacing:.04em;
+background:linear-gradient(#fff2c4,#f0c566 50%,#b98a2c);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 2px 2px #000)}
+.form{display:flex;gap:14px;flex-wrap:wrap;padding:16px;margin-top:16px}
+label{flex:1 1 150px;display:flex;flex-direction:column;gap:6px;font-size:.85rem;color:var(--mute)}
+input{font:inherit;font-size:1.2rem;color:var(--gold);background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:9px 12px;width:100%}
+input:focus{outline:2px solid var(--gold);outline-offset:1px}
+.err{width:100%;margin:0;color:#ff8f8f;min-height:1.2em;font-size:.92rem}
+.stats{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;margin-top:16px}
+.stat{padding:12px 14px;text-align:center}
+.stat span{display:block;font-size:.78rem;color:var(--mute);text-transform:uppercase;letter-spacing:.06em}
+.stat b{font-family:Cinzel,Georgia,serif;font-size:clamp(1.5rem,6vw,2.6rem);color:#fff;text-shadow:0 0 12px #f0c56688,0 2px 0 #7a5513}
+.stat.big b{font-size:clamp(2rem,9vw,3.6rem)}
+h2{font-family:Cinzel,Georgia,serif;text-align:center;color:var(--gold);font-size:1.1rem;letter-spacing:.08em;margin:0;padding:12px;border-bottom:1px solid var(--line);text-transform:uppercase}
+.board{margin-top:16px;overflow:hidden}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;padding:12px}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;background:var(--panel2);border:1px solid #2a4a8c;border-radius:6px;overflow:hidden;align-self:start}
+th{color:var(--gold);font-size:.78rem;padding:6px 12px;text-align:left;background:#10285c;border-bottom:1px solid var(--line)}
+th:last-child,td:last-child{text-align:right}
+td{padding:4px 12px;font-size:.92rem;border-bottom:1px solid #16316a}
+tr:nth-child(even) td{background:#0a1a3d}
+tr:last-child td{border-bottom:0}
+td:first-child{color:var(--mute)}
+td:last-child{color:#fff;font-weight:bold}
+tr.top1 td{color:var(--gold)}
+.ranges{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;padding:12px}
+.rg{text-align:center;background:var(--panel2);border:1px solid #2a4a8c;border-radius:8px;padding:8px}
+.rg span{display:block;font-size:.82rem;color:var(--mute)}
+.rg b{font-family:Cinzel,Georgia,serif;font-size:1.3rem;color:var(--gold)}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:0 14px 14px;flex-wrap:wrap;color:var(--mute);font-size:.8rem}
+button{font:inherit;font-size:.85rem;color:var(--gold);background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:6px 14px;cursor:pointer}
+button:hover{background:#10285c}
+@media(max-width:560px){.stats{grid-template-columns:1fr 1fr}.stat.big{grid-column:1/-1}}
+</style>
+</head>
+<body>
+<main>
+<div class="frame"><h1>CSTV – Distribution des coffres</h1></div>
+
+<div class="frame form">
+  <label>N – nombre de coffres<input id="N" type="number" min="1" step="1" value="3000" inputmode="numeric"></label>
+  <label>n – nombre de participants<input id="n" type="number" min="1" step="1" value="100" inputmode="numeric"></label>
+  <p class="err" id="err"></p>
+</div>
+
+<div id="out" hidden>
+  <div class="stats">
+    <div class="frame stat big"><span>Coffres totaux</span><b id="tot">–</b></div>
+    <div class="frame stat"><span>Distribués</span><b id="dist">–</b></div>
+    <div class="frame stat"><span>Reste</span><b id="reste">–</b></div>
+  </div>
+
+  <div class="frame board">
+    <h2>Classement</h2>
+    <div class="cols" id="cols"></div>
+    <div class="foot"><span id="rinfo"></span><button id="copy" type="button">Copier la liste</button></div>
+  </div>
+
+  <div class="frame board">
+    <h2>Répartition par tranche</h2>
+    <div class="ranges" id="ranges"></div>
+  </div>
+</div>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const fr = x => x.toLocaleString("fr-FR");
+let lastList = [];
+function calc(){
+  const N = Number($("N").value), n = Number($("n").value), err = $("err");
+  err.textContent = ""; $("out").hidden = true;
+  if(!$("N").value || !$("n").value) return;
+  if(!Number.isInteger(N) || !Number.isInteger(n) || N < 1 || n < 1){ err.textContent = "N et n doivent être des entiers positifs."; return; }
+  if(N < n){ err.textContent = "Il faut au moins autant de coffres que de participants (N ≥ n)."; return; }
+  if(n > 100000){ err.textContent = "n est limité à 100 000."; return; }
+  const num = BigInt(2 * (N - n)), den = BigInt(n) * BigInt(n - 1);
+  const U = [];
+  for(let k = 1; k <= n; k++) U.push(n === 1 ? 1 : 1 + Number((num * BigInt(k - 1)) / den));
+  // rang 1 = meilleur joueur = plus grand U
+  const list = U.slice().reverse();
+  lastList = list;
+  const sum = list.reduce((a, b) => a + b, 0);
+  $("tot").textContent = fr(N);
+  $("dist").textContent = fr(sum);
+  $("reste").textContent = fr(N - sum);
+  $("rinfo").textContent = n === 1 ? "" : "Raison r = " + (2 * (N - n) / (n * (n - 1))).toLocaleString("fr-FR", {maximumFractionDigits: 6});
+  let html = "";
+  for(let s = 0; s < n; s += 25){
+    const e = Math.min(s + 25, n);
+    let rows = "";
+    for(let i = s; i < e; i++) rows += `<tr${i === 0 ? ' class="top1"' : ""}><td>${i + 1}</td><td>${fr(list[i])}</td></tr>`;
+    html += `<table><thead><tr><th>#</th><th>Coffres</th></tr></thead><tbody>${rows}</tbody></table>`;
+  }
+  $("cols").innerHTML = html;
+  let rg = "";
+  for(let s = 0; s < n && s < 100; s += 10){
+    const e = Math.min(s + 10, n);
+    rg += `<div class="rg"><span>${s + 1} – ${e}</span><b>${fr(list.slice(s, e).reduce((a, b) => a + b, 0))}</b></div>`;
+  }
+  if(n > 100) rg += `<div class="rg"><span>${101} – ${n}</span><b>${fr(list.slice(100).reduce((a, b) => a + b, 0))}</b></div>`;
+  $("ranges").innerHTML = rg;
+  $("out").hidden = false;
+}
+$("N").addEventListener("input", calc);
+$("n").addEventListener("input", calc);
+$("copy").addEventListener("click", () => {
+  const b = $("copy");
+  const done = () => { b.textContent = "Copié ✓"; setTimeout(() => b.textContent = "Copier la liste", 1500); };
+  try { navigator.clipboard.writeText(lastList.map((u, i) => (i + 1) + "\t" + u).join("\n")).then(done, () => {}); } catch(e) {}
+});
+calc();
+</script>
+</body>
+</html>
