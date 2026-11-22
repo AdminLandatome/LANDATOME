@@ -1,0 +1,182 @@
+/* landatome_devoirs.css : mêmes tons que le site, ergonomie revue */
+
+:root {
+  --fond-debut: #ccccff;
+  --fond-fin: #0000ee;
+  --carte: rgb(255 255 255 / .7);
+  --carte-survol: rgb(200 200 200 / .7);
+  --panneau: rgb(255 255 255 / .5);
+  --gris: rgb(100 100 100 / .5);
+  --encre: #000;
+  --halo: #f5f 0 -1px 4px, #fff 0 -2px 10px, #fff 0 -10px 20px, red 0 -18px 40px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(to right, var(--fond-debut), var(--fond-fin));
+  color: var(--encre);
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.125rem;
+  line-height: 1.4;
+}
+
+a { color: var(--encre); text-decoration: none; }
+
+:focus-visible { outline: 3px solid #000; outline-offset: 2px; box-shadow: 0 0 0 5px #fff; }
+
+/* En-tête */
+.entete {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem 1rem;
+  max-width: 60rem;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1rem 1rem 0;
+}
+.entete h1 {
+  margin: 0;
+  color: #fff;
+  font-style: italic;
+  font-size: 2.2rem;
+  text-shadow: var(--halo);
+}
+.entete a { display: inline-block; border-radius: 10px; }
+.entete nav { display: flex; gap: .5rem; flex-wrap: wrap; }
+.entete nav a {
+  padding: .5rem 1rem;
+  font-style: italic;
+  color: #fff;
+  background: rgb(0 0 0 / .2);
+  border-radius: 10px;
+}
+.entete nav a:hover { background: #ddd; color: #000; }
+
+/* Contenu */
+main { flex: 1; max-width: 60rem; width: 100%; margin: 0 auto; padding: 1rem; }
+
+main > h2 {
+  margin: .5rem 0 1.25rem;
+  text-align: center;
+  font-size: 1.3rem;
+  font-style: italic;
+  color: #fff;
+  text-shadow: var(--halo);
+}
+
+/* Accordéons : un seul ouvert à la fois */
+details {
+  margin-bottom: .75rem;
+  background: var(--panneau);
+  border-radius: 10px;
+}
+summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  min-height: 3.25rem;
+  padding: .75rem 1rem;
+  cursor: pointer;
+  list-style: none;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 1.2rem;
+  background: var(--carte);
+  border: 2px solid var(--encre);
+  border-radius: 10px;
+}
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; font-style: normal; font-size: 1.5rem; line-height: 1; }
+details[open] > summary::after { content: "\2212"; }
+summary:hover { background: var(--carte-survol); }
+.nb { font-weight: normal; font-size: .95rem; margin-left: auto; }
+
+/* Lien vers une autre page, de même gabarit qu'un accordéon */
+.lien-bloc {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 3.25rem;
+  padding: .75rem 1rem;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 1.2rem;
+  background: var(--carte);
+  border: 2px solid var(--encre);
+  border-radius: 10px;
+}
+.lien-bloc::after { content: "\2192"; font-style: normal; }
+.lien-bloc:hover { background: var(--carte-survol); }
+
+.contenu { padding: .5rem 1rem 1rem; }
+
+h3 {
+  margin: 1.25rem 0 .5rem;
+  padding: .4rem .75rem;
+  font-size: 1.05rem;
+  font-style: italic;
+  text-align: center;
+  background: var(--gris);
+  border: 2px solid var(--encre);
+  border-radius: 10px;
+}
+h3:first-child { margin-top: .5rem; }
+
+/* Une ligne = un devoir : nom + sujet / corrigé / barème */
+ul { list-style: none; margin: 0; padding: 0; }
+li {
+  display: grid;
+  grid-template-columns: 1fr repeat(3, 6.5rem);
+  gap: .5rem;
+  align-items: center;
+  padding: .4rem 0;
+  border-bottom: 1px solid rgb(0 0 0 / .15);
+}
+li:last-child { border-bottom: 0; }
+.nom { font-weight: bold; font-style: italic; }
+.nom small { display: block; font-weight: normal; font-size: .85rem; }
+
+.pdf, .absent {
+  display: block;
+  padding: .6rem .5rem;
+  text-align: center;
+  font-weight: bold;
+  font-style: italic;
+  background: var(--carte);
+  border: 2px solid var(--encre);
+  border-radius: 10px;
+}
+.pdf:hover { background: var(--carte-survol); }
+.absent {
+  font-weight: normal;
+  background: transparent;
+  border-style: dashed;
+  color: #333;
+}
+
+footer {
+  padding: .5rem;
+  text-align: center;
+  font-size: 12px;
+  font-style: italic;
+  color: #fff;
+  background: rgb(0 0 0 / .2);
+}
+
+@media (max-width: 700px) {
+  li { grid-template-columns: repeat(3, 1fr); }
+  .nom { grid-column: 1 / -1; }
+  .entete h1 { font-size: 1.8rem; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  summary, .pdf { transition: background-color .15s; }
+}
